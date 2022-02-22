@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageButton
+        android:id="@+id/previous"
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_arrow_back"
+        android:background="@android:color/transparent"
+        />
+
     <EditText
         android:hint="username"
         android:id="@+id/username"
@@ -28,28 +38,30 @@
         android:background="@drawable/custom_edit_text"
         />
 
-    <Button
-        android:id="@+id/forget_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/password"
-        android:layout_alignParentRight="true"
+    <EditText
+        android:id="@+id/confirm_password"
+        android:hint="password"
+        android:paddingLeft="10dp"
+        android:layout_marginTop="10dp"
         android:layout_marginRight="25dp"
-        android:text="Forgotten password?"
-        android:textAllCaps="false"
-        android:textColor="@color/MediumBlue"
-        android:background="@android:color/transparent"
+        android:layout_marginLeft="25dp"
+        android:inputType="textPassword"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/password"
+        android:background="@drawable/custom_edit_text"
         />
 
+
     <Button
-        android:id="@+id/login_button"
+        android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="20dp"
         android:layout_height="40dp"
-        android:layout_below="@id/forget_password"
-        android:text="Log in"
+        android:layout_below="@id/confirm_password"
+        android:text="Register"
         android:textColor="@color/White"
         android:background="@drawable/custom_edit_text"
         android:textAllCaps="false"
@@ -57,7 +69,7 @@
 
     <View
         android:id="@+id/view"
-        android:layout_below="@+id/login_button"
+        android:layout_below="@+id/register"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:layout_marginTop="30dp"
@@ -66,18 +78,18 @@
         android:background="@color/LightGrey" />
 
     <Button
-        android:id="@+id/register"
+        android:id="@+id/already_have"
         android:layout_below="@id/view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:text="Register"
+        android:text="Already have an account?"
         android:textColor="@color/Blue"
         android:background="@android:color/transparent"
         />
 
     <ImageView
-        android:layout_above="@+id/register"
+        android:layout_above="@+id/already_have"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "387800639617",
+    "project_id": "social-media-f92fc",
+    "storage_bucket": "social-media-f92fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:387800639617:android:a64ddbc49eb25bc957c580",
+        "android_client_info": {
+          "package_name": "com.hcmus.mobilappsocialnetworkingimage"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "387800639617-h4pc7k7juk03lupt9qejosr8jmcla555.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDguxjGHL2bUMvAbURZqDpQoDr5En9x1WI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "387800639617-h4pc7k7juk03lupt9qejosr8jmcla555.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
