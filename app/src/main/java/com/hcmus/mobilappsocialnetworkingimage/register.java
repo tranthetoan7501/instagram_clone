@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -42,9 +44,24 @@ public class register extends AppCompatActivity {
             createAccount();
         });
         previous = findViewById(R.id.previous);
+        previous.setOnClickListener(view -> {
+            super.onBackPressed();
+        });
         already_have = findViewById(R.id.already_have);
         already_have.setOnClickListener(view ->{
             super.onBackPressed();
+        });
+        confirm_password.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    createAccount();
+                    return true;
+                }
+                return false;
+            }
         });
     }
 

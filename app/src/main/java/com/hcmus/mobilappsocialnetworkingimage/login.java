@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -31,6 +33,19 @@ public class login extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(view ->{
             authentication();
+        });
+
+        password.setOnKeyListener(new View.OnKeyListener() {
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                // If the event is a key-down event on the "enter" button
+                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                    // Perform action on key press
+                    authentication();
+                    return true;
+                }
+                return false;
+            }
         });
         register = findViewById(R.id.register);
         register.setOnClickListener(view ->{
