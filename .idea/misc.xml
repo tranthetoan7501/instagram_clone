@@ -9,9 +9,12 @@
         <entry key="app/src/main/res/drawable/outline_home_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_live_tv_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_search_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/round_corner_picture.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1850982666015625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14056854248046874" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_account.xml" value="0.20690155029296875" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
@@ -25,7 +28,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.14056854248046874" />
+        <option name="scale" value="0.20690155029296875" />
       </ProjectState>
     </option>
   </component>
