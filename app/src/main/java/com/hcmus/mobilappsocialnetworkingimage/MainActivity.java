@@ -8,7 +8,7 @@ import android.os.Bundle;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-public class MainActivity extends Activity {
+public class MainActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
 
     @Override
