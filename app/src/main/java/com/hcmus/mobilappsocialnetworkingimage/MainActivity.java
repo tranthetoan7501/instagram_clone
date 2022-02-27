@@ -24,10 +24,10 @@ public class MainActivity extends AppCompatActivity {
         binding.navigation.setOnNavigationItemSelectedListener(item ->{
             switch (item.getItemId()){
                 case R.id.homeFragment:
-                    replaceFragment(new accountFragment());
+                    replaceFragment(new homeFragment());
                     break;
                 case R.id.accountFragment:
-                    replaceFragment(new homeFragment());
+                    replaceFragment(new accountFragment());
                     break;
             }
             return true;
@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
         if(mAuth.getCurrentUser() == null) {
             startActivity(new Intent(this,login.class));
         }
-        else {
-            mAuth.signOut();
-        }
+//        else {
+//            mAuth.signOut();
+//        }
     }
 
     void replaceFragment(Fragment fragment){

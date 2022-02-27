@@ -14,7 +14,11 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14056854248046874" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.20690155029296875" />
+        <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15925925925925927" />
+        <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
+        <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/menu/tab_item.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
