@@ -29,9 +29,7 @@ public class accountFragment extends Fragment {
     Toolbar toolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
-    video videoFragment;
-    tag tagFragment;
-    all_pictures allPicturesFragment;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
 
@@ -64,21 +62,21 @@ public class accountFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 //        toolbar = view.findViewById(R.id.toolbar);
-        viewPager = view.findViewById(R.id.view_pager);
-        tabLayout = view.findViewById(R.id.tab_layout);
-//        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
-        videoFragment = new video();
-        tagFragment = new tag();
-        allPicturesFragment = new all_pictures();
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(((AppCompatActivity)getActivity()).getSupportFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
-        viewPagerAdapter.addFragment(allPicturesFragment);
-        viewPagerAdapter.addFragment(videoFragment);
-        viewPagerAdapter.addFragment(tagFragment);
-        viewPager.setAdapter(viewPagerAdapter);
-        tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.ic_grid);
-        tabLayout.getTabAt(1).setIcon(R.drawable.ic_video);
-        tabLayout.getTabAt(2).setIcon(R.drawable.ic_tag);
+//        viewPager = view.findViewById(R.id.view_pager);
+//        tabLayout = view.findViewById(R.id.tab_layout);
+////        ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
+//        videoFragment = new video();
+//        tagFragment = new tag();
+//        allPicturesFragment = new all_pictures();
+//        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(this.getChildFragmentManager(), FragmentStatePagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
+//        tabLayout.setupWithViewPager(viewPager);
+//        viewPagerAdapter.addFragment(allPicturesFragment);
+//        viewPagerAdapter.addFragment(videoFragment);
+//        viewPagerAdapter.addFragment(tagFragment);
+//        viewPager.setAdapter(viewPagerAdapter);
+//        tabLayout.getTabAt(0).setIcon(R.drawable.ic_grid);
+//        tabLayout.getTabAt(1).setIcon(R.drawable.ic_video);
+//        tabLayout.getTabAt(2).setIcon(R.drawable.ic_tag);
 
 
 
