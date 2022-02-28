@@ -12,12 +12,20 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
+import com.google.api.Distribution;
 
 public class accountFragment extends Fragment {
-    Button button;
     TextView textView;
+    private ImageButton upItemBtn;
+    private LinearLayout layoutBottomSheet;
+    private BottomSheetBehavior bottomSheetBehavior;
     Toolbar toolbar;
     ViewPager viewPager;
     TabLayout tabLayout;
@@ -26,13 +34,30 @@ public class accountFragment extends Fragment {
     all_pictures allPicturesFragment;
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_account, container, false);
+        View view = inflater.inflate(R.layout.fragment_account, container, false);
+        upItemBtn = view.findViewById(R.id.add_button);
+        layoutBottomSheet= view.findViewById(R.id.bottomSheetContainer);
+        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        upItemBtn.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+
+                }else{
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+            }
+        });
+        return view;
     }
 
     @Override
@@ -55,5 +80,9 @@ public class accountFragment extends Fragment {
         tabLayout.getTabAt(1).setIcon(R.drawable.ic_video);
         tabLayout.getTabAt(2).setIcon(R.drawable.ic_tag);
 
+
+
     }
+
+
 }

@@ -2,4 +2,10 @@
     <string name="app_name">MobilAppSocialNetworkingImage</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="nav_up_image">Đăng bài</string>
+    <string name="nav_up_video">Thước phim</string>
+    <string name="nav_up_story">Tin</string>
+    <string name="nav_favorite">Yêu thích</string>
+    <string name="nav_profile">My Profile</string>
+    <string name="nav_change_pass">Change Password</string>
 </resources>
