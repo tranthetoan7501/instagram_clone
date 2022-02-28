@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<<<<<<< Updated upstream
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_height="match_parent" android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-=======
 
         <LinearLayout xmlns:tools="http://schemas.android.com/tools"
             android:layout_width="match_parent"
@@ -50,62 +48,13 @@
                 </RelativeLayout>
             </LinearLayout>
 
->>>>>>> Stashed changes
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-<<<<<<< Updated upstream
             android:layout_height="match_parent"
             android:orientation="vertical">
-=======
-            android:layout_height="match_parent" android:orientation="vertical">
-        <LinearLayout
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
->>>>>>> Stashed changes
-            <LinearLayout
-                android:layout_marginRight="10dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="thanhson_232"
-                    android:textSize="28dp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
-                    />
-
-                <RelativeLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content">
-
-                    <ImageButton
-                        android:id="@+id/add_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_toLeftOf="@+id/setting_button"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_add"
-                        tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
-
-                    <ImageButton
-                        android:id="@+id/setting_button"
-                        android:layout_width="40dp"
-                        android:layout_height="40dp"
-                        android:layout_alignParentRight="true"
-                        android:background="@android:color/transparent"
-                        android:src="@drawable/ic_setting"
-                        tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
-                </RelativeLayout>
-            </LinearLayout>
-
             <LinearLayout
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -247,96 +196,48 @@
                 app:strokeWidth="1px"
                 app:strokeColor="@color/Gray"
                 />
-
-            <!--        <androidx.appcompat.widget.Toolbar-->
-            <!--            android:id="@+id/toolbar"-->
-            <!--            android:layout_width="match_parent"-->
-            <!--            android:layout_height="40dp"-->
-            <!--            android:background="@color/white"-->
-            <!--            />-->
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
+            <LinearLayout
+                android:background="@drawable/border_account_buttons"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
+                android:layout_height="wrap_content">
+                <ImageButton
+                    android:id="@+id/all_pictures"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_grid"
+                    style="?android:buttonBarButtonStyle"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    />
+                <ImageButton
+                    android:id="@+id/video"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_video"
+                    style="?android:buttonBarButtonStyle"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    />
+                <ImageButton
+                    android:id="@+id/tag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_tag"
+                    style="?android:buttonBarButtonStyle"
+                    android:foreground="?attr/selectableItemBackgroundBorderless"
+                    />
+            </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-                />
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+    </ScrollView>
 
 
         </LinearLayout>
-    </ScrollView>
     <include layout="@layout/up_item_fragment"/>
 
-<<<<<<< Updated upstream
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
-=======
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/description"
-            android:text="something"
-            android:textColor="@color/black"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            />
 
-        <com.google.android.material.button.MaterialButton
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textAllCaps="false"
-            android:textColor="@color/black"
-            android:backgroundTint="@color/white"
-            app:strokeWidth="1px"
-            app:strokeColor="@color/Gray"
-            />
-        <LinearLayout
-            android:background="@drawable/border_account_buttons"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <ImageButton
-                android:id="@+id/all_pictures"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_grid"
-                style="?android:buttonBarButtonStyle"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                />
-            <ImageButton
-                android:id="@+id/video"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_video"
-                style="?android:buttonBarButtonStyle"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                />
-            <ImageButton
-                android:id="@+id/tag"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:src="@drawable/ic_tag"
-                style="?android:buttonBarButtonStyle"
-                android:foreground="?attr/selectableItemBackgroundBorderless"
-                />
-        </LinearLayout>
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler_view"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
-
-
-</LinearLayout>
-
->>>>>>> Stashed changes
