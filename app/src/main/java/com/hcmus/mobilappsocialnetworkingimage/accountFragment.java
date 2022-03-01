@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -20,9 +21,10 @@ import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.api.Distribution;
+import com.squareup.picasso.Picasso;
 
 public class accountFragment extends Fragment {
-    TextView textView;
+    ImageView avatar;
     private ImageButton upItemBtn;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -40,6 +42,11 @@ public class accountFragment extends Fragment {
         upItemBtn = view.findViewById(R.id.add_button);
         layoutBottomSheet= view.findViewById(R.id.bottomSheetContainer);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        avatar = view.findViewById(R.id.avatar);
+//        Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU").into(avatar);
+        if (container != null) {
+            container.removeAllViews();
+        }
         upItemBtn.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -58,9 +65,7 @@ public class accountFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-
-    }
+           }
 
 
 }
