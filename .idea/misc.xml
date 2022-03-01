@@ -18,8 +18,10 @@
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.15925925925925927" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
+        <entry key="app/src/main/res/layout/post.xml" value="0.22945205479452055" />
+        <entry key="app/src/main/res/layout/story.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/menu/tab_item.xml" value="0.21302083333333333" />
@@ -36,7 +38,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.19713287353515627" />
+        <option name="scale" value="0.20564270019531247" />
       </ProjectState>
     </option>
   </component>
