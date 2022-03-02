@@ -25,9 +25,7 @@ import com.squareup.picasso.Picasso;
 
 public class accountFragment extends Fragment {
     ImageView avatar;
-    private ImageButton upItemBtn;
-    private LinearLayout layoutBottomSheet;
-    private BottomSheetBehavior bottomSheetBehavior;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -39,26 +37,11 @@ public class accountFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-        upItemBtn = view.findViewById(R.id.add_button);
-        layoutBottomSheet= view.findViewById(R.id.bottomSheetContainer);
-        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        avatar = view.findViewById(R.id.avatar);
+       avatar = view.findViewById(R.id.avatar);
 //        Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU").into(avatar);
         if (container != null) {
             container.removeAllViews();
         }
-        upItemBtn.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
-                }else{
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }
-            }
-        });
         return view;
     }
 
