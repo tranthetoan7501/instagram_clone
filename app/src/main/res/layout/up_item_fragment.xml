@@ -6,11 +6,17 @@
     android:background="@drawable/up_item_background"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
     app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
     >
+    <View
+        android:layout_gravity="center"
+        android:layout_width="30dp"
+        android:layout_height="5dp"
+        android:background="@color/LightGrey"
+        android:layout_marginTop="10dp"
+        />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -23,8 +29,8 @@
         android:textStyle="bold" />
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#675E61"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         />
     <LinearLayout
@@ -53,8 +59,8 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#675E61"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="60dp"
@@ -85,8 +91,8 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#675E61"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="60dp"
@@ -117,8 +123,8 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#675E61"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
         android:layout_marginLeft="60dp"
@@ -148,8 +154,8 @@
     </LinearLayout>
     <View
         android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#675E61"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="40dp"

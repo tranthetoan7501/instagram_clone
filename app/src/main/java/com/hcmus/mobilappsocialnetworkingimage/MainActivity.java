@@ -6,9 +6,11 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -27,7 +29,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     View appbar;
     View appbar2;
     View appbar3;
+    View back_dim_layout;
     private ImageButton upItemBtn;
+    ImageButton upItemBtn1;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
     @Override
@@ -37,10 +41,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
         appbar3 = findViewById(R.id.search_appbar);
-        upItemBtn = findViewById(R.id.add_button_account);
+        upItemBtn = findViewById(R.id.add_button);
+        upItemBtn1 = findViewById(R.id.add_button_account);
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
         upItemBtn.setOnClickListener(this);
+        upItemBtn1.setOnClickListener(this);
+        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
+            }
+        });
         setUpNavigation();
     }
 
@@ -106,10 +122,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View view) {
         switch(view.getId()){
+            case R.id.add_button:
+                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    findViewById(R.id.container).setAlpha((float) 0.5);
+                }else{
+                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                break;
             case R.id.add_button_account:
                 if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-
                 }else{
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 }

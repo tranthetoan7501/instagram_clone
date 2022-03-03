@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/outline_live_tv_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_search_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/round_corner_picture.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/shape_gradient_top_shadow.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/up_item_background.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1850982666015625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
@@ -19,6 +20,7 @@
         <entry key="app/src/main/res/layout/appbar.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/appbar1.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar2.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/appbar_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
@@ -30,7 +32,7 @@
         <entry key="app/src/main/res/layout/post.xml" value="0.22945205479452055" />
         <entry key="app/src/main/res/layout/story.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
-        <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.11041666666666666" />
+        <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/menu/tab_item.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>

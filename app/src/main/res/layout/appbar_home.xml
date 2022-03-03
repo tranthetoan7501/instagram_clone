@@ -42,6 +42,7 @@
         android:textSize="30dp" />
 
     <ImageButton
+        android:foreground="?attr/selectableItemBackgroundBorderless"
         android:id="@+id/add_button"
         android:layout_marginRight="20dp"
         android:layout_toLeftOf="@+id/message"
