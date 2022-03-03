@@ -6,11 +6,9 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -26,10 +24,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Fragment accountFragment = new accountFragment();
     Fragment homeFragment = new homeFragment();
     Fragment searchFragment = new searchFragment();
+    Fragment activityFragment = new activityFragment();
     View appbar;
     View appbar2;
     View appbar3;
-    View back_dim_layout;
+    View appbar4;
     private ImageButton upItemBtn;
     ImageButton upItemBtn1;
     private LinearLayout layoutBottomSheet;
@@ -38,9 +37,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
         appbar3 = findViewById(R.id.search_appbar);
+        appbar4 = findViewById(R.id.favorite_appbar);
+
         upItemBtn = findViewById(R.id.add_button);
         upItemBtn1 = findViewById(R.id.add_button_account);
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
@@ -67,9 +69,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mAuth.getCurrentUser() == null) {
             startActivity(new Intent(this, login.class));
         }
-//        else {
-//            mAuth.signOut();
-//        }
     }
 
     void replaceFragment(Fragment fragment) {
@@ -85,6 +84,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
         fragmentManager.beginTransaction().add(R.id.fragment_layout, accountFragment, "4").hide(accountFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, "1").commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, "3").hide(activityFragment).commit();
         appbar.setVisibility(View.VISIBLE);
     }
 
@@ -97,22 +98,35 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     appbar.setVisibility(View.VISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
+                    appbar4.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;
                     return true;
-                case R.id.accountFragment:
-                    appbar.setVisibility(View.INVISIBLE);
-                    appbar2.setVisibility(View.VISIBLE);
-                    appbar3.setVisibility(View.INVISIBLE);
-                    fragmentManager.beginTransaction().hide(activeFragment).show(accountFragment).commit();
-                    activeFragment = accountFragment;
-                    return true;
+
                 case R.id.searchFragment:
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.VISIBLE);
+                    appbar4.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit();
                     activeFragment = searchFragment;
+                    return true;
+
+                case R.id.accountFragment:
+                    appbar.setVisibility(View.INVISIBLE);
+                    appbar2.setVisibility(View.VISIBLE);
+                    appbar3.setVisibility(View.INVISIBLE);
+                    appbar4.setVisibility(View.INVISIBLE);
+                    fragmentManager.beginTransaction().hide(activeFragment).show(accountFragment).commit();
+                    activeFragment = accountFragment;
+                    return true;
+                case R.id.favoriteFragment:
+                    appbar.setVisibility(View.INVISIBLE);
+                    appbar2.setVisibility(View.INVISIBLE);
+                    appbar3.setVisibility(View.INVISIBLE);
+                    appbar4.setVisibility(View.VISIBLE);
+                    fragmentManager.beginTransaction().hide(activeFragment).show(activityFragment).commit();
+                    activeFragment = activityFragment;
                     return true;
             }
             return false;

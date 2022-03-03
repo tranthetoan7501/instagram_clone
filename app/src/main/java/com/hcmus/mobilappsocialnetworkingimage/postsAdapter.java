@@ -78,8 +78,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             setting = itemView.findViewById(R.id.setting_button);
             image = itemView.findViewById(R.id.image_slider);
             like = itemView.findViewById(R.id.like);
-            comment = itemView.findViewById(R.id.like);
-            share = itemView.findViewById(R.id.like);
+            comment = itemView.findViewById(R.id.comment);
+            share = itemView.findViewById(R.id.share);
             num_likes = itemView.findViewById(R.id.num_likes);
             below_name = itemView.findViewById(R.id.below_name);
             description = itemView.findViewById(R.id.description);

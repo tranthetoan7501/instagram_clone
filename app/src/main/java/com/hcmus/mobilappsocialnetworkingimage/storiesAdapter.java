@@ -18,8 +18,8 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesViewHolder> {
-    List<String> listImage = new ArrayList<>();
-    List<String> listName = new ArrayList<>();
+    List<String> listImage;
+    List<String> listName;
     Context context;
 
     public storiesAdapter(List<String> listImage, List<String> listName, Context context) {

@@ -6,6 +6,7 @@
         <entry key="app/src/main/res/drawable/border_account_buttons.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.1" />
+        <entry key="app/src/main/res/drawable/ic_baseline_grid_on_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_account_circle_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_favorite_border_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_home_24.xml" value="0.1" />
@@ -14,6 +15,8 @@
         <entry key="app/src/main/res/drawable/round_corner_picture.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/shape_gradient_top_shadow.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/up_item_background.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activities.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity.xml" value="0.13583526611328126" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1850982666015625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
@@ -21,10 +24,12 @@
         <entry key="app/src/main/res/layout/appbar1.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar2.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar_account.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/appbar_favorite.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
+        <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
@@ -47,7 +52,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.20564270019531247" />
+        <option name="scale" value="0.13583526611328126" />
       </ProjectState>
     </option>
   </component>
