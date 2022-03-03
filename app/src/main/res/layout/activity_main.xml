@@ -3,13 +3,6 @@
     android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/bac_dim_layout"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:backgroundTint="#C0000000"-->
-<!--        android:visibility="gone" >-->
-<!--    </RelativeLayout>-->
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,6 +22,8 @@
             <include android:id="@+id/account_appbar" layout="@layout/appbar_account" android:visibility="invisible"
                 />
             <include android:id="@+id/search_appbar" layout="@layout/appbar_search" android:visibility="invisible"
+                />
+            <include android:id="@+id/favorite_appbar" layout="@layout/appbar_favorite" android:visibility="invisible"
                 />
         </FrameLayout>
 
