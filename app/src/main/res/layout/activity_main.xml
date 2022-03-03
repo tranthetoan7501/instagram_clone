@@ -15,9 +15,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
-            <include android:id="@+id/home_appbar" layout="@layout/appbar" android:visibility="invisible"
+            <include android:id="@+id/home_appbar" layout="@layout/appbar_home" android:visibility="invisible"
                 />
-            <include android:id="@+id/account_appbar" layout="@layout/appbar2" android:visibility="invisible"
+            <include android:id="@+id/account_appbar" layout="@layout/appbar_account" android:visibility="invisible"
+                />
+            <include android:id="@+id/search_appbar" layout="@layout/appbar_search" android:visibility="invisible"
                 />
         </FrameLayout>
 

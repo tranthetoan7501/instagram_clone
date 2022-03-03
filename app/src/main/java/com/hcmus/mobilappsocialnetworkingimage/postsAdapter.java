@@ -1,7 +1,6 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
 import android.content.Context;
-import android.transition.Slide;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

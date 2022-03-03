@@ -10,10 +10,10 @@
         android:title=""
         android:id="@+id/searchFragment"/>
 
-    <item
-        android:icon="@drawable/outline_live_tv_24"
-        android:title=""
-        android:id="@+id/reelFragment"/>
+<!--    <item-->
+<!--        android:icon="@drawable/outline_live_tv_24"-->
+<!--        android:title=""-->
+<!--        android:id="@+id/reelFragment"/>-->
 
     <item
         android:icon="@drawable/outline_favorite_border_24"

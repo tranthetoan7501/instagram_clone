@@ -9,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+
+import com.hcmus.mobilappsocialnetworkingimage.R;
 
 import java.util.ArrayList;
 import java.util.List;

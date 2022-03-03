@@ -23,8 +23,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     FragmentManager fragmentManager = getSupportFragmentManager();
     Fragment accountFragment = new accountFragment();
     Fragment homeFragment = new homeFragment();
+    Fragment searchFragment = new searchFragment();
     View appbar;
     View appbar2;
+    View appbar3;
     private ImageButton upItemBtn;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
+        appbar3 = findViewById(R.id.search_appbar);
         upItemBtn = findViewById(R.id.add_button_account);
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
@@ -77,14 +80,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case R.id.homeFragment:
                     appbar.setVisibility(View.VISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
+                    appbar3.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;
                     return true;
                 case R.id.accountFragment:
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.VISIBLE);
+                    appbar3.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(accountFragment).commit();
                     activeFragment = accountFragment;
+                    return true;
+                case R.id.searchFragment:
+                    appbar.setVisibility(View.INVISIBLE);
+                    appbar2.setVisibility(View.INVISIBLE);
+                    appbar3.setVisibility(View.VISIBLE);
+                    fragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit();
+                    activeFragment = searchFragment;
                     return true;
             }
             return false;
