@@ -1,5 +1,8 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,12 +29,11 @@ import com.squareup.picasso.Picasso;
 
 public class accountFragment extends Fragment {
     ImageView avatar;
-
-
+    Button edit_pf;
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+
     }
 
     @Override
@@ -39,6 +41,14 @@ public class accountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
        avatar = view.findViewById(R.id.avatar);
+        edit_pf =view.findViewById(R.id.edit_pf);
+        edit_pf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(getContext(), edit_profile.class);
+                startActivity(intent);
+            }
+        });
 //        Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU").into(avatar);
         if (container != null) {
             container.removeAllViews();
