@@ -12,45 +12,55 @@
         />
 
     <EditText
-        android:hint="username"
-        android:id="@+id/username"
-        android:paddingLeft="10dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
+        android:id="@+id/email"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
-        />
+        android:hint="Email"
+        android:paddingLeft="10dp" />
+
+    <EditText
+        android:id="@+id/username"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/email"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/custom_edit_text"
+        android:hint="Username"
+        android:paddingLeft="10dp" />
 
     <EditText
         android:id="@+id/password"
-        android:hint="password"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/username"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
-        />
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp" />
 
     <EditText
         android:id="@+id/confirm_password"
-        android:hint="password"
-        android:paddingLeft="10dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginLeft="25dp"
-        android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_below="@+id/password"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
-        />
+        android:hint="Comfirm password"
+        android:inputType="textPassword"
+        android:paddingLeft="10dp" />
+
+
 
 
     <Button
@@ -89,11 +99,12 @@
         />
 
     <ImageView
-        android:layout_above="@+id/already_have"
-        android:layout_width="300dp"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="80dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_above="@+id/already_have"
         android:layout_centerInParent="true"
-        android:src="@drawable/logo"
-        />
+        android:src="@drawable/logo" />
 
 </RelativeLayout>

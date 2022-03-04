@@ -1,5 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,31 +16,41 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class register extends AppCompatActivity {
-    EditText username;
+    EditText email;
     EditText password;
     EditText confirm_password;
+    EditText username;
     Button registerButton;
     ImageButton previous;
     Button already_have;
     FirebaseAuth mAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
         mAuth = FirebaseAuth.getInstance();
-        username = findViewById(R.id.username);
+        email= findViewById(R.id.email);
         password = findViewById(R.id.password);
         confirm_password = findViewById(R.id.confirm_password);
+        username=findViewById(R.id.username);
+
         registerButton = findViewById(R.id.register);
         registerButton.setOnClickListener(view ->{
             createAccount();
@@ -67,13 +79,13 @@ public class register extends AppCompatActivity {
 
 
     void createAccount(){
-        String email = username.getText().toString()+"@gmail.com";
+        String _email = email.getText().toString();
         String pass = password.getText().toString();
         String confirmPassword = confirm_password.getText().toString();
 
-        if(TextUtils.isEmpty(email)){
-            username.setError("Email cannot be empty");
-            username.requestFocus();
+        if(TextUtils.isEmpty(_email)){
+            email.setError("Email cannot be empty");
+            email.requestFocus();
         }
         else
         if(TextUtils.isEmpty(pass)){
@@ -91,32 +103,42 @@ public class register extends AppCompatActivity {
             confirm_password.requestFocus();
         }
         else{
-            mAuth.createUserWithEmailAndPassword(email,confirmPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        Toast.makeText(register.this,"Successful",Toast.LENGTH_SHORT).show();
-//                        String userID = mAuth.getCurrentUser().getUid();
-//                        DocumentReference documentReference = firebaseFirestore.collection("users").document(userID);
-//                        Map<String,Object> infor = new HashMap<>();
-//                        infor.put("email",email);
-//                        infor.put("name","Anonymous");
-//                        infor.put("address","Updating...");
-//                        infor.put("phoneNumber","Updating...");
-//                        infor.put("image","https://i.ibb.co/L5knT0t/sample2.jpg");
-//                        documentReference.set(infor).addOnSuccessListener(new OnSuccessListener<Void>() {
-//                            @Override
-//                            public void onSuccess(Void unused) {
-//                                Log.d("Tag","Success");
-//                            }
-//                        });
-                        register.super.onBackPressed();
-                    }
-                    else{
-                        Toast.makeText(register.this,"Registration error: "+ task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            mAuth.createUserWithEmailAndPassword(_email,pass)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            addData();
+                                            Toast.makeText(register.this, "Successfully, Please your email for verification", Toast.LENGTH_LONG).show();
+                                            register.this.finish();
+                                        }
+                                        else {
+                                            Toast.makeText(register.this, task.getException().getMessage()  , Toast.LENGTH_LONG).show();
+                                        }
+                                    }
+                                });
+
+                            }
+                            else{
+                                Toast.makeText(register.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    });
         }
+    }
+    //Put data to database
+    public void addData(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        Map<String, Object> user = new HashMap<>();
+        user.put("username", username.getText().toString());
+        user.put("email", email.getText().toString());
+
+        db.collection("account")
+                .document(mAuth.getUid())
+                .set(user);
     }
 }
