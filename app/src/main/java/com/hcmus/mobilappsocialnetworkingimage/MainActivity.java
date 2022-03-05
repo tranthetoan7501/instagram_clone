@@ -1,12 +1,20 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.hardware.camera2.CameraManager;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -15,6 +23,11 @@ import android.widget.LinearLayout;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     FirebaseAuth mAuth;
@@ -33,10 +46,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton upItemBtn1;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
+    NetworkChangeListener networkChangeListener=new NetworkChangeListener();
+    public static Activity fa;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        fa=this;
 
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
@@ -47,6 +64,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         upItemBtn1 = findViewById(R.id.add_button_account);
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+
         upItemBtn.setOnClickListener(this);
         upItemBtn1.setOnClickListener(this);
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
@@ -60,15 +78,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         setUpNavigation();
+        mAuth=FirebaseAuth.getInstance();
     }
 
     @Override
     protected void onStart() {
+        IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
         super.onStart();
-        mAuth = FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser() == null) {
-            startActivity(new Intent(this, login.class));
+//        FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance(" https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app");
+//        DatabaseReference databaseReference=firebaseDatabase.getReference("ALO");
+//        databaseReference.setValue(new User("ALO","AC","123"));
+        mAuth=FirebaseAuth.getInstance();
+        if (mAuth.getCurrentUser() ==null) {
+            startActivity(new Intent(this,login.class));
         }
+    }
+
+
+    @Override
+    protected void onStop() {
+        unregisterReceiver(networkChangeListener);
+        super.onStop();
     }
 
     void replaceFragment(Fragment fragment) {
