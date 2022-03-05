@@ -124,9 +124,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
+//                            user=new User(document.get("username").toString()
+//                                    ,document.get("email").toString()
+//                                    ,document.get("about").toString());
                             user=new User(document.get("username").toString()
-                                    ,document.get("email").toString()
-                                    ,document.get("about").toString());
+                                    ,document.get("email").toString());
                             _accountFragment.onMsgFromMainToFragment(user);
                         } else {
                             Log.d(TAG, "No such document");

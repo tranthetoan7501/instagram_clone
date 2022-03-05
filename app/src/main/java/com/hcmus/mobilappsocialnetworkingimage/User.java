@@ -13,6 +13,11 @@ class User implements Serializable {
         this.about=about;
     }
 
+    public User(String username, String email) {
+        this.username = username;
+        this.email = email;
+    }
+
     public String getUsername() {
         return username;
     }
