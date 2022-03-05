@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:text="Name: "/>
         <EditText
+            android:id="@+id/edit_username"
             android:maxLines="1"
             android:textSize="20dp"
             android:layout_width="fill_parent"
@@ -86,6 +87,7 @@
             android:layout_height="wrap_content"
             android:text="About you: "/>
         <EditText
+            android:id="@+id/edit_about"
             android:maxLines="1"
             android:textSize="20dp"
             android:layout_width="fill_parent"

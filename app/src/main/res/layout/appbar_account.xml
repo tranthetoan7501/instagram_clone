@@ -5,14 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="40dp"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
+        android:id="@+id/username"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:text="thanhson_232"
-        android:textSize="28dp"
-        android:textStyle="bold"
         android:textColor="@color/black"
-        />
+        android:textSize="28dp"
+        android:textStyle="bold" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

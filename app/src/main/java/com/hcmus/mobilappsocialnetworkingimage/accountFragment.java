@@ -27,9 +27,13 @@ import com.google.api.Distribution;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
 
-public class accountFragment extends Fragment {
+public class accountFragment extends Fragment implements FragmentCallbacks{
     ImageView avatar;
     Button edit_pf;
+    TextView username,about;
+    User user;
+    public static String USER="USER";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,11 +45,14 @@ public class accountFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
        avatar = view.findViewById(R.id.avatar);
+       username=view.findViewById(R.id.username);
+       about=view.findViewById(R.id.description);
         edit_pf =view.findViewById(R.id.edit_pf);
         edit_pf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getContext(), edit_profile.class);
+                intent.putExtra(USER,user);
                 startActivity(intent);
             }
         });
@@ -62,4 +69,11 @@ public class accountFragment extends Fragment {
            }
 
 
+
+    @Override
+    public void onMsgFromMainToFragment(User user) {
+        this.user=user;
+        username.setText(user.getUsername());
+        about.setText(user.getAbout());
+    }
 }

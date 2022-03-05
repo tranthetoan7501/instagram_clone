@@ -3,12 +3,15 @@ package com.hcmus.mobilappsocialnetworkingimage;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.hardware.camera2.CameraManager;
@@ -20,6 +23,9 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
@@ -27,14 +33,25 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import java.util.HashMap;
+import java.util.Map;
+
+public class MainActivity extends FragmentActivity implements View.OnClickListener,MainCallbacks {
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
     Fragment activeFragment;
     FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment accountFragment = new accountFragment();
+    accountFragment _accountFragment = new accountFragment();
     Fragment homeFragment = new homeFragment();
     Fragment searchFragment = new searchFragment();
     Fragment activityFragment = new activityFragment();
@@ -48,12 +65,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private BottomSheetBehavior bottomSheetBehavior;
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
     public static Activity fa;
+    User user;
+    MainActivity main;
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fa=this;
+
 
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
@@ -93,6 +115,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this,login.class));
         }
+        else{
+            FirebaseFirestore db=FirebaseFirestore.getInstance();
+            DocumentReference docRef = db.collection("account").document(mAuth.getUid());
+            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            user=new User(document.get("username").toString()
+                                    ,document.get("email").toString()
+                                    ,document.get("about").toString());
+                            _accountFragment.onMsgFromMainToFragment(user);
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        }
     }
 
 
@@ -113,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         activeFragment = homeFragment;
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, accountFragment, "4").hide(accountFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, _accountFragment, "4").hide(_accountFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, "1").commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, "3").hide(activityFragment).commit();
@@ -148,8 +192,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     appbar2.setVisibility(View.VISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
-                    fragmentManager.beginTransaction().hide(activeFragment).show(accountFragment).commit();
-                    activeFragment = accountFragment;
+                    fragmentManager.beginTransaction().hide(activeFragment).show(_accountFragment).commit();
+                    activeFragment = _accountFragment;
                     return true;
                 case R.id.favoriteFragment:
                     appbar.setVisibility(View.INVISIBLE);
@@ -183,5 +227,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 }
                 break;
         }
+    }
+
+    @Override
+    public void onMsgFromFragtoMain(User user) {
+        _accountFragment.onMsgFromMainToFragment(user);
     }
 }

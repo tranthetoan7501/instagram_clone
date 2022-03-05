@@ -25,6 +25,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class login extends AppCompatActivity {
     EditText username;
     EditText password;
@@ -32,7 +33,7 @@ public class login extends AppCompatActivity {
     Button register;
     FirebaseAuth mAuth;
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
-    Context context;
+
 
     @Override
     protected void onStart() {
