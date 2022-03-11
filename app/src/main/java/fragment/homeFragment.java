@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package fragment;
 
 import android.os.Bundle;
 
@@ -15,12 +15,15 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.postsAdapter;
+import adapter.storiesAdapter;
+
 
 public class homeFragment extends Fragment {
     RecyclerView stories;
-    storiesAdapter storiesAdapter;
+    adapter.storiesAdapter storiesAdapter;
     RecyclerView posts;
-    postsAdapter postsAdapter;
+    adapter.postsAdapter postsAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

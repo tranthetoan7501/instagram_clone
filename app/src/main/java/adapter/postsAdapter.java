@@ -1,6 +1,8 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package adapter;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,22 +11,27 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.secondActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> {
+public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> implements View.OnClickListener {
     List<String> name;
     List<String> image;
     List<String> description;
     List<String> date;
     Context context;
+    FragmentTransaction fragmentTransaction;
+    Bundle bundle = new Bundle();
 
     public postsAdapter(List<String> name, List<String> image, List<String> description, List<String> date, Context context) {
         this.name = name;
@@ -51,12 +58,30 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         holder.below_name.setText(name.get(position));
         holder.description.setText(description.get(position));
         holder.date.setText(date.get(position));
+        holder.comment.setOnClickListener(this);
+
+        bundle.putSerializable("description",name.get(position) + "\n" + description.get(position));
+        bundle.putSerializable("name",name.get(position));
+        bundle.putSerializable("date",date.get(position));
+        bundle.putSerializable("image",image.get(position));
 
     }
 
     @Override
     public int getItemCount() {
         return name.size();
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()){
+            case R.id.comment:
+                bundle.putSerializable("type","comment");
+                Intent intent = new Intent(context, secondActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+                break;
+        }
     }
 
     class postsViewHolder extends RecyclerView.ViewHolder{

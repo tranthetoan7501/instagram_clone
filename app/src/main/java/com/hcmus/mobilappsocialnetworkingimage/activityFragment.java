@@ -13,8 +13,10 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapter.activitiesAdapter;
+
 public class activityFragment extends Fragment {
-    activitiesAdapter activitiesAdapter;
+    adapter.activitiesAdapter activitiesAdapter;
     RecyclerView recyclerView;
 
     @Override

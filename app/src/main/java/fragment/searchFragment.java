@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package fragment;
 
 import android.os.Bundle;
 

@@ -25,7 +25,7 @@
     <!--            android:layout_height="match_parent"-->
     <!--            android:src="@drawable/logo"-->
     <!--            />-->
-
+<!--    android:fontFamily="@font/bilbo_swash_caps"-->
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -35,11 +35,10 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@+id/camera"
-        android:fontFamily="@font/bilbo_swash_caps"
         android:text="Instagram"
         android:textStyle="bold"
         android:textColor="@color/black"
-        android:textSize="30dp" />
+        android:textSize="24dp" />
 
     <ImageButton
         android:foreground="?attr/selectableItemBackgroundBorderless"

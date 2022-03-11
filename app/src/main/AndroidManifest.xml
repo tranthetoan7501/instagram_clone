@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.hcmus.mobilappsocialnetworkingimage">
+    package="com.hcmus.mobilappsocialnetworkingimage" >
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,15 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MobilAppSocialNetworkingImage">
+        android:theme="@style/Theme.MobilAppSocialNetworkingImage" >
+        <activity
+            android:name=".secondActivity"
+            android:exported="false" />
+        <activity
+            android:name="fragment.commentFragment"
+            android:exported="false"
+            android:label="@string/title_activity_comment"
+            android:theme="@style/Theme.MobilAppSocialNetworkingImage.NoActionBar" />
         <activity
             android:name=".register"
             android:exported="false" />
@@ -16,8 +24,11 @@
             android:name=".login"
             android:exported="false" />
         <activity
+            android:name=".edit_profile"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
