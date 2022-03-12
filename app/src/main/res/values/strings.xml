@@ -7,7 +7,15 @@
     <string name="nav_up_story">Tin</string>
     <string name="nav_favorite">Yêu thích</string>
     <string name="nav_profile">My Profile</string>
-    <string name="nav_change_pass">Change Password</string>
+
+
+
+    <string name="nav_change_pass">Đổi mật khẩu</string>
+    <string name="nav_logout">Đăng xuất</string>
+    <string name="nav_saved">Đã lưu</string>
+    <string name="nav_marked">Đánh dấu</string>
+
+
     <string name="title_activity_comment">commentActivity</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>

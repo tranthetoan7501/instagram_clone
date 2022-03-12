@@ -49,9 +49,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     View appbar4;
     thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
+
     ImageButton upItemBtn1;
+
+
+
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
+
+    ImageButton settingBtn;
+    private LinearLayout layoutSettingBottomSheet;
+    private BottomSheetBehavior settingBottomSheetBehavior;
+
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
     public static Activity fa;
     User user;
@@ -70,12 +79,30 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         upItemBtn = findViewById(R.id.add_button);
         upItemBtn1 = findViewById(R.id.add_button_account);
+        settingBtn = findViewById(R.id.setting_button_account);
+
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
+        layoutSettingBottomSheet = findViewById(R.id.settingBottomSheetContainer);
+
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        settingBottomSheetBehavior = BottomSheetBehavior.from( layoutSettingBottomSheet);
 
         upItemBtn.setOnClickListener(this);
         upItemBtn1.setOnClickListener(this);
+        settingBtn.setOnClickListener(this);
+
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
+            }
+        });
+
+        settingBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
             }
@@ -202,15 +229,32 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
                     findViewById(R.id.container).setAlpha((float) 0.5);
+                    settingBtn.setEnabled(false);
                 }else{
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    settingBtn.setEnabled(true);
                 }
+
                 break;
             case R.id.add_button_account:
                 if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    settingBtn.setEnabled(false);
                 }else{
                     bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    settingBtn.setEnabled(true);
+                }
+                break;
+            case R.id.setting_button_account:
+                if (settingBottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
+                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    upItemBtn.setEnabled(false);
+                    upItemBtn1.setEnabled(false);
+
+                }else{
+                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    upItemBtn.setEnabled(true);
+                    upItemBtn1.setEnabled(true);
                 }
                 break;
         }

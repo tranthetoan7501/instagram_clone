@@ -50,5 +50,10 @@
     </RelativeLayout>
      <include
         layout="@layout/up_item_fragment"
+
+        />
+    <include
+        layout="@layout/setting_fragment"
+
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
