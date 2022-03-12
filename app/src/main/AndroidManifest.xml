@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.hcmus.mobilappsocialnetworkingimage" >
-
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -12,11 +14,6 @@
         <activity
             android:name=".secondActivity"
             android:exported="false" />
-        <activity
-            android:name="fragment.commentFragment"
-            android:exported="false"
-            android:label="@string/title_activity_comment"
-            android:theme="@style/Theme.MobilAppSocialNetworkingImage.NoActionBar" />
         <activity
             android:name=".register"
             android:exported="false" />

@@ -47,9 +47,10 @@
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/homepage_appbar.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/intro.xml" value="0.21302083333333333" />
-        <entry key="app/src/main/res/layout/post.xml" value="0.17338709677419356" />
+        <entry key="app/src/main/res/layout/post.xml" value="0.1" />
         <entry key="app/src/main/res/layout/story.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
+        <entry key="app/src/main/res/layout/thumbnail.xml" value="0.4323028564453126" />
         <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.1" />
         <entry key="app/src/main/res/menu/tab_item.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
@@ -65,7 +66,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.17734375000000002" />
+        <option name="scale" value="0.1" />
       </ProjectState>
     </option>
   </component>

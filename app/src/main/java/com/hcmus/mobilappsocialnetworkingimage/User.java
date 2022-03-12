@@ -3,9 +3,9 @@ package com.hcmus.mobilappsocialnetworkingimage;
 import java.io.Serializable;
 
 class User implements Serializable {
-    private String username;
-    private String email;
-    private String about;
+      String username;
+      String email;
+      String about;
 
     public User(String username, String email, String about) {
         this.username = username;

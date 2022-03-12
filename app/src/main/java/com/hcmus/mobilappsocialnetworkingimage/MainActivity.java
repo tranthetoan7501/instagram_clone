@@ -9,7 +9,6 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -29,10 +28,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import adapter.thumbnailsAdapter;
+import fragment.accountFragment;
+import fragment.activityFragment;
 import fragment.homeFragment;
 import fragment.searchFragment;
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener,MainCallbacks {
+public class MainActivity extends FragmentActivity implements View.OnClickListener {
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
     Fragment activeFragment;
@@ -45,6 +47,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     View appbar2;
     View appbar3;
     View appbar4;
+    thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
     ImageButton upItemBtn1;
     private LinearLayout layoutBottomSheet;
@@ -52,16 +55,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
     public static Activity fa;
     User user;
-    MainActivity main;
-    Context context;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fa=this;
-
+        thumbnailsAdapter = new thumbnailsAdapter(this);
 
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
@@ -115,7 +115,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                                    ,document.get("about").toString());
                             user=new User(document.get("username").toString()
                                     ,document.get("email").toString());
-                            _accountFragment.onMsgFromMainToFragment(user);
                         } else {
                             Log.d(TAG, "No such document");
                         }
@@ -217,8 +216,4 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     }
 
-    @Override
-    public void onMsgFromFragtoMain(User user) {
-        _accountFragment.onMsgFromMainToFragment(user);
-    }
 }

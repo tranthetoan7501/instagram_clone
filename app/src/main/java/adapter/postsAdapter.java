@@ -59,12 +59,20 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         holder.description.setText(description.get(position));
         holder.date.setText(date.get(position));
         holder.comment.setOnClickListener(this);
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(holder.like.isActivated())
+                    holder.like.setImageResource(R.drawable.ic_like);
+                else
+                holder.like.setImageResource(R.drawable.ic_like_filled);
+            }
+        });
 
         bundle.putSerializable("description",name.get(position) + "\n" + description.get(position));
         bundle.putSerializable("name",name.get(position));
         bundle.putSerializable("date",date.get(position));
         bundle.putSerializable("image",image.get(position));
-
     }
 
     @Override

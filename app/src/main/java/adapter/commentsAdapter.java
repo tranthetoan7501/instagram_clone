@@ -44,10 +44,11 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
     public void onBindViewHolder(@NonNull commentsViewHolder holder, int position) {
         if (description.isEmpty()) return;
 
-        Picasso.get().load(description.get(position)).into(holder.avatar);
+        Picasso.get().load(avatar.get(position)).into(holder.avatar);
         String str[] = description.get(position).split("\n");
-        holder.description.setText(Html.fromHtml("<b>" + str[0]+"</b>" + description.get(position)));
+        holder.description.setText(Html.fromHtml("<b>" + str[0]+"</b>" + description.get(position).replace(str[0]," ")));
         holder.num_likes.setText(num_likes.get(position));
+        holder.date.setText(date.get(position));
     }
 
     @Override
