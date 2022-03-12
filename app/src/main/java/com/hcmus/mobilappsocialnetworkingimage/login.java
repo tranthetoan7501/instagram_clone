@@ -113,8 +113,9 @@ public class login extends AppCompatActivity {
                     if(task.isSuccessful()){
                         if(mAuth.getCurrentUser().isEmailVerified()) {
                             Toast.makeText(login.this, "Successful", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(login.this,MainActivity.class);
+                            startActivity(intent);
                             login.this.finish();
-
                         }
                         else{
                             Toast.makeText(login.this, "Account is not exist", Toast.LENGTH_LONG).show();

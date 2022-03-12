@@ -46,16 +46,15 @@
     <Button
         android:id="@+id/login_button"
         android:layout_width="match_parent"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
         android:layout_height="40dp"
         android:layout_below="@id/forget_password"
-        android:text="Log in"
-        android:textColor="@color/White"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
+        android:text="Log in"
         android:textAllCaps="false"
-        />
+        android:textColor="@color/White" />
 
     <View
         android:id="@+id/view"

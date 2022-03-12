@@ -52,6 +52,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     View appbar5;
     thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
+    LinearLayout logout;
 
     ImageButton upItemBtn1;
     ImageButton previous;
@@ -86,6 +87,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         settingBtn = findViewById(R.id.setting_button_account);
         previous = findViewById(R.id.previous);
 
+        logout = findViewById(R.id.logout);
+
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         layoutSettingBottomSheet = findViewById(R.id.settingBottomSheetContainer);
 
@@ -96,6 +99,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         upItemBtn1.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
         previous.setOnClickListener(this);
+        logout.setOnClickListener(this);
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -131,6 +135,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //        DatabaseReference databaseReference=firebaseDatabase.getReference("ALO");
 //        databaseReference.setValue(new User("ALO","AC","123"));
         mAuth=FirebaseAuth.getInstance();
+        
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this,login.class));
         }
@@ -297,10 +302,18 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     upItemBtn1.setEnabled(true);
                 }
                 break;
+            case R.id.logout:
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(this,login.class);
+                startActivity(intent);
+                finish();
+
+                break;
             case R.id.previous:
                 appbar5.setVisibility(View.GONE);
                 fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 break;
+
         }
     }
 
