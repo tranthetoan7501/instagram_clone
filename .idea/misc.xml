@@ -5,33 +5,6 @@
       <map>
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/check_internet_dialog.xml" value="0.14375" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.1855" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.1855" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_favorite_border_24.xml" value="0.1855" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_log_out_24.xml" value="0.1855" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/up_item_background.xml" value="0.1855" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_login.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_main.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_register.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_account.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_favorite.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_home.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_search.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/card_search.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/check_internet_dialog.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/comment.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_comment.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_favorite.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_home.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_search.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/post.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/setting_fragment.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/story.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/up_item_fragment.xml" value="0.17300724637681159" />
         <entry key="app/src/main/res/drawable-xxhdpi/custominput.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/border_account_buttons.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1" />
@@ -56,6 +29,7 @@
         <entry key="app/src/main/res/layout/appbar1.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar2.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar_account.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/appbar_explore.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/appbar_favorite.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar_home.xml" value="0.13583526611328126" />
         <entry key="app/src/main/res/layout/appbar_search.xml" value="0.21302083333333333" />

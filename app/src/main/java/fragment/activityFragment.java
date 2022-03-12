@@ -32,7 +32,6 @@ public class activityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favorite, container, false);
         recyclerView = view.findViewById(R.id.activity);
-        System.out.println(recyclerView);
         getData();
         return view;
     }

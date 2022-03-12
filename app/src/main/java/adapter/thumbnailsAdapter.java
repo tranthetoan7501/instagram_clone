@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.secondActivity;
@@ -68,8 +69,9 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager manager = ((FragmentActivity)context).getSupportFragmentManager();
-                fragment.postFragment postFragment = new postFragment();
+                if(context instanceof MainActivity){
+                    ((MainActivity)context).turnOnFragment("postFragment",null);
+                }
             }
         });
     }

@@ -32,6 +32,7 @@ import adapter.thumbnailsAdapter;
 import fragment.accountFragment;
 import fragment.activityFragment;
 import fragment.homeFragment;
+import fragment.postFragment;
 import fragment.searchFragment;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
@@ -43,14 +44,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     Fragment homeFragment = new homeFragment();
     Fragment searchFragment = new searchFragment();
     Fragment activityFragment = new activityFragment();
+    Fragment postFragment = new postFragment();
     View appbar;
     View appbar2;
     View appbar3;
     View appbar4;
+    View appbar5;
     thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
 
     ImageButton upItemBtn1;
+    ImageButton previous;
 
 
 
@@ -76,10 +80,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         appbar2 = findViewById(R.id.account_appbar);
         appbar3 = findViewById(R.id.search_appbar);
         appbar4 = findViewById(R.id.favorite_appbar);
-
+        appbar5 = findViewById(R.id.post_appbar);
         upItemBtn = findViewById(R.id.add_button);
         upItemBtn1 = findViewById(R.id.add_button_account);
         settingBtn = findViewById(R.id.setting_button_account);
+        previous = findViewById(R.id.previous);
 
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         layoutSettingBottomSheet = findViewById(R.id.settingBottomSheetContainer);
@@ -90,6 +95,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         upItemBtn.setOnClickListener(this);
         upItemBtn1.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
+        previous.setOnClickListener(this);
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -171,10 +177,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         activeFragment = homeFragment;
         bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, _accountFragment, "4").hide(_accountFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, "1").commit();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, "2").hide(searchFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, "3").hide(activityFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, _accountFragment, "accountFragment").hide(_accountFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, homeFragment.toString()).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, searchFragment.getTag()).hide(searchFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, activeFragment.toString()).hide(activityFragment).commit();
+//        fragmentManager.beginTransaction().add(R.id.fragment_layout, postFragment, "5").hide(postFragment).commit();
         appbar.setVisibility(View.VISIBLE);
     }
 
@@ -184,36 +191,52 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.homeFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     appbar.setVisibility(View.VISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
+                    appbar5.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;
                     return true;
 
                 case R.id.searchFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.VISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
+                    appbar5.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit();
                     activeFragment = searchFragment;
                     return true;
 
                 case R.id.accountFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.VISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
+                    appbar5.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(_accountFragment).commit();
                     activeFragment = _accountFragment;
                     return true;
                 case R.id.favoriteFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
                     appbar4.setVisibility(View.VISIBLE);
+                    appbar5.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(activityFragment).commit();
                     activeFragment = activityFragment;
                     return true;
@@ -221,6 +244,23 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             return false;
         }
     };
+
+    public void turnOnFragment(String fragment, Bundle bundle){
+        Bundle bundle1 = bundle;
+        if(fragment.equals("postFragment")){
+            appbar5.setVisibility(View.VISIBLE);
+            appbar.setVisibility(View.INVISIBLE);
+            appbar2.setVisibility(View.INVISIBLE);
+            appbar3.setVisibility(View.INVISIBLE);
+            appbar4.setVisibility(View.INVISIBLE);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_layout,postFragment);
+            fragmentTransaction.addToBackStack(postFragment.toString());
+            fragmentTransaction.commit();
+            return;
+        }
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -256,6 +296,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     upItemBtn.setEnabled(true);
                     upItemBtn1.setEnabled(true);
                 }
+                break;
+            case R.id.previous:
+                appbar5.setVisibility(View.GONE);
+                fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 break;
         }
     }

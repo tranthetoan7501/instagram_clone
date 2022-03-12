@@ -22,6 +22,8 @@ import adapter.thumbnailsAdapter;
 public class searchFragment extends Fragment {
     adapter.thumbnailsAdapter thumbnailsAdapter;
     RecyclerView recyclerView;
+    private static final String TAG = "searchFragment";
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,8 +34,12 @@ public class searchFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search, container, false);
+//        if (container != null) {
+//            container.removeAllViews();
+//        }
         recyclerView = view.findViewById(R.id.grid);
         getData();
+
 
         return view;
     }
