@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -57,7 +58,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageButton upItemBtn1;
     ImageButton previous;
 
-
+    FirebaseUser account;
+    FirebaseFirestore _document;
 
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
@@ -147,6 +149,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
+                        account = FirebaseAuth.getInstance().getCurrentUser();
+                        _document = FirebaseFirestore.getInstance();
+                        _accountFragment.setUserInfo(account,_document);
                         if (document.exists()) {
 //                            user=new User(document.get("username").toString()
 //                                    ,document.get("email").toString()
@@ -225,6 +230,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     if(fragmentManager != null) {
                         fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
+
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.VISIBLE);
                     appbar3.setVisibility(View.INVISIBLE);
