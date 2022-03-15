@@ -174,15 +174,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
 
-//                    UserInfor userInfor=new UserInfor(value.get("username").toString()
-//                                                    ,value.get("email").toString()
-//                                                    ,value.get("about").toString()
-//                                                    ,value.get("avatar").toString());
-//                    _accountFragment.setUserInfo(userInfor,mAuth);
-//
-//                    //In appbar 2
-//                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
-//                    textViewInAppbar2.setText(userInfor.getUsername());
+                    UserInfor userInfor=new UserInfor(value.get("username").toString()
+                                                    ,value.get("email").toString()
+                                                    ,value.get("about").toString()
+                                                    ,value.get("avatar").toString());
+                    _accountFragment.setUserInfo(userInfor,mAuth);
+
+                    //In appbar 2
+                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
+                    textViewInAppbar2.setText(userInfor.getUsername());
                 }
 
                 @Override
