@@ -6,15 +6,17 @@ import static android.content.ContentValues.TAG;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
+import utils.Permissions;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
@@ -46,16 +48,19 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.Map;
-
 import adapter.thumbnailsAdapter;
 import fragment.accountFragment;
 import fragment.activityFragment;
 import fragment.homeFragment;
 import fragment.searchFragment;
 import fragment.*;
+
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
+
+    // constants
+    private static final int VERIFY_PERMISSIONS_REQUEST = 1;
+
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
     Fragment activeFragment;
@@ -76,6 +81,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     ImageButton upItemBtn1;
     ImageButton previous;
+    ImageButton cameraBtn;
 
     FirebaseUser account;
     FirebaseFirestore _document;
@@ -109,6 +115,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         upItemBtn1 = findViewById(R.id.add_button_account);
         settingBtn = findViewById(R.id.setting_button_account);
         previous = findViewById(R.id.previous);
+        cameraBtn = findViewById(R.id.camera);
 
         logout = findViewById(R.id.logout);
 
@@ -123,6 +130,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         settingBtn.setOnClickListener(this);
         previous.setOnClickListener(this);
         logout.setOnClickListener(this);
+        cameraBtn.setOnClickListener(this);
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -166,15 +174,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
-                    UserInfor userInfor=new UserInfor(value.get("username").toString()
-                                                    ,value.get("email").toString()
-                                                    ,value.get("about").toString()
-                                                    ,value.get("avatar").toString());
-                    _accountFragment.setUserInfo(userInfor,mAuth);
 
-                    //In appbar 2
-                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
-                    textViewInAppbar2.setText(userInfor.getUsername());
+//                    UserInfor userInfor=new UserInfor(value.get("username").toString()
+//                                                    ,value.get("email").toString()
+//                                                    ,value.get("about").toString()
+//                                                    ,value.get("avatar").toString());
+//                    _accountFragment.setUserInfo(userInfor,mAuth);
+//
+//                    //In appbar 2
+//                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
+//                    textViewInAppbar2.setText(userInfor.getUsername());
                 }
 
                 @Override
@@ -360,6 +369,40 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 break;
 
+            case R.id.camera:
+                if(checkPermissionsArray(Permissions.PERMISSIONS)) {
+
+                } else {
+                    verifyPermissions(Permissions.PERMISSIONS);
+                }
+                break;
         }
+    }
+
+    private void verifyPermissions(String[] permissions) {
+        ActivityCompat.requestPermissions(
+                MainActivity.this,
+                permissions,
+                VERIFY_PERMISSIONS_REQUEST
+        );
+    }
+
+    private boolean checkPermissionsArray(String[] permissions) {
+        for (int i = 0; i < permissions.length; i++) {
+            String check = permissions[i];
+            if (!checkPermissions(check)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean checkPermissions(String permission) {
+        int permissionRequest = ActivityCompat.checkSelfPermission(MainActivity.this, permission);
+
+        if (permissionRequest != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        } else
+            return true;
     }
 }
