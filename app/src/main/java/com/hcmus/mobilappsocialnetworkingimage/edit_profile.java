@@ -53,7 +53,7 @@ public class edit_profile extends AppCompatActivity {
             public void onClick(View view) {
                 edit_profile.this.finish();
                 FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference myRef = database.getReference(bundle.getString("uid"));
+                DatabaseReference myRef = database.getReference("account").child(bundle.getString("uid"));
                 myRef.setValue(new UserInfor(username.getText().toString()
                         ,userInfor.getEmail()
                         ,about.getText().toString()
