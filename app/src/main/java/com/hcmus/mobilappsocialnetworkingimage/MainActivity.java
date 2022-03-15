@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
 import utils.Permissions;
 import android.app.Activity;
 import android.content.Context;
@@ -25,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -32,6 +35,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -48,18 +52,24 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.galleryFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.photoFragment;
+import com.hcmus.mobilappsocialnetworkingimage.utils.sectionsPagerAdapter;
+
 import java.util.Map;
 import adapter.thumbnailsAdapter;
 import fragment.accountFragment;
 import fragment.activityFragment;
 import fragment.homeFragment;
 import fragment.searchFragment;
-import fragment.*;
+import fragment.postFragment;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     // constants
     private static final int VERIFY_PERMISSIONS_REQUEST = 1;
+
+    private ViewPager mViewPager;
 
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
@@ -370,8 +380,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.camera:
+                setContentView(R.layout.activity_share);
                 if(checkPermissionsArray(Permissions.PERMISSIONS)) {
-
+                    setupViewPager();
                 } else {
                     verifyPermissions(Permissions.PERMISSIONS);
                 }
@@ -404,5 +415,21 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             return false;
         } else
             return true;
+    }
+
+    private void setupViewPager() {
+        sectionsPagerAdapter adapter = new sectionsPagerAdapter(getSupportFragmentManager());
+        adapter.addFragment(new galleryFragment());
+        adapter.addFragment(new photoFragment());
+
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(adapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        tabLayout.getTabAt(0).setText("GALLERY");
+        tabLayout.getTabAt(1).setText("PHOTO");
+
     }
 }

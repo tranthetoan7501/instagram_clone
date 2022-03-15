@@ -3,8 +3,11 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_share.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
-        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_photo.xml" value="0.33" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_photo.xml" value="0.25" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_bottom_tabs.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_center_viewpager.xml" value="0.18802083333333333" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.18489583333333334" />
