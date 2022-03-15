@@ -5,6 +5,7 @@ import static android.content.ContentValues.TAG;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -27,23 +29,30 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+//import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.tabs.TabLayout;
 import com.google.api.Distribution;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.auth.User;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.UserInfor;
 import com.hcmus.mobilappsocialnetworkingimage.edit_profile;
 import com.squareup.picasso.Picasso;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import adapter.thumbnailsAdapter;
 
@@ -56,8 +65,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     ImageButton all_pictures;
     ImageButton video;
     ImageButton tag;
-//    User user;
-//    public static String USER="USER";
+    FirebaseAuth mAuth;
+    UserInfor userInfor;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -77,7 +87,11 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getContext(), edit_profile.class);
-//                intent.putExtra(USER,user);
+                Bundle bundle=new Bundle();
+                bundle.putString("uid",mAuth.getUid().toString());
+                intent.putExtras(bundle);
+
+                intent.putExtra("userInfor",userInfor);
                 startActivity(intent);
             }
         });
@@ -94,30 +108,37 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         getData(1);
         return view;
     }
-    public void setUserInfo(FirebaseUser user, FirebaseFirestore document){
-        if(user==null){
-            return;
-        }
-        String id = user.getUid();
-        Uri photoUrl = user.getPhotoUrl();
+    public void setUserInfo(UserInfor user,FirebaseAuth mAuth){
+            this.mAuth=mAuth;
+            this.userInfor=user;
+            username.setText(userInfor.getUsername());
+            about.setText(userInfor.getAbout());
+            Picasso.get().load(userInfor.getAvatar()).into(avatar);
 
-        DocumentReference doc = document.collection("account").document(id);
-        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
-                        username.setText(document.getString("username"));
-                        about.setText(document.getString("about"));
-                    } else {
-                        Log.d(TAG, "No such document");
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
+
+//        if(user==null){
+//            return;
+//        }
+//        String id = user.getUid();
+//        Uri photoUrl = user.getPhotoUrl();
+//
+//        DocumentReference doc = document.collection("account").document(id);
+//        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    DocumentSnapshot document = task.getResult();
+//                    if (document.exists()) {
+//                        username.setText(document.getString("username"));
+//                        about.setText(document.getString("about"));
+//                    } else {
+//                        Log.d(TAG, "No such document");
+//                    }
+//                } else {
+//                    Log.d(TAG, "get failed with ", task.getException());
+//                }
+//            }
+//        });
 
 
         //Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
@@ -125,7 +146,6 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     }
 
     void getData(int i){
-
         List<String> image = new ArrayList<>();
         thumbnailsAdapter = new thumbnailsAdapter(image,getContext(),i);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));

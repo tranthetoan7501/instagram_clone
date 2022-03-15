@@ -2,14 +2,6 @@
 <RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <ImageButton
-        android:id="@+id/previous"
-        android:layout_margin="10dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_arrow_back"
-        android:background="@android:color/transparent"
-        />
 
     <EditText
         android:id="@+id/email"
@@ -61,21 +53,19 @@
         android:paddingLeft="10dp" />
 
 
-
-
     <Button
+        android:enabled="true"
         android:id="@+id/register"
         android:layout_width="match_parent"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:layout_marginTop="20dp"
         android:layout_height="40dp"
         android:layout_below="@id/confirm_password"
-        android:text="Register"
-        android:textColor="@color/White"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
+        android:text="Register"
         android:textAllCaps="false"
-        />
+        android:textColor="@color/White" />
 
     <View
         android:id="@+id/view"
@@ -99,12 +89,12 @@
         />
 
     <ImageView
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="80dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/already_have"
         android:layout_centerInParent="true"
+        android:layout_marginRight="80dp"
+        android:layout_marginBottom="160dp"
         android:src="@drawable/logo" />
 
 </RelativeLayout>

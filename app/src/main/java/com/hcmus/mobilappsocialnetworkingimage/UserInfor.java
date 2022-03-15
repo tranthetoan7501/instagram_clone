@@ -2,20 +2,17 @@ package com.hcmus.mobilappsocialnetworkingimage;
 
 import java.io.Serializable;
 
-class User implements Serializable {
-      String username;
-      String email;
-      String about;
+public class UserInfor implements Serializable {
+    private String username;
+    private String email;
+    private String about;
+    private String avatar;
 
-    public User(String username, String email, String about) {
+    public UserInfor(String username, String email, String about, String avatar) {
         this.username = username;
         this.email = email;
         this.about=about;
-    }
-
-    public User(String username, String email) {
-        this.username = username;
-        this.email = email;
+        this.avatar=avatar;
     }
 
     public String getUsername() {
@@ -29,4 +26,6 @@ class User implements Serializable {
     public String getAbout() {
         return about;
     }
+
+    public String getAvatar() { return avatar; }
 }

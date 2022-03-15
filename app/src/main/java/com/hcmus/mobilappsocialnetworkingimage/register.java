@@ -35,7 +35,6 @@ public class register extends AppCompatActivity {
     EditText confirm_password;
     EditText username;
     Button registerButton;
-    ImageButton previous;
     Button already_have;
     FirebaseAuth mAuth;
 
@@ -51,30 +50,31 @@ public class register extends AppCompatActivity {
         confirm_password = findViewById(R.id.confirm_password);
         username=findViewById(R.id.username);
 
+        EditText[] editTexts={email,password,confirm_password,username};
+
         registerButton = findViewById(R.id.register);
         registerButton.setOnClickListener(view ->{
             createAccount();
-        });
-        previous = findViewById(R.id.previous);
-        previous.setOnClickListener(view -> {
-            super.onBackPressed();
         });
         already_have = findViewById(R.id.already_have);
         already_have.setOnClickListener(view ->{
             super.onBackPressed();
         });
-        confirm_password.setOnKeyListener(new View.OnKeyListener() {
-            public boolean onKey(View v, int keyCode, KeyEvent event) {
-                // If the event is a key-down event on the "enter" button
-                if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
-                        (keyCode == KeyEvent.KEYCODE_ENTER)) {
-                    // Perform action on key press
-                    createAccount();
-                    return true;
+        //Event when input enter to edit texts
+        for(int i=0;i<editTexts.length;i++) {
+            editTexts[i].setOnKeyListener(new View.OnKeyListener() {
+                public boolean onKey(View v, int keyCode, KeyEvent event) {
+                    // If the event is a key-down event on the "enter" button
+                    if ((event.getAction() == KeyEvent.ACTION_DOWN) &&
+                            (keyCode == KeyEvent.KEYCODE_ENTER)) {
+                        // Perform action on key press
+                        createAccount();
+                        return true;
+                    }
+                    return false;
                 }
-                return false;
-            }
-        });
+            });
+        }
     }
 
 
@@ -82,6 +82,7 @@ public class register extends AppCompatActivity {
         String _email = email.getText().toString();
         String pass = password.getText().toString();
         String confirmPassword = confirm_password.getText().toString();
+        String _username=username.getText().toString();
 
         if(TextUtils.isEmpty(_email)){
             email.setError("Email cannot be empty");
@@ -96,6 +97,11 @@ public class register extends AppCompatActivity {
         if(TextUtils.isEmpty(confirmPassword)){
             confirm_password.setError("Password cannot be empty");
             confirm_password.requestFocus();
+        }
+        else
+        if(TextUtils.isEmpty(_username)){
+            username.setError("Username cannot be empty");
+            username.requestFocus();
         }
         else
         if(!TextUtils.equals(pass,confirmPassword)){
@@ -132,13 +138,17 @@ public class register extends AppCompatActivity {
     }
     //Put data to database
     public void addData(){
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+//        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> user = new HashMap<>();
         user.put("username", username.getText().toString());
         user.put("email", email.getText().toString());
-
-        db.collection("account")
-                .document(mAuth.getUid())
-                .set(user);
+        user.put("about","");
+        user.put("avatar","https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png");
+//        db.collection("account")
+//                .document(mAuth.getUid())
+//                .set(user);
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference(mAuth.getUid());
+        myRef.setValue(user);
     }
 }

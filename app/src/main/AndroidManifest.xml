@@ -15,6 +15,9 @@
             android:name=".secondActivity"
             android:exported="false" />
         <activity
+            android:name=".edit_profile"
+            android:exported="false" />
+        <activity
             android:name=".register"
             android:exported="false" />
         <activity

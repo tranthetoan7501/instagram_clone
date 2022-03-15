@@ -1,16 +1,21 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
+
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,24 +23,38 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Map;
 
 import adapter.thumbnailsAdapter;
 import fragment.accountFragment;
 import fragment.activityFragment;
 import fragment.homeFragment;
-import fragment.postFragment;
 import fragment.searchFragment;
-
+import fragment.*;
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
@@ -70,14 +89,16 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
     public static Activity fa;
-    User user;
+    UserInfor user;
+    MainActivity main;
+    Context context;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         fa=this;
-        thumbnailsAdapter = new thumbnailsAdapter(this);
 
         appbar = findViewById(R.id.home_appbar);
         appbar2 = findViewById(R.id.account_appbar);
@@ -133,39 +154,58 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
         super.onStart();
-//        FirebaseDatabase firebaseDatabase=FirebaseDatabase.getInstance(" https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app");
-//        DatabaseReference databaseReference=firebaseDatabase.getReference("ALO");
-//        databaseReference.setValue(new User("ALO","AC","123"));
         mAuth=FirebaseAuth.getInstance();
-        
+
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this,login.class));
         }
         else{
-            FirebaseFirestore db=FirebaseFirestore.getInstance();
-            DocumentReference docRef = db.collection("account").document(mAuth.getUid());
-            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference(mAuth.getUid());
+            myRef.addValueEventListener(new ValueEventListener() {
                 @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        account = FirebaseAuth.getInstance().getCurrentUser();
-                        _document = FirebaseFirestore.getInstance();
-                        _accountFragment.setUserInfo(account,_document);
-                        if (document.exists()) {
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
+                    UserInfor userInfor=new UserInfor(value.get("username").toString()
+                                                    ,value.get("email").toString()
+                                                    ,value.get("about").toString()
+                                                    ,value.get("avatar").toString());
+                    _accountFragment.setUserInfo(userInfor,mAuth);
+
+                    //In appbar 2
+                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
+                    textViewInAppbar2.setText(userInfor.getUsername());
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+//            FirebaseFirestore db=FirebaseFirestore.getInstance();
+//            DocumentReference docRef = db.collection("account").document(mAuth.getUid());
+//            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if (task.isSuccessful()) {
+//                        DocumentSnapshot document = task.getResult();
+//                        account = FirebaseAuth.getInstance().getCurrentUser();
+//                        _document = FirebaseFirestore.getInstance();
+//                        _accountFragment.setUserInfo(account,_document);
+//                        if (document.exists()) {
 //                            user=new User(document.get("username").toString()
 //                                    ,document.get("email").toString()
 //                                    ,document.get("about").toString());
-                            user=new User(document.get("username").toString()
-                                    ,document.get("email").toString());
-                        } else {
-                            Log.d(TAG, "No such document");
-                        }
-                    } else {
-                        Log.d(TAG, "get failed with ", task.getException());
-                    }
-                }
-            });
+//
+//                        } else {
+//                            Log.d(TAG, "No such document");
+//                        }
+//                    } else {
+//                        Log.d(TAG, "get failed with ", task.getException());
+//                    }
+//                }
+//            });
         }
     }
 
@@ -322,5 +362,4 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
         }
     }
-
 }
