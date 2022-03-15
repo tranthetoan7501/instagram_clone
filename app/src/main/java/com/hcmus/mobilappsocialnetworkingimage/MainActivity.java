@@ -407,13 +407,17 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         return true;
     }
 
-    private boolean checkPermissions(String permission) {
+    public boolean checkPermissions(String permission) {
         int permissionRequest = ActivityCompat.checkSelfPermission(MainActivity.this, permission);
 
         if (permissionRequest != PackageManager.PERMISSION_GRANTED) {
             return false;
         } else
             return true;
+    }
+
+    public int getCurrentTabNumber() {
+        return mViewPager.getCurrentItem();
     }
 
     private void setupViewPager() {
