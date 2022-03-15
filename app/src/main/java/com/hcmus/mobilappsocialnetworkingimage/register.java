@@ -148,7 +148,7 @@ public class register extends AppCompatActivity {
 //                .document(mAuth.getUid())
 //                .set(user);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference(mAuth.getUid());
+        DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
         myRef.setValue(user);
     }
 }
