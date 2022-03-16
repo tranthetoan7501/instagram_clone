@@ -23,6 +23,7 @@
         android:layout_marginTop="10dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/custom_edit_text"
+        android:maxLength="20"
         android:hint="Username"
         android:paddingLeft="10dp" />
 

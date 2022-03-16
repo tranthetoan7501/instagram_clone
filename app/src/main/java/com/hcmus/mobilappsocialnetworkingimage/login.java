@@ -22,8 +22,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.Vector;
 
 
 public class login extends AppCompatActivity {
@@ -98,7 +103,7 @@ public class login extends AppCompatActivity {
         String passwordC = password.getText().toString();
 
         if(TextUtils.isEmpty(emailC)){
-            username.setError("Email cannot be empty");
+            username.setError("Email or username cannot be empty");
             username.requestFocus();
         }
         else
@@ -107,26 +112,56 @@ public class login extends AppCompatActivity {
             password.requestFocus();
         }
         else{
-            mAuth.signInWithEmailAndPassword(emailC,passwordC).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                @Override
-                public void onComplete(@NonNull Task<AuthResult> task) {
-                    if(task.isSuccessful()){
-                        if(mAuth.getCurrentUser().isEmailVerified()) {
-                            Toast.makeText(login.this, "Successful", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(login.this,MainActivity.class);
-                            startActivity(intent);
-                            login.this.finish();
+            if(emailC.toString().indexOf('@')!=-1) {    //Login by email
+                logInByEmail(emailC,passwordC);
+            }
+            else{       //Login by username
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference myRef = database.getReference("account");
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Vector<String> userCheck=new Vector<>();
+                        Vector<String> emailCheck=new Vector<>();
+                        for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                            userCheck.add(snapshot.child("username").getValue().toString());
+                            emailCheck.add(snapshot.child("email").getValue().toString());
                         }
-                        else{
-                            Toast.makeText(login.this, "Account is not exist", Toast.LENGTH_LONG).show();
+                        System.out.println(emailCheck);
+                        if(userCheck.contains(emailC)){
+                           logInByEmail(emailCheck.elementAt(userCheck.indexOf(emailC)),passwordC);
+                           return;
                         }
+
                     }
-                    else {
-                        Toast.makeText(login.this,"Authentication error: " + task.getException().getMessage(),Toast.LENGTH_LONG).show();
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
                     }
-                }
-            });
+                });
+            }
         }
+    }
+
+    private void logInByEmail(String emailC, String passwordC){
+        mAuth.signInWithEmailAndPassword(emailC, passwordC).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    if (mAuth.getCurrentUser().isEmailVerified()) {
+                        Toast.makeText(login.this, "Successful", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(login.this, MainActivity.class);
+                        startActivity(intent);
+                        login.this.finish();
+                    } else {
+                        Toast.makeText(login.this, "Account is not exist", Toast.LENGTH_LONG).show();
+                    }
+                } else {
+                    Toast.makeText(login.this, "Authentication error: " + task.getException().getMessage(), Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
 }

@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -21,13 +22,17 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
 
 public class register extends AppCompatActivity {
     EditText email;
@@ -108,32 +113,62 @@ public class register extends AppCompatActivity {
             confirm_password.setError("Confirmed password doesn't match");
             confirm_password.requestFocus();
         }
+        if(username.getText().toString().indexOf('@')!=-1){
+            username.setError("Username cannot have character '@'");
+            username.requestFocus();
+        }
         else{
-            mAuth.createUserWithEmailAndPassword(_email,pass)
-                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            addData();
-                                            Toast.makeText(register.this, "Successfully, Please your email for verification", Toast.LENGTH_LONG).show();
-                                            register.this.finish();
+            FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+            DatabaseReference myRef = database.getReference("account");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Vector<String> userCheck=new Vector<>();
+                    for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                        userCheck.add(snapshot.child("username").getValue().toString());
+                    }
+                    if(userCheck.contains(username.getText().toString())){
+                        username.setError("Username already exist!");
+                        username.requestFocus();
+                    }
+                    else{
+                        mAuth.createUserWithEmailAndPassword(_email,pass)
+                        .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                if(task.isSuccessful()){
+                                    mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                addData();
+                                                Toast.makeText(register.this, "Successfully, Please your email for verification", Toast.LENGTH_LONG).show();
+                                                register.this.finish();
+                                            }
+                                            else {
+                                                Toast.makeText(register.this, task.getException().getMessage()  , Toast.LENGTH_LONG).show();
+                                            }
                                         }
-                                        else {
-                                            Toast.makeText(register.this, task.getException().getMessage()  , Toast.LENGTH_LONG).show();
-                                        }
-                                    }
-                                });
+                                    });
 
+                                }
+                                else{
+                                    Toast.makeText(register.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                                }
                             }
-                            else{
-                                Toast.makeText(register.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                            }
-                        }
-                    });
+                        });
+                                    return;
+                    }
+
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+
         }
     }
     //Put data to database
