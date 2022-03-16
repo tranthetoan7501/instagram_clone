@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 
 import androidx.appcompat.widget.AppCompatButton;
 
@@ -19,7 +20,7 @@ public class NetworkChangeListener extends BroadcastReceiver {
             View layout_dialog = LayoutInflater.from(context).inflate(R.layout.check_internet_dialog, null);
             builder.setView(layout_dialog);
 
-            AppCompatButton btn = layout_dialog.findViewById(R.id.btn);
+            Button btn = layout_dialog.findViewById(R.id.btn);
 
             AlertDialog dialog = builder.create();
             dialog.show();
