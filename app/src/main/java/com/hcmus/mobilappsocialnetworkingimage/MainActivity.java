@@ -57,13 +57,8 @@ import com.hcmus.mobilappsocialnetworkingimage.fragment.photoFragment;
 import com.hcmus.mobilappsocialnetworkingimage.utils.sectionsPagerAdapter;
 
 import java.util.Map;
-import adapter.thumbnailsAdapter;
-import fragment.accountFragment;
-import fragment.activityFragment;
-import fragment.homeFragment;
-import fragment.searchFragment;
-import fragment.postFragment;
-
+import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     // constants
@@ -80,6 +75,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     Fragment searchFragment = new searchFragment();
     Fragment activityFragment = new activityFragment();
     Fragment postFragment = new postFragment();
+    String previousFragment ="";
     View appbar;
     View appbar2;
     View appbar3;
@@ -317,6 +313,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void turnOnFragment(String fragment, Bundle bundle){
         Bundle bundle1 = bundle;
         if(fragment.equals("postFragment")){
+            Fragment f = getSupportFragmentManager().findFragmentByTag("accountFragment");
+//            Fragment i = getSupportFragmentManager().findFragmentByTag("searchFragment");
+            if(f != null && f.isVisible()){
+                previousFragment = "accountFragment";
+            }
+            else {
+                previousFragment = "searchFragment";
+            }
             appbar5.setVisibility(View.VISIBLE);
             appbar.setVisibility(View.INVISIBLE);
             appbar2.setVisibility(View.INVISIBLE);
@@ -324,7 +328,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             appbar4.setVisibility(View.INVISIBLE);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_layout,postFragment);
-            fragmentTransaction.addToBackStack(postFragment.toString());
+            fragmentTransaction.addToBackStack("postFragment");
             fragmentTransaction.commit();
             return;
         }
@@ -374,8 +378,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case R.id.previous:
-                appbar5.setVisibility(View.GONE);
-                fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getSupportFragmentManager().popBackStack("postFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                appbar5.setVisibility(View.INVISIBLE);
+                if(previousFragment.equals("accountFragment")){
+                    appbar2.setVisibility(View.VISIBLE);
+                }
+                else{
+                    appbar3.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.camera:

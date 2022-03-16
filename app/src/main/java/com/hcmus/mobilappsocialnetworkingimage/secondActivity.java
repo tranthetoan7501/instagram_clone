@@ -7,10 +7,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 
-import fragment.commentFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 
 public class secondActivity extends FragmentActivity {
-    fragment.commentFragment commentFragment = new commentFragment();
+    commentFragment commentFragment = new commentFragment();
     Bundle bundle = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {

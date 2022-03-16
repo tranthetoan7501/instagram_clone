@@ -37,11 +37,13 @@
         <entry key="app/src/main/res/layout/appbar_account.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar_favorite.xml" value="0.20564270019531247" />
         <entry key="app/src/main/res/layout/appbar_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/appbar_post.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19713287353515627" />
+        <entry key="app/src/main/res/layout/fragment_photo.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/homepage_appbar.xml" value="0.21302083333333333" />

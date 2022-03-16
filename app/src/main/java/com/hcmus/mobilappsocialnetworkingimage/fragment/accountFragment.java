@@ -1,4 +1,4 @@
-package fragment;
+package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import static android.content.ContentValues.TAG;
 
@@ -54,14 +54,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import adapter.thumbnailsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 
 public class accountFragment extends Fragment implements View.OnClickListener {
     ImageView avatar;
     Button edit_pf;
     TextView username,about;
     RecyclerView recyclerView;
-    adapter.thumbnailsAdapter thumbnailsAdapter;
+    thumbnailsAdapter thumbnailsAdapter;
     ImageButton all_pictures;
     ImageButton video;
     ImageButton tag;

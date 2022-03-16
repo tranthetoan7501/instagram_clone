@@ -1,4 +1,4 @@
-package fragment;
+package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.os.Bundle;
 
@@ -12,6 +12,7 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 
 
 public class postFragment extends Fragment {
+    View appbar;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -20,6 +21,9 @@ public class postFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.post, container, false);
+        View view = inflater.inflate(R.layout.post, container, false);
+//        appbar = view.findViewById(R.id.post_appbar);
+//        appbar.setVisibility(View.VISIBLE);
+        return view;
     }
 }

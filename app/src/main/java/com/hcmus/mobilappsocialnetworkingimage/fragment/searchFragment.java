@@ -1,4 +1,4 @@
-package fragment;
+package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.media.Image;
 import android.os.Bundle;
@@ -17,10 +17,10 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.thumbnailsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 
 public class searchFragment extends Fragment {
-    adapter.thumbnailsAdapter thumbnailsAdapter;
+    thumbnailsAdapter thumbnailsAdapter;
     RecyclerView recyclerView;
     private static final String TAG = "searchFragment";
 

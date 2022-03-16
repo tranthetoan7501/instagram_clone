@@ -27,6 +27,7 @@
                 />
 
             <include android:id="@+id/post_appbar" layout="@layout/appbar_post" android:visibility="invisible"/>
+
         </FrameLayout>
 
 

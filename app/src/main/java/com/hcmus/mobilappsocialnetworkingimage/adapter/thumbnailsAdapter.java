@@ -1,4 +1,4 @@
-package adapter;
+package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,7 +27,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.HashMap;
 import java.util.List;
 
-import fragment.postFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 
 public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.thumbnailsViewHolder> {
     List<String> image;
