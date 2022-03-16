@@ -27,7 +27,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -52,18 +51,18 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.galleryFragment;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.photoFragment;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 import com.hcmus.mobilappsocialnetworkingimage.utils.sectionsPagerAdapter;
 
 import java.util.Map;
-import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
+
+
+
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
     // constants
     private static final int VERIFY_PERMISSIONS_REQUEST = 1;
-
     private ViewPager mViewPager;
 
     FirebaseAuth mAuth;
@@ -75,7 +74,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     Fragment searchFragment = new searchFragment();
     Fragment activityFragment = new activityFragment();
     Fragment postFragment = new postFragment();
-    String previousFragment ="";
     View appbar;
     View appbar2;
     View appbar3;
@@ -161,14 +159,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
         setUpNavigation();
         mAuth=FirebaseAuth.getInstance();
-    }
-
-    @Override
-    protected void onStart() {
-        IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        registerReceiver(networkChangeListener, filter);
-        super.onStart();
-        mAuth=FirebaseAuth.getInstance();
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this,login.class));
         }
@@ -181,9 +171,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
 
                     UserInfor userInfor=new UserInfor(value.get("username").toString()
-                                                    ,value.get("email").toString()
-                                                    ,value.get("about").toString()
-                                                    ,value.get("avatar").toString());
+                            ,value.get("email").toString()
+                            ,value.get("about").toString()
+                            ,value.get("avatar").toString());
                     _accountFragment.setUserInfo(userInfor,mAuth);
 
                     //In appbar 2
@@ -221,6 +211,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 //                }
 //            });
         }
+    }
+
+    @Override
+    protected void onStart() {
+        IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(networkChangeListener, filter);
+        super.onStart();
     }
 
 
@@ -313,14 +310,6 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void turnOnFragment(String fragment, Bundle bundle){
         Bundle bundle1 = bundle;
         if(fragment.equals("postFragment")){
-            Fragment f = getSupportFragmentManager().findFragmentByTag("accountFragment");
-//            Fragment i = getSupportFragmentManager().findFragmentByTag("searchFragment");
-            if(f != null && f.isVisible()){
-                previousFragment = "accountFragment";
-            }
-            else {
-                previousFragment = "searchFragment";
-            }
             appbar5.setVisibility(View.VISIBLE);
             appbar.setVisibility(View.INVISIBLE);
             appbar2.setVisibility(View.INVISIBLE);
@@ -328,7 +317,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             appbar4.setVisibility(View.INVISIBLE);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_layout,postFragment);
-            fragmentTransaction.addToBackStack("postFragment");
+            fragmentTransaction.addToBackStack(postFragment.toString());
             fragmentTransaction.commit();
             return;
         }
@@ -378,20 +367,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
 
                 break;
             case R.id.previous:
-                getSupportFragmentManager().popBackStack("postFragment", FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                appbar5.setVisibility(View.INVISIBLE);
-                if(previousFragment.equals("accountFragment")){
-                    appbar2.setVisibility(View.VISIBLE);
-                }
-                else{
-                    appbar3.setVisibility(View.VISIBLE);
-                }
+                appbar5.setVisibility(View.GONE);
+                fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 break;
 
             case R.id.camera:
-                setContentView(R.layout.activity_share);
                 if(checkPermissionsArray(Permissions.PERMISSIONS)) {
-                    setupViewPager();
+
                 } else {
                     verifyPermissions(Permissions.PERMISSIONS);
                 }
