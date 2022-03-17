@@ -78,10 +78,11 @@
         />
 
     <ImageView
-        android:layout_width="300dp"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         android:layout_above="@+id/register"
-        android:layout_centerInParent="true"
-        android:src="@drawable/logo" />
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="83dp"
+        android:src="@drawable/pgram" />
 
 </RelativeLayout>

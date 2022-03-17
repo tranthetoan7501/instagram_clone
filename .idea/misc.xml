@@ -9,10 +9,15 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_bottom_tabs.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_center_viewpager.xml" value="0.18802083333333333" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-hdpi/ic_twotone_border_clear_24.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_pgram_background.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_pgram_word_background.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_forgot_password.xml" value="0.23822463768115942" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_login.xml" value="0.152" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_main.xml" value="0.12273550724637682" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_register.xml" value="0.176" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.18489583333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_account.xml" value="0.125" />
@@ -24,6 +29,9 @@
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/ic_twotone_border_clear_24.xml" value="0.13802083333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/intro.xml" value="0.12409420289855072" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/post.xml" value="0.13802083333333334" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher_pgram.xml" value="0.16145833333333334" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher_pgram_word.xml" value="0.16145833333333334" />
         <entry key="app/src/main/res/drawable/border_account_buttons.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.1" />
