@@ -37,11 +37,10 @@
         android:layout_below="@+id/password"
         android:layout_alignParentRight="true"
         android:layout_marginRight="25dp"
+        android:background="@android:color/transparent"
         android:text="Forgotten password?"
         android:textAllCaps="false"
-        android:textColor="@color/MediumBlue"
-        android:background="@android:color/transparent"
-        />
+        android:textColor="@color/MediumBlue" />
 
     <Button
         android:id="@+id/login_button"

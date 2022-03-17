@@ -36,6 +36,7 @@ public class login extends AppCompatActivity {
     EditText password;
     Button loginButton;
     Button register;
+    Button forgotPass;
     FirebaseAuth mAuth;
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
 
@@ -68,6 +69,14 @@ public class login extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
         mAuth = FirebaseAuth.getInstance();
+
+        forgotPass=findViewById(R.id.forget_password);
+        forgotPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
 
         loginButton = findViewById(R.id.login_button);
         loginButton.setOnClickListener(view ->{

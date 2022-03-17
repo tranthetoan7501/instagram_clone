@@ -5,6 +5,7 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
@@ -19,11 +20,15 @@ public class secondActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_second);
         bundle = getIntent().getExtras();
+
         if(bundle.get("type").equals("comment")){
             commentFragment.setArguments(bundle);
             replaceFragment(commentFragment);
         }
         else if(bundle.get("type").equals("change password")){
+            Bundle bundle1=new Bundle();
+            bundle1.putString("email", bundle.getString("email"));
+            changePassword.setArguments(bundle1);
             replaceFragment(changePassword);
         }
     }
