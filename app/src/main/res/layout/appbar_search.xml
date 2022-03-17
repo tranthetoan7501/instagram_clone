@@ -6,6 +6,7 @@
     android:layout_marginTop="5dp"
     >
     <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/search_appbar_input"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawableStart="@drawable/outline_search_24"

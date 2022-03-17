@@ -4,8 +4,6 @@ package com.hcmus.mobilappsocialnetworkingimage;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -19,9 +17,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
-import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
@@ -29,30 +28,29 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.FirebaseApp;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
+
+import com.hcmus.mobilappsocialnetworkingimage.fragment.galleryFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.photoFragment;
+
 import com.hcmus.mobilappsocialnetworkingimage.utils.sectionsPagerAdapter;
 
 import java.util.Map;
@@ -71,7 +69,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     FragmentManager fragmentManager = getSupportFragmentManager();
     accountFragment _accountFragment = new accountFragment();
     Fragment homeFragment = new homeFragment();
-    Fragment searchFragment = new searchFragment();
+    searchFragment _searchFragment = new searchFragment();
     Fragment activityFragment = new activityFragment();
     Fragment postFragment = new postFragment();
     View appbar;
@@ -79,6 +77,10 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     View appbar3;
     View appbar4;
     View appbar5;
+
+    TextInputEditText searhInput;
+
+
     thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
     LinearLayout logout;
@@ -136,6 +138,24 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         logout.setOnClickListener(this);
         cameraBtn.setOnClickListener(this);
 
+        searhInput = findViewById(R.id.search_appbar_input);
+        searhInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                _searchFragment.setFilter(searhInput.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -165,6 +185,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         else{
             FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
             DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
+
+            Query queryAllAccount = database.getReference("account").orderByChild("username");
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -175,6 +197,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                             ,value.get("about").toString()
                             ,value.get("avatar").toString());
                     _accountFragment.setUserInfo(userInfor,mAuth);
+                    _searchFragment.getListUserFromDB(queryAllAccount);
+
+
 
                     //In appbar 2
                     TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
@@ -240,7 +265,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
         fragmentManager.beginTransaction().add(R.id.fragment_layout, _accountFragment, "accountFragment").hide(_accountFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, homeFragment.toString()).commit();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, searchFragment.getTag()).hide(searchFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, _searchFragment, "searchFragment").hide(_searchFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, activeFragment.toString()).hide(activityFragment).commit();
 //        fragmentManager.beginTransaction().add(R.id.fragment_layout, postFragment, "5").hide(postFragment).commit();
         appbar.setVisibility(View.VISIBLE);
@@ -267,14 +292,15 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 case R.id.searchFragment:
                     if(fragmentManager != null) {
                         fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+
                     }
                     appbar.setVisibility(View.INVISIBLE);
                     appbar2.setVisibility(View.INVISIBLE);
                     appbar3.setVisibility(View.VISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
                     appbar5.setVisibility(View.INVISIBLE);
-                    fragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit();
-                    activeFragment = searchFragment;
+                    fragmentManager.beginTransaction().hide(activeFragment).show(_searchFragment).commit();
+                    activeFragment = _searchFragment;
                     return true;
 
                 case R.id.accountFragment:

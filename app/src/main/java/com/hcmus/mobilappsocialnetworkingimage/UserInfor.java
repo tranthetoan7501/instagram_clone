@@ -7,7 +7,9 @@ public class UserInfor implements Serializable {
     private String email;
     private String about;
     private String avatar;
+    public UserInfor(){
 
+    }
     public UserInfor(String username, String email, String about, String avatar) {
         this.username = username;
         this.email = email;
