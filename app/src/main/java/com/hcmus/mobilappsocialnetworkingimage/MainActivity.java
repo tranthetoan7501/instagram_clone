@@ -1,25 +1,16 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
 
-import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
-
-import utils.Permissions;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.pm.PackageManager;
-import android.hardware.camera2.CameraManager;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,11 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.tabs.TabLayout;
@@ -100,6 +87,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     UserInfor user;
     MainActivity main;
     Context context;
+    
 
 
     @Override
@@ -159,34 +147,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         });
         setUpNavigation();
         mAuth=FirebaseAuth.getInstance();
+
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this,login.class));
         }
         else{
-            FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
-            myRef.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
 
-                    user=new UserInfor(value.get("username").toString()
-                            ,value.get("email").toString()
-                            ,value.get("about").toString()
-                            ,value.get("avatar").toString());
-                    _accountFragment.setUserInfo(user,mAuth);
-
-                    //In appbar 2
-                    TextView textViewInAppbar2=appbar2.findViewById(R.id.username);
-                    textViewInAppbar2.setText(user.getUsername());
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });
 //            FirebaseFirestore db=FirebaseFirestore.getInstance();
 //            DocumentReference docRef = db.collection("account").document(mAuth.getUid());
 //            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {

@@ -39,6 +39,11 @@ import com.google.api.Distribution;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserInfo;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -95,7 +100,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
             }
         });
-//        Picasso.get().load("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU").into(avatar);
+
         if (container != null) {
             container.removeAllViews();
         }
@@ -108,14 +113,14 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         getData(1);
         return view;
     }
-    public void setUserInfo(UserInfor user,FirebaseAuth mAuth){
-            this.mAuth=mAuth;
-            this.userInfor=user;
-            username.setText(userInfor.getUsername());
-            about.setText(userInfor.getAbout());
-            Picasso.get().load(userInfor.getAvatar()).into(avatar);
-
-
+//    public void setUserInfo(UserInfor user,FirebaseAuth mAuth){
+//            this.mAuth=mAuth;
+//            this.userInfor=user;
+//            username.setText(userInfor.getUsername());
+//            about.setText(userInfor.getAbout());
+//            Picasso.get().load(userInfor.getAvatar()).into(avatar);
+//
+//
 //        if(user==null){
 //            return;
 //        }
@@ -139,11 +144,11 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 //                }
 //            }
 //        });
-
-
-        //Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
-
-    }
+//
+//
+//        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
+//
+//    }
 
     void getData(int i){
         List<String> image = new ArrayList<>();
@@ -174,6 +179,35 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             image.add("https://firebasestorage.googleapis.com/v0/b/video-app-af9bf.appspot.com/o/Videos%2FVideo_20200812_141638_.mp4?alt=media&token=d87f94e0-6ca3-4de2-856c-b228884185f7");
         }
         thumbnailsAdapter.notifyDataSetChanged();
+
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
+//
+//                user=new UserInfor(value.get("username").toString()
+//                        ,value.get("email").toString()
+//                        ,value.get("about").toString()
+//                        ,value.get("avatar").toString());
+
+                Picasso.get().load(value.get("avatar").toString()).into(avatar);
+                username.setText(value.get("username").toString());
+                about.setText(value.get("about").toString());
+
+                //In appbar 2
+                TextView textViewInAppbar2=getActivity().findViewById(R.id.username);
+                textViewInAppbar2.setText(username.getText());
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
     }
 
     @Override
