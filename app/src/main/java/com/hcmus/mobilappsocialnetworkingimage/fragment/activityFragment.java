@@ -11,14 +11,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.activitiesAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.activitiesAdapter;
 
 public class activityFragment extends Fragment {
-    adapter.activitiesAdapter activitiesAdapter;
+    com.hcmus.mobilappsocialnetworkingimage.adapter.activitiesAdapter activitiesAdapter;
     RecyclerView recyclerView;
 
     @Override

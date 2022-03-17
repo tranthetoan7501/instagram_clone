@@ -11,6 +11,8 @@ import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 
 public class secondActivity extends FragmentActivity {
     commentFragment commentFragment = new commentFragment();
+    changePassword changePassword = new changePassword();
+
     Bundle bundle = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +22,9 @@ public class secondActivity extends FragmentActivity {
         if(bundle.get("type").equals("comment")){
             commentFragment.setArguments(bundle);
             replaceFragment(commentFragment);
+        }
+        else if(bundle.get("type").equals("change password")){
+            replaceFragment(changePassword);
         }
     }
 

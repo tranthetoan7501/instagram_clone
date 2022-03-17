@@ -1,4 +1,4 @@
-package adapter;
+package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
 import android.content.Context;
 import android.text.Html;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
 
@@ -45,6 +46,14 @@ public class activitiesAdapter extends RecyclerView.Adapter<activitiesAdapter.ac
         Picasso.get().load(image.get(position)).into(holder.avatar);
         holder.description.setText(Html.fromHtml("<b>"+str[0]+"</b>" + do_something.get(position).replace(str[0],"")));
         Picasso.get().load(preview.get(position)).into(holder.preview);
+        holder.preview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(context instanceof MainActivity){
+                    ((MainActivity)context).turnOnFragment("postFragment",null);
+                }
+            }
+        });
     }
 
     @Override

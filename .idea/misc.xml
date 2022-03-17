@@ -45,6 +45,7 @@
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
+        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.302154541015625" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_photo.xml" value="0.11041666666666666" />
@@ -52,6 +53,7 @@
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/homepage_appbar.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/post.xml" value="0.22945205479452055" />
+        <entry key="app/src/main/res/layout/setting_fragment.xml" value="0.17391304347826086" />
         <entry key="app/src/main/res/layout/story.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.1" />
@@ -69,7 +71,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.13583526611328126" />
+        <option name="scale" value="0.302154541015625" />
       </ProjectState>
     </option>
   </component>

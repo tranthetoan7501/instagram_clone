@@ -84,6 +84,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     thumbnailsAdapter thumbnailsAdapter;
     private ImageButton upItemBtn;
     LinearLayout logout;
+    LinearLayout change_password;
 
     ImageButton upItemBtn1;
     ImageButton previous;
@@ -98,6 +99,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     ImageButton settingBtn;
     private LinearLayout layoutSettingBottomSheet;
     private BottomSheetBehavior settingBottomSheetBehavior;
+    String previousFragment = "";
 
     NetworkChangeListener networkChangeListener=new NetworkChangeListener();
     public static Activity fa;
@@ -124,6 +126,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         cameraBtn = findViewById(R.id.camera);
 
         logout = findViewById(R.id.logout);
+        change_password = findViewById(R.id.change_password);
 
         layoutBottomSheet= findViewById(R.id.bottomSheetContainer);
         layoutSettingBottomSheet = findViewById(R.id.settingBottomSheetContainer);
@@ -136,6 +139,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         settingBtn.setOnClickListener(this);
         previous.setOnClickListener(this);
         logout.setOnClickListener(this);
+        change_password.setOnClickListener(this);
         cameraBtn.setOnClickListener(this);
 
         searhInput = findViewById(R.id.search_appbar_input);
@@ -336,6 +340,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     public void turnOnFragment(String fragment, Bundle bundle){
         Bundle bundle1 = bundle;
         if(fragment.equals("postFragment")){
+            Fragment f = fragmentManager.findFragmentByTag("accountFragment");
+            if(f!=null && f.isVisible()){
+                previousFragment = "accountFragment";
+            }
+            else{
+                previousFragment = "favoriteFragment";
+            }
             appbar5.setVisibility(View.VISIBLE);
             appbar.setVisibility(View.INVISIBLE);
             appbar2.setVisibility(View.INVISIBLE);
@@ -395,6 +406,12 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             case R.id.previous:
                 appbar5.setVisibility(View.GONE);
                 fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                if(previousFragment.equals("accountFragment")){
+                    appbar2.setVisibility(View.VISIBLE);
+                }
+                else{
+                    appbar4.setVisibility(View.VISIBLE);
+                }
                 break;
 
             case R.id.camera:
@@ -403,6 +420,14 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 } else {
                     verifyPermissions(Permissions.PERMISSIONS);
                 }
+                break;
+            case R.id.change_password:
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type","change password");
+                Intent intent1 = new Intent(this,secondActivity.class);
+                intent1.putExtras(bundle);
+                startActivity(intent1);
+                settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 break;
         }
     }
