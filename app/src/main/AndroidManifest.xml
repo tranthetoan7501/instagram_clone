@@ -28,7 +28,7 @@
             android:name=".login"
             android:exported="false" />
         <activity
-            android:name=".edit_profile"
+            android:name=".shareActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"

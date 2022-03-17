@@ -59,10 +59,6 @@ import java.util.Map;
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
 
-    // constants
-    private static final int VERIFY_PERMISSIONS_REQUEST = 1;
-    private ViewPager mViewPager;
-
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
     Fragment activeFragment;
@@ -401,8 +397,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 Intent intent = new Intent(this,login.class);
                 startActivity(intent);
                 finish();
-
                 break;
+
             case R.id.previous:
                 appbar5.setVisibility(View.GONE);
                 fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -415,11 +411,8 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 break;
 
             case R.id.camera:
-                if(checkPermissionsArray(Permissions.PERMISSIONS)) {
-
-                } else {
-                    verifyPermissions(Permissions.PERMISSIONS);
-                }
+                Intent shareIntent = new Intent(this, shareActivity.class);
+                startActivity(shareIntent);
                 break;
             case R.id.change_password:
                 Bundle bundle = new Bundle();
@@ -430,52 +423,5 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                 settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 break;
         }
-    }
-
-    private void verifyPermissions(String[] permissions) {
-        ActivityCompat.requestPermissions(
-                MainActivity.this,
-                permissions,
-                VERIFY_PERMISSIONS_REQUEST
-        );
-    }
-
-    private boolean checkPermissionsArray(String[] permissions) {
-        for (int i = 0; i < permissions.length; i++) {
-            String check = permissions[i];
-            if (!checkPermissions(check)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public boolean checkPermissions(String permission) {
-        int permissionRequest = ActivityCompat.checkSelfPermission(MainActivity.this, permission);
-
-        if (permissionRequest != PackageManager.PERMISSION_GRANTED) {
-            return false;
-        } else
-            return true;
-    }
-
-    public int getCurrentTabNumber() {
-        return mViewPager.getCurrentItem();
-    }
-
-    private void setupViewPager() {
-        sectionsPagerAdapter adapter = new sectionsPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new galleryFragment());
-        adapter.addFragment(new photoFragment());
-
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(adapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
-        tabLayout.setupWithViewPager(mViewPager);
-
-        tabLayout.getTabAt(0).setText("GALLERY");
-        tabLayout.getTabAt(1).setText("PHOTO");
-
     }
 }

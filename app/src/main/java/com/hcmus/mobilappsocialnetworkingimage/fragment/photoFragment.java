@@ -14,6 +14,7 @@ import androidx.fragment.app.Fragment;
 
 import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.shareActivity;
 
 import java.security.Permission;
 
@@ -36,14 +37,14 @@ public class photoFragment extends Fragment {
         btnLaunchCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (((MainActivity) getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM) {
-                    if (((MainActivity) getActivity()).checkPermissions(Permissions.CAMERA_PERMISSION[0])) {
+                if (((shareActivity) getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM) {
+                    if (((shareActivity) getActivity()).checkPermissions(Permissions.CAMERA_PERMISSION[0])) {
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                     }
                 } else {
-//                    Intent intent = new Intent(getActivity(), MainActivity.class);
-//                    startActivity(intent);
+                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    startActivity(intent);
                 }
             }
         });
