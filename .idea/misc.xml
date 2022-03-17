@@ -3,21 +3,20 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/drawable/white_grey_border_bottom.xml" value="0.67" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_share.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_photo.xml" value="0.25" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_bottom_tabs.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_center_viewpager.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_grid_imageview.xml" value="1.0" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/snippet_top_gallerytoolbar.xml" value="0.33" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.18489583333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_account.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/check_internet_dialog.xml" value="0.14375" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.125" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_search.xml" value="0.15942028985507245" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_search.xml" value="0.13269927536231885" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/item_user.xml" value="0.264" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/list_user.xml" value="0.17300724637681159" />
         <entry key="app/src/main/res/drawable/border_account_buttons.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/ic_baseline_add_circle_outline_24.xml" value="0.1" />
@@ -45,7 +44,6 @@
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
-        <entry key="app/src/main/res/layout/fragment_change_password.xml" value="0.302154541015625" />
         <entry key="app/src/main/res/layout/fragment_favorite.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/fragment_photo.xml" value="0.11041666666666666" />
@@ -53,7 +51,6 @@
         <entry key="app/src/main/res/layout/fragment_video.xml" value="0.15925925925925927" />
         <entry key="app/src/main/res/layout/homepage_appbar.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/post.xml" value="0.22945205479452055" />
-        <entry key="app/src/main/res/layout/setting_fragment.xml" value="0.17391304347826086" />
         <entry key="app/src/main/res/layout/story.xml" value="0.19713287353515627" />
         <entry key="app/src/main/res/layout/tabs_in_profile.xml" value="0.21302083333333333" />
         <entry key="app/src/main/res/layout/up_item_fragment.xml" value="0.1" />
@@ -71,7 +68,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.302154541015625" />
+        <option name="scale" value="0.13583526611328126" />
       </ProjectState>
     </option>
   </component>
