@@ -22,7 +22,7 @@ public class fileSearch {
         File file = new File(directory);
         File[] listFiles = file.listFiles();
         for (int i = 0; i < listFiles.length; i++) {
-            if (listFiles[i].isDirectory()) {
+            if (listFiles[i].isFile()) {
                 pathArray.add(listFiles[i].getAbsolutePath());
             }
         }

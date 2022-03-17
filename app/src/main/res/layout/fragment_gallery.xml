@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/relLayout1">
+        <!-- Gallery Toolbar -->
+        <include layout="@layout/snippet_top_gallerytoolbar"/>
 
     </RelativeLayout>
-
-    <!-- Gallery Toolbar -->
-    <include layout="@layout/snippet_top_gallerytoolbar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -46,8 +46,10 @@
             android:horizontalSpacing="1dp"
             android:stretchMode="none"
             android:gravity="center"
-            android:layout_marginTop="1dp"/>
+            android:layout_marginTop="1dp">
+
+        </GridView>
 
     </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>

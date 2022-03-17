@@ -2,6 +2,8 @@ package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.media.Image;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import androidx.annotation.Nullable;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.squareImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -27,6 +30,7 @@ public class gridImageAdapter extends ArrayAdapter<String> {
     private String mAppend;
     private ArrayList<String> imgURLs;
 
+
     public gridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs) {
         super(context, layoutResource, imgURLs);
         mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -34,6 +38,8 @@ public class gridImageAdapter extends ArrayAdapter<String> {
         this.layoutResource = layoutResource;
         mAppend = append;
         this.imgURLs = imgURLs;
+        for (int i = 0; i < imgURLs.size(); i++)
+            Log.d("Erorrrrrrrrrrrr", imgURLs.get(i));
     }
 
     private static class ViewHolder{
@@ -95,21 +101,3 @@ public class gridImageAdapter extends ArrayAdapter<String> {
         return convertView;
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

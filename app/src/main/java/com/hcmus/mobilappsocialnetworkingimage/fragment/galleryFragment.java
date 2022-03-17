@@ -2,16 +2,11 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.GridView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Spinner;
-import android.widget.TextView;
+import android.widget.*;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,12 +15,15 @@ import androidx.fragment.app.Fragment;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.utils.*;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-
 import java.util.ArrayList;
-
 
 public class galleryFragment extends Fragment {
 
@@ -45,6 +43,10 @@ public class galleryFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        if (!ImageLoader.getInstance().isInited()) {
+            ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
+        }
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         gridView = (GridView) view.findViewById(R.id.gridView);
         galleryImage = (ImageView) view.findViewById(R.id.galleryImageView);
@@ -67,6 +69,7 @@ public class galleryFragment extends Fragment {
 
             }
         });
+
         init();
         return view;
     }
@@ -109,7 +112,8 @@ public class galleryFragment extends Fragment {
         gridView.setAdapter(adapter);
 
         // setup grid adapter
-//        setImage(imgURLs.get(0), galleryImage, mAppend);
+        if (imgURLs.size() > 0)
+            setImage(imgURLs.get(0), galleryImage, mAppend);
 
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -123,24 +127,25 @@ public class galleryFragment extends Fragment {
     private void setImage(String imgURL, ImageView image, String append) {
         ImageLoader imageLoader = ImageLoader.getInstance();
 
+
         imageLoader.displayImage(append + imgURL, image, new ImageLoadingListener() {
             @Override
-            public void onLoadingStarted(String imageUri, View view) {
+            public void onLoadingStarted(String imageUrl, View view) {
                 mProgressBar.setVisibility(View.VISIBLE);
             }
 
             @Override
-            public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+            public void onLoadingFailed(String imageUrl, View view, FailReason failReason) {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+            public void onLoadingComplete(String imageUrl, View view, Bitmap loadedImage) {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
 
             @Override
-            public void onLoadingCancelled(String imageUri, View view) {
+            public void onLoadingCancelled(String imageUrl, View view) {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         });
