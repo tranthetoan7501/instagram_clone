@@ -3,6 +3,8 @@ package com.hcmus.mobilappsocialnetworkingimage;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.content.Context;
@@ -27,6 +29,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
 
 import java.util.Vector;
 
@@ -71,11 +74,8 @@ public class login extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
         forgotPass=findViewById(R.id.forget_password);
-        forgotPass.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
+        forgotPass.setOnClickListener(view -> {
+            startActivity(new Intent(this,forgotPassword.class));
         });
 
         loginButton = findViewById(R.id.login_button);
@@ -136,7 +136,6 @@ public class login extends AppCompatActivity {
                             userCheck.add(snapshot.child("username").getValue().toString());
                             emailCheck.add(snapshot.child("email").getValue().toString());
                         }
-                        System.out.println(emailCheck);
                         if(userCheck.contains(emailC)){
                            logInByEmail(emailCheck.elementAt(userCheck.indexOf(emailC)),passwordC);
                            return;
