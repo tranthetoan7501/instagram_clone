@@ -28,5 +28,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_photo_lib"
         android:layout_alignRight="@+id/thumbnail"
+        android:visibility="invisible"
         />
 </RelativeLayout>

@@ -71,14 +71,13 @@
             />
 
         <ImageButton
-            android:layout_toRightOf="@+id/like"
-            android:layout_marginLeft="10dp"
             android:id="@+id/comment"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_comment"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/like"
             android:background="@android:color/transparent"
-            />
+            android:src="@drawable/ic_comment" />
 
         <ImageButton
             android:layout_toRightOf="@+id/comment"

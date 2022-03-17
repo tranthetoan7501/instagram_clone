@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.VideoView;
 import com.denzcoskun.imageslider.interfaces.ItemClickListener;
 import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.hcmus.mobilappsocialnetworkingimage.secondActivity;
 import com.squareup.picasso.Picasso;
 
@@ -30,14 +32,12 @@ import java.util.List;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 
 public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.thumbnailsViewHolder> {
-    List<String> image;
+    List<postsModel> posts;
     Context context;
-    int type;
 
-    public thumbnailsAdapter(List<String> image, Context context, int type) {
-        this.image = image;
+    public thumbnailsAdapter(List<postsModel> posts, Context context) {
+        this.posts = posts;
         this.context = context;
-        this.type = type;
     }
 
     public thumbnailsAdapter(MainActivity context) {
@@ -52,25 +52,27 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
 
     @Override
     public void onBindViewHolder(@NonNull thumbnailsViewHolder holder, int position) {
-        if (image.isEmpty()) return;
-        Picasso.get().load(image.get(position)).into(holder.thumbnail);
-        if(type == 1){
+        if (posts.isEmpty()) return;
+        Picasso.get().load(posts.get(position).getImages().get(0)).into(holder.thumbnail);
+        if(posts.get(position).getImages().size() > 1){
+            holder.icon.setVisibility(View.VISIBLE);
             holder.icon.setImageResource(R.drawable.ic_photo_lib);
         }
-        else if(type==2){
-            holder.thumbnail.setVisibility(View.GONE);
-            holder.video.setVisibility(View.VISIBLE);
-            holder.video.setVideoPath(image.get(position));
-            holder.video.requestFocus();
-            holder.video.pause();
-            holder.icon.setImageResource(R.drawable.ic_video_1);
-        }
+
+//        else if(type==2){
+//            holder.thumbnail.setVisibility(View.GONE);
+//            holder.video.setVisibility(View.VISIBLE);
+//            holder.video.setVideoPath(image.get(position));
+//            holder.video.requestFocus();
+//            holder.video.pause();
+//            holder.icon.setImageResource(R.drawable.ic_video_1);
+//        }
 
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if(context instanceof MainActivity){
-                    ((MainActivity)context).turnOnFragment("postFragment",null);
+                    ((MainActivity)context).turnOnFragment("postFragment",posts.get(position));
                 }
             }
         });
@@ -78,7 +80,7 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
 
     @Override
     public int getItemCount() {
-        return image.size();
+        return posts.size();
     }
 
     class thumbnailsViewHolder extends RecyclerView.ViewHolder{

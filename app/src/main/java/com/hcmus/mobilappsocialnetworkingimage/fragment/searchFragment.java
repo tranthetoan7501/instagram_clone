@@ -1,13 +1,10 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
-import android.app.DownloadManager;
-import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -24,7 +21,7 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hcmus.mobilappsocialnetworkingimage.UserInfor;
+import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 
 public class searchFragment extends Fragment {

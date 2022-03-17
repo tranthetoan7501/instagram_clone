@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,29 +20,14 @@ import android.widget.LinearLayout;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.tabs.TabLayout;
-import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
-import com.hcmus.mobilappsocialnetworkingimage.utils.sectionsPagerAdapter;
-
-import java.util.Map;
-
+import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
+import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 
 
 public class MainActivity extends FragmentActivity implements View.OnClickListener {
@@ -87,7 +71,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     UserInfor user;
     MainActivity main;
     Context context;
-    
+
 
 
     @Override
@@ -273,8 +257,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
         }
     };
 
-    public void turnOnFragment(String fragment, Bundle bundle){
-        Bundle bundle1 = bundle;
+    public void turnOnFragment(String fragment, postsModel post){
         if(fragment.equals("postFragment")){
             Fragment f = fragmentManager.findFragmentByTag("accountFragment");
             if(f!=null && f.isVisible()){
@@ -288,6 +271,13 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             appbar2.setVisibility(View.INVISIBLE);
             appbar3.setVisibility(View.INVISIBLE);
             appbar4.setVisibility(View.INVISIBLE);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("title",post.getTitle());
+            Gson gson = new Gson();
+            bundle.putSerializable("comments", gson.toJson(post.getComments()));
+            bundle.putSerializable("likes",gson.toJson(post.getLikes()));
+            bundle.putSerializable("images",post.getImages().toString());
+            postFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_layout,postFragment);
             fragmentTransaction.addToBackStack(postFragment.toString());
