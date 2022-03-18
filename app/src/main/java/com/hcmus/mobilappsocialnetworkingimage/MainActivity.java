@@ -1,12 +1,6 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
 
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -18,14 +12,24 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.gson.Gson;
-import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
+//import com.google.gson.Gson;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.searchFragment;
 import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 
@@ -239,6 +243,7 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
                     appbar5.setVisibility(View.INVISIBLE);
                     fragmentManager.beginTransaction().hide(activeFragment).show(_accountFragment).commit();
                     activeFragment = _accountFragment;
+
                     return true;
                 case R.id.favoriteFragment:
                     if(fragmentManager != null) {
@@ -273,9 +278,9 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
             appbar4.setVisibility(View.INVISIBLE);
             Bundle bundle = new Bundle();
             bundle.putSerializable("title",post.getTitle());
-            Gson gson = new Gson();
-            bundle.putSerializable("comments", gson.toJson(post.getComments()));
-            bundle.putSerializable("likes",gson.toJson(post.getLikes()));
+//            Gson gson = new Gson();
+//            bundle.putSerializable("comments", gson.toJson(post.getComments()));
+//            bundle.putSerializable("likes",gson.toJson(post.getLikes()));
             bundle.putSerializable("images",post.getImages().toString());
             postFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

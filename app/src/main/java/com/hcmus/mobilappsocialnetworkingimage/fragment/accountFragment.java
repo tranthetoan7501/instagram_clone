@@ -26,8 +26,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
+//import com.google.gson.Gson;
+//import com.google.gson.JsonElement;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
 import com.hcmus.mobilappsocialnetworkingimage.edit_profile;
@@ -55,12 +55,11 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     TextView follower_numbers;
     TextView following_numbers;
     TextView post_numbers;
-
+    String _username;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -79,9 +78,8 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             public void onClick(View view) {
                 Intent intent=new Intent(getContext(), edit_profile.class);
                 Bundle bundle=new Bundle();
-                bundle.putString("uid",mAuth.getUid().toString());
+                bundle.putString("_username",_username);
                 intent.putExtras(bundle);
-
                 intent.putExtra("userInfor",userInfor);
                 startActivity(intent);
             }
@@ -111,31 +109,32 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 //        if(user==null){
 //            return;
 //        }
-//        String id = user.getUid();
-//        Uri photoUrl = user.getPhotoUrl();
-//
-//        DocumentReference doc = document.collection("account").document(id);
-//        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//            @Override
-//            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                if (task.isSuccessful()) {
-//                    DocumentSnapshot document = task.getResult();
-//                    if (document.exists()) {
-//                        username.setText(document.getString("username"));
-//                        about.setText(document.getString("about"));
-//                    } else {
-//                        Log.d(TAG, "No such document");
-//                    }
-//                } else {
-//                    Log.d(TAG, "get failed with ", task.getException());
-//                }
-//            }
-//        });
-//
-//
-//        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
+////        String id = user.getUid();
+////        Uri photoUrl = user.getPhotoUrl();
+////
+////        DocumentReference doc = document.collection("account").document(id);
+////        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+////            @Override
+////            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+////                if (task.isSuccessful()) {
+////                    DocumentSnapshot document = task.getResult();
+////                    if (document.exists()) {
+////                        username.setText(document.getString("username"));
+////                        about.setText(document.getString("about"));
+////                    } else {
+////                        Log.d(TAG, "No such document");
+////                    }
+////                } else {
+////                    Log.d(TAG, "get failed with ", task.getException());
+////                }
+////            }
+////        });
+////
+////
+////        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
 //
 //    }
+
 
     void getData(int i){
         List<postsModel> posts = new ArrayList<>();
@@ -145,36 +144,39 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
+        DatabaseReference myRef = database.getReference("account");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                Map<String, Object> value = (Map<String, Object>)dataSnapshot.getValue();
-//
-//                user=new UserInfor(value.get("username").toString()
-//                        ,value.get("email").toString()
-//                        ,value.get("about").toString()
-//                        ,value.get("avatar").toString());
+                for(DataSnapshot snapshot:dataSnapshot.getChildren()){
+                    if(snapshot.child("id").getValue().equals(mAuth.getUid())){
+                        userInfor=new UserInfor(snapshot.getKey()
+                                ,snapshot.child("email").getValue().toString()
+                                ,snapshot.child("about").getValue().toString()
+                                ,snapshot.child("avatar").getValue().toString());
 
-                Picasso.get().load(value.get("avatar").toString()).into(avatar);
-                username.setText(value.get("username").toString());
-                about.setText(value.get("about").toString());
-                List<String> follower = (List<String>) value.get("follower");
+                        Picasso.get().load(userInfor.getAvatar()).into(avatar);
+                        username.setText(userInfor.getUsername());
+                        about.setText(userInfor.getAbout());
+                        List<String> follower = (List<String>) dataSnapshot.child("follower").getValue();
 
-                if(follower != null){
-                    follower_numbers.setText("" + follower.size());
-                }
-                else{
-                    follower_numbers.setText("0");
-                }
+                        if(follower != null){
+                            follower_numbers.setText("" + follower.size());
+                        }
+                        else{
+                            follower_numbers.setText("0");
+                        }
 
-                List<String> following = (List<String>) value.get("following");
+                        List<String> following = (List<String>) dataSnapshot.child("following").getValue();
 
-                if(following == null){
-                    following_numbers.setText("0");
-                }
-                else {
-                    following_numbers.setText("" + following.size());
+                        if(following == null){
+                            following_numbers.setText("0");
+                        }
+                        else {
+                            following_numbers.setText("" + following.size());
+                        }
+                        break;
+                    }
                 }
 
                 //In appbar 2
@@ -188,32 +190,32 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-        DatabaseReference myPosts = database.getReference("post").child(mAuth.getUid());
-        myPosts.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-                    HashMap<String,Object> map = (HashMap<String, Object>) postSnapshot.getValue();
-                    postsModel postsModel = null;
-                    if(map.get("type").equals("image")) {
-                        postsModel = new postsModel(map.get("title").toString(), (List<String>) map.get("likes"), (List<String>) map.get("comments"), map.get("date").toString(), (List<String>) map.get("images"));
-                    }
-                    posts.add(postsModel);
-                }
-                thumbnailsAdapter.notifyDataSetChanged();
-                if(posts == null){
-                    post_numbers.setText("0");
-                }
-                else{
-                    post_numbers.setText(""+posts.size());
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
+//        DatabaseReference myPosts = database.getReference("post");
+//        myPosts.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
+//                    HashMap<String,Object> map = (HashMap<String, Object>) postSnapshot.getValue();
+//                    postsModel postsModel = null;
+//                    if(map.get("type").equals("image")) {
+//                        postsModel = new postsModel(map.get("title").toString(), (List<String>) map.get("likes"), (List<String>) map.get("comments"), map.get("date").toString(), (List<String>) map.get("images"));
+//                    }
+//                    posts.add(postsModel);
+//                }
+//                thumbnailsAdapter.notifyDataSetChanged();
+//                if(posts == null){
+//                    post_numbers.setText("0");
+//                }
+//                else{
+//                    post_numbers.setText(""+posts.size());
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
     }
 
     @Override

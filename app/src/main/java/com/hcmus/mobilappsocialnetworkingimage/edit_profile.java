@@ -60,7 +60,7 @@ public class edit_profile extends AppCompatActivity {
 
         bundle=getIntent().getExtras();
         userInfor= (UserInfor) getIntent().getSerializableExtra("userInfor");
-        System.out.println(userInfor);
+
         username.setText(userInfor.getUsername());
         about.setText(userInfor.getAbout());
         Picasso.get().load(userInfor.getAvatar()).into(avatar);
@@ -93,7 +93,7 @@ public class edit_profile extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             Vector<String> userCheck = new Vector<>();
                             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                userCheck.add(snapshot.child("username").getValue().toString());
+                                userCheck.add(snapshot.getKey().toString());
                             }
                             if (userCheck.contains(username.getText().toString())) {
                                 username.setError("Username already exist!");
@@ -130,11 +130,12 @@ public class edit_profile extends AppCompatActivity {
     }
 
     private void setdata(){
-        DatabaseReference myRef = database.getReference("account").child(bundle.getString("uid"));
-        myRef.setValue(new UserInfor(username.getText().toString()
-                ,userInfor.getEmail()
-                ,about.getText().toString()
-                ,userInfor.getAvatar()));
+        DatabaseReference myRef=database.getReference("account");
+        myRef.child(userInfor.getUsername()).get().addOnSuccessListener(dataSnapshot -> {
+           myRef.child(username.getText().toString()).setValue(dataSnapshot.getValue());
+           myRef.child(userInfor.getUsername().toString()).removeValue();
+        });
+        myRef.child(username.getText().toString()).child("id").setValue(FirebaseAuth.getInstance().getUid());
     }
 
     private File savebitmap(Bitmap bmp) {

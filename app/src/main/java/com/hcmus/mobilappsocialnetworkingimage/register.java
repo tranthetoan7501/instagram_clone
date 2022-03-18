@@ -127,7 +127,7 @@ public class register extends AppCompatActivity {
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Vector<String> userCheck=new Vector<>();
                     for(DataSnapshot snapshot:dataSnapshot.getChildren()){
-                        userCheck.add(snapshot.child("username").getValue().toString());
+                        userCheck.add(snapshot.getKey().toString());
                     }
                     if(userCheck.contains(username.getText().toString())){
                         username.setError("Username already exist!");
@@ -177,15 +177,17 @@ public class register extends AppCompatActivity {
     public void addData(){
 //        FirebaseFirestore db = FirebaseFirestore.getInstance();
         Map<String, Object> user = new HashMap<>();
-        user.put("username", username.getText().toString());
+        user.put("id", mAuth.getUid());
         user.put("email", email.getText().toString());
         user.put("about","");
         user.put("avatar","https://thelifetank.com/wp-content/uploads/2018/08/avatar-default-icon.png");
+        user.put("following","");
+        user.put("follower","");
 //        db.collection("account")
 //                .document(mAuth.getUid())
 //                .set(user);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("account").child(mAuth.getUid());
+        DatabaseReference myRef = database.getReference("account").child(username.getText().toString());
         myRef.setValue(user);
     }
 }

@@ -11,6 +11,10 @@ public class UserInfor implements Serializable {
     private List<String> follower;
     private List<String> following;
 
+    public UserInfor(){
+        username=email=about=avatar=null;
+    }
+
     public UserInfor(String username, String email, String about, String avatar) {
         this.username = username;
         this.email = email;
