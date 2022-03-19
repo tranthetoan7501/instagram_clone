@@ -10,6 +10,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_pgram"
         android:label="PGram"
@@ -26,10 +27,10 @@
             android:name=".editProfile"
             android:exported="false" />
         <activity
-            android:name=".register"
+            android:name=".registerActivity"
             android:exported="false" />
         <activity
-            android:name=".login"
+            android:name=".loginActivity"
             android:exported="false" />
         <activity
             android:name=".shareActivity"

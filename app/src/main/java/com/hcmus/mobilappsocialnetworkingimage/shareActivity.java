@@ -28,7 +28,6 @@ public class shareActivity extends AppCompatActivity {
         } else {
             verifyPermissions(utils.Permissions.PERMISSIONS);
         }
-
     }
 
     public int getCurrentTabNumber() {

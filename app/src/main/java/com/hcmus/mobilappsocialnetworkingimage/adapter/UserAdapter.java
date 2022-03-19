@@ -43,7 +43,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
             return;
         }
         holder.username.setText(user.getUsername());
-        Picasso.get().load(user.getAvatar()).into(holder.avatar);
+      //  Picasso.get().load(user.getAvatar()).into(holder.avatar);
     }
 
     @Override

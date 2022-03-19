@@ -1,6 +1,5 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -14,20 +13,17 @@ import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
-//import com.google.gson.Gson;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;
@@ -161,7 +157,7 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
         mAuth=FirebaseAuth.getInstance();
 
         if (mAuth.getCurrentUser() ==null) {
-            startActivity(new Intent(this,login.class));
+            startActivity(new Intent(this, loginActivity.class));
         }
         else{
 
@@ -353,7 +349,7 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
                 break;
             case R.id.logout:
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(this,login.class);
+                Intent intent = new Intent(this, loginActivity.class);
                 startActivity(intent);
                 finish();
                 break;

@@ -28,7 +28,7 @@ public class changePassword extends Fragment  implements View.OnClickListener{
     ImageButton previous, confirm;
     EditText currentPassword, newPassword, confirmPassword;
     String email;
-    Bundle bundle=new Bundle();
+    Bundle bundle = new Bundle();
     private FirebaseUser user;
 
     @Override

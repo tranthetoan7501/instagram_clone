@@ -1,42 +1,37 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
-import java.io.Serializable;
-import java.util.List;
+public class userModel {
 
-public class userModel implements Serializable {
+    private String user_id;
     private String username;
     private String email;
-    private String about;
-    private String avatar;
-    private List<String> follower;
-    private List<String> following;
+    private String phone_number;
 
-    public userModel(){
-        username=email=about=avatar=null;
+    public userModel() {
+
     }
 
-    public userModel(String username, String email, String about, String avatar) {
-        this.username = username;
+    public userModel(String user_id, String phone_number, String email, String username) {
+        this.user_id = user_id;
+        this.phone_number = phone_number;
         this.email = email;
-        this.about = about;
-        this.avatar = avatar;
-    }
-
-    public userModel(String username, String email, String about, String avatar, List<String> follower, List<String> following) {
         this.username = username;
-        this.email = email;
-        this.about = about;
-        this.avatar = avatar;
-        this.follower = follower;
-        this.following = following;
     }
 
-    public String getUsername() {
-        return username;
+    public String getUser_id() {
+        return user_id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getPhone_number() {
+        return phone_number;
+    }
+
+    public void setPhone_number(String phone_number) {
+        this.phone_number = phone_number;
     }
 
     public String getEmail() {
@@ -47,35 +42,21 @@ public class userModel implements Serializable {
         this.email = email;
     }
 
-    public String getAbout() {
-        return about;
+    public String getUsername() {
+        return username;
     }
 
-    public void setAbout(String about) {
-        this.about = about;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
-
-    public List<String> getFollower() {
-        return follower;
-    }
-
-    public void setFollower(List<String> follower) {
-        this.follower = follower;
-    }
-
-    public List<String> getFollowing() {
-        return following;
-    }
-
-    public void setFollowing(List<String> following) {
-        this.following = following;
+    @Override
+    public String toString() {
+        return "userModel{" +
+                "user_id='" + user_id + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", phone_number='" + phone_number + '\'' +
+                '}';
     }
 }

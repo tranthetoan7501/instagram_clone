@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <EditText
-        android:id="@+id/username"
+        android:id="@+id/emailEditText"
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:layout_centerInParent="true"
@@ -26,9 +26,8 @@
         android:inputType="textPassword"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@+id/username"
-        android:background="@drawable/custom_edit_text"
-        />
+        android:layout_below="@+id/emailEditText"
+        android:background="@drawable/custom_edit_text" />
 
     <Button
         android:id="@+id/forget_password"

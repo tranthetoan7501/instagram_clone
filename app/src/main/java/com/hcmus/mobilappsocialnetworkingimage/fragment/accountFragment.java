@@ -63,9 +63,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
-       avatar = view.findViewById(R.id.avatar);
-       username=view.findViewById(R.id.username);
-       about=view.findViewById(R.id.description);
+        avatar = view.findViewById(R.id.avatar);
+        username = view.findViewById(R.id.username);
+        about = view.findViewById(R.id.description);
         edit_pf =view.findViewById(R.id.edit_pf);
         follower_numbers = view.findViewById(R.id.follower_numbers);
         following_numbers = view.findViewById(R.id.following_numbers);
@@ -77,7 +77,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 Bundle bundle=new Bundle();
                 bundle.putString("_username",_username);
                 intent.putExtras(bundle);
-                intent.putExtra("userInfor",userInfor);
+                //intent.putExtra("userInfor", );
                 startActivity(intent);
             }
         });
@@ -152,9 +152,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                                 ,snapshot.child("about").getValue().toString()
                                 ,snapshot.child("avatar").getValue().toString());
 
-                        Picasso.get().load(userInfor.getAvatar()).into(avatar);
+                       // Picasso.get().load(userInfor.getAvatar()).into(avatar);
                         username.setText(userInfor.getUsername());
-                        about.setText(userInfor.getAbout());
+                      //  about.setText(userInfor.getAbout());
                         List<String> follower = (List<String>) dataSnapshot.child("follower").getValue();
 
                         if(follower != null){

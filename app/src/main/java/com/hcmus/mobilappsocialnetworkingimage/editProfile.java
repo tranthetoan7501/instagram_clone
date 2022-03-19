@@ -63,8 +63,8 @@ public class editProfile extends AppCompatActivity {
         userInfor= (userModel) getIntent().getSerializableExtra("userInfor");
 
         username.setText(userInfor.getUsername());
-        about.setText(userInfor.getAbout());
-        Picasso.get().load(userInfor.getAvatar()).into(avatar);
+        //about.setText(userInfor.getAbout());
+       // Picasso.get().load(userInfor.getAvatar()).into(avatar);
 
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
