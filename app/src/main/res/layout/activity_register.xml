@@ -1,65 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:layout_width="match_parent" android:layout_height="match_parent"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <EditText
-        android:id="@+id/email"
+    <LinearLayout android:id="@+id/ll_register_root"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="25dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Email"
-        android:paddingLeft="10dp" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/username"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/email"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/custom_edit_text"
-        android:maxLength="20"
-        android:hint="Username"
-        android:paddingLeft="10dp" />
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/custom_edit_text"
+            android:hint="Email"
+            android:paddingLeft="10dp" />
 
-    <EditText
-        android:id="@+id/password"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/username"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Password"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp" />
+        <EditText
+            android:id="@+id/username"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/email"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/custom_edit_text"
+            android:maxLength="20"
+            android:hint="Username"
+            android:paddingLeft="10dp" />
 
-    <EditText
-        android:id="@+id/confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_below="@+id/password"
-        android:layout_marginLeft="25dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginRight="25dp"
-        android:background="@drawable/custom_edit_text"
-        android:hint="Comfirm password"
-        android:inputType="textPassword"
-        android:paddingLeft="10dp" />
+        <EditText
+            android:id="@+id/password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/username"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/custom_edit_text"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp" />
 
+        <EditText
+            android:id="@+id/confirm_password"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_below="@+id/password"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/custom_edit_text"
+            android:hint="Comfirm password"
+            android:inputType="textPassword"
+            android:paddingLeft="10dp" />
+    </LinearLayout>
 
     <Button
         android:enabled="true"
         android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:layout_below="@id/confirm_password"
+        android:layout_below="@id/ll_register_root"
         android:layout_marginLeft="25dp"
         android:layout_marginTop="20dp"
         android:layout_marginRight="25dp"
@@ -86,16 +93,15 @@
         android:layout_centerInParent="true"
         android:text="Already have an account?"
         android:textColor="@color/Blue"
-        android:background="@android:color/transparent"
-        />
+        android:background="@android:color/transparent" />
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
         android:layout_above="@+id/already_have"
         android:layout_centerInParent="true"
-        android:layout_marginRight="80dp"
-        android:layout_marginBottom="160dp"
-        android:src="@drawable/logo" />
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/pgram"
+        android:scaleType="centerCrop"/>
 
 </RelativeLayout>
