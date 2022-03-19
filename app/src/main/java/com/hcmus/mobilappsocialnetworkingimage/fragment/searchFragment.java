@@ -8,12 +8,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
@@ -54,12 +57,38 @@ public class searchFragment extends Fragment {
         userAdapter.getFilter().filter(querry);
     }
 
-    public void getListUserFromDB(Query query){
-        query.addValueEventListener(new ValueEventListener() {
+//    public void getListUserFromDB(Query query){
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
+//                    UserInfor user = dataSnapshot.getValue(UserInfor.class);
+//                    list.add(user);
+//                }
+//                userAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+
+    void getData(){
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
+        Query queryAllAccount = database.getReference("account").orderByChild("username");
+
+        queryAllAccount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    UserInfor user = dataSnapshot.getValue(UserInfor.class);
+                    UserInfor user = new UserInfor(dataSnapshot.getKey(),
+                                                    dataSnapshot.child("email").getValue().toString(),
+                                                    dataSnapshot.child("about").getValue().toString(),
+                                                    dataSnapshot.child("avatar").getValue().toString());
+                   
                     list.add(user);
                 }
                 userAdapter.notifyDataSetChanged();
@@ -70,9 +99,7 @@ public class searchFragment extends Fragment {
 
             }
         });
-    }
 
-    void getData(){
         userAdapter = new UserAdapter(list);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userAdapter);
