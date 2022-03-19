@@ -16,8 +16,6 @@ import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 
-import utils.Permissions;
-
 public class photoFragment extends Fragment {
 
     // Constants
@@ -36,7 +34,7 @@ public class photoFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (((shareActivity) getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM) {
-                    if (((shareActivity) getActivity()).checkPermissions(Permissions.CAMERA_PERMISSION[0])) {
+                    if (((shareActivity) getActivity()).checkPermissions(utils.permissions.CAMERA_PERMISSION[0])) {
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                     }

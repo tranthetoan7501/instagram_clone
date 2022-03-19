@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
@@ -25,7 +24,6 @@ public class loginActivity extends AppCompatActivity {
 
     // Firebase
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
     private networkChangeListener networkChangeListener = new networkChangeListener();
 
     @Override
@@ -33,16 +31,12 @@ public class loginActivity extends AppCompatActivity {
         super.onStart();
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
-        mAuth.addAuthStateListener(mAuthListener);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         unregisterReceiver(networkChangeListener);
-        if (mAuthListener != null) {
-            mAuth.removeAuthStateListener(mAuthListener);
-        }
     }
 
     @Override
@@ -61,7 +55,6 @@ public class loginActivity extends AppCompatActivity {
         forgotPwdBtn =findViewById(R.id.forget_password);
         loginBtn = findViewById(R.id.login_button);
         registerBtn = findViewById(R.id.register);
-        setupFirebaseAuth();
         init();
     }
 
@@ -114,25 +107,6 @@ public class loginActivity extends AppCompatActivity {
                 }
             });
         }
-    }
-
-    /* ------------------------------------------- Firebase ----------------------------------------------------  */
-    private void setupFirebaseAuth() {
-        mAuth = FirebaseAuth.getInstance();
-        mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-
-                if (user != null) {
-
-
-                } else {
-
-                }
-
-            }
-        };
     }
 }
 

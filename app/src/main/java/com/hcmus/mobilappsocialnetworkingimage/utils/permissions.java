@@ -2,7 +2,7 @@ package utils;
 
 import android.Manifest;
 
-public class Permissions {
+public class permissions {
 
     public static final String[] PERMISSIONS = {
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
