@@ -7,8 +7,11 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 
@@ -20,6 +23,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -43,7 +47,8 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
     FragmentManager fragmentManager = getSupportFragmentManager();
     accountFragment _accountFragment = new accountFragment();
     Fragment homeFragment = new homeFragment();
-    Fragment searchFragment = new searchFragment();
+    searchFragment _searchFragment = new searchFragment();
+    TextInputEditText searhInput;
     Fragment activityFragment = new activityFragment();
     Fragment postFragment = new postFragment();
     View appbar;
@@ -110,6 +115,26 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
         logout.setOnClickListener(this);
         change_password.setOnClickListener(this);
         cameraBtn.setOnClickListener(this);
+
+        searhInput = findViewById(R.id.search_appbar_input);
+        View.OnFocusChangeListener ofcListener = new MyFocusChangeListener();
+        searhInput.setOnFocusChangeListener(ofcListener);
+        searhInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                _searchFragment.setFilter(searhInput.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
 
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
@@ -193,7 +218,7 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavegationItemSelectedListener);
         fragmentManager.beginTransaction().add(R.id.fragment_layout, _accountFragment, "accountFragment").hide(_accountFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, homeFragment, homeFragment.toString()).commit();
-        fragmentManager.beginTransaction().add(R.id.fragment_layout, searchFragment, searchFragment.getTag()).hide(searchFragment).commit();
+        fragmentManager.beginTransaction().add(R.id.fragment_layout, _searchFragment, _searchFragment.getTag()).hide(_searchFragment).commit();
         fragmentManager.beginTransaction().add(R.id.fragment_layout, activityFragment, activeFragment.toString()).hide(activityFragment).commit();
 //        fragmentManager.beginTransaction().add(R.id.fragment_layout, postFragment, "5").hide(postFragment).commit();
         appbar.setVisibility(View.VISIBLE);
@@ -226,8 +251,8 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
                     appbar3.setVisibility(View.VISIBLE);
                     appbar4.setVisibility(View.INVISIBLE);
                     appbar5.setVisibility(View.INVISIBLE);
-                    fragmentManager.beginTransaction().hide(activeFragment).show(searchFragment).commit();
-                    activeFragment = searchFragment;
+                    fragmentManager.beginTransaction().hide(activeFragment).show(_searchFragment).commit();
+                    activeFragment = _searchFragment;
                     return true;
 
                 case R.id.accountFragment:
@@ -357,6 +382,18 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
                 startActivity(intent1);
                 settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 break;
+        }
+    }
+    private class MyFocusChangeListener implements View.OnFocusChangeListener {
+
+        public void onFocusChange(View v, boolean hasFocus){
+
+            if(v.getId() == R.id.search_appbar_input && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
         }
     }
 }

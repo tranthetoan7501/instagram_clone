@@ -187,33 +187,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-//        DatabaseReference myPosts = database.getReference("post");
-//        myPosts.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot postSnapshot: snapshot.getChildren()) {
-//                    HashMap<String,Object> map = (HashMap<String, Object>) postSnapshot.getValue();
-//                    postsModel postsModel = null;
-//                    if(map.get("type").equals("image")) {
-//                        postsModel = new postsModel(map.get("title").toString(), (List<String>) map.get("likes"), (List<String>) map.get("comments"), map.get("date").toString(), (List<String>) map.get("images"));
-//                    }
-//                    posts.add(postsModel);
-//                }
-//                thumbnailsAdapter.notifyDataSetChanged();
-//                if(posts == null){
-//                    post_numbers.setText("0");
-//                }
-//                else{
-//                    post_numbers.setText(""+posts.size());
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
     }
+
 
     @Override
     public void onClick(View view) {
