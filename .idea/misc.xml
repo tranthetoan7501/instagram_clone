@@ -3,11 +3,29 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_forgot_password.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_login.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_register.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_share.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_home.xml" value="0.33" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.25" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_photo.xml" value="0.25" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_search.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/intro.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/item_user.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_bottom_tabs.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_center_viewpager.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/layout_grid_imageview.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/post.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/setting_fragment.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/snippet_top_gallerytoolbar.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/thumbnail.xml" value="0.18802083333333333" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/up_item_fragment.xml" value="0.18802083333333333" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-hdpi/ic_twotone_border_clear_24.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />

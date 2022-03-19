@@ -11,17 +11,12 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.utils.*;
-import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import java.util.ArrayList;
 
@@ -38,7 +33,7 @@ public class galleryFragment extends Fragment {
 
     // vars
     private ArrayList<String> directories;
-    private String mAppend = "file:/";
+    private final String mAppend = "file:/";
 
     @Nullable
     @Override
@@ -47,6 +42,7 @@ public class galleryFragment extends Fragment {
         if (!ImageLoader.getInstance().isInited()) {
             ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(getActivity()));
         }
+
         View view = inflater.inflate(R.layout.fragment_gallery, container, false);
         gridView = (GridView) view.findViewById(R.id.gridView);
         galleryImage = (ImageView) view.findViewById(R.id.galleryImageView);
@@ -55,19 +51,11 @@ public class galleryFragment extends Fragment {
         mProgressBar.setVisibility(View.GONE);
 
         ImageView shareClose = (ImageView) view.findViewById(R.id.ivCloseShare);
-        shareClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                getActivity().finish();
-            }
-        });
+        shareClose.setOnClickListener(view1 -> getActivity().finish());
 
         TextView nextScreen = (TextView) view.findViewById(R.id.tvNext);
-        nextScreen.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        nextScreen.setOnClickListener(view12 -> {
 
-            }
         });
 
         init();
@@ -81,9 +69,16 @@ public class galleryFragment extends Fragment {
         }
 
         directories.add(mFilePaths.CAMERA);
+        ArrayList<String> directoryNames = new ArrayList<>();
+        for (int i = 0; i < directories.size(); i++) {
+            // sub string /Pictures/Zalo
+            String dir1 = directories.get(i).split("/")[directories.get(i).split("/").length - 1];
+            String dir2 = directories.get(i).split("/")[directories.get(i).split("/").length - 2];
+            directoryNames.add(dir2 + "/" + dir1);
+        }
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-                android.R.layout.simple_spinner_item, directories);
+                android.R.layout.simple_spinner_item, directoryNames);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         directorySpinner.setAdapter(adapter);
 
@@ -115,12 +110,7 @@ public class galleryFragment extends Fragment {
         if (imgURLs.size() > 0)
             setImage(imgURLs.get(0), galleryImage, mAppend);
 
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                setImage(imgURLs.get(i), galleryImage, mAppend);
-            }
-        });
+        gridView.setOnItemClickListener((adapterView, view, i, l) -> setImage(imgURLs.get(i), galleryImage, mAppend));
 
     }
 
