@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
 

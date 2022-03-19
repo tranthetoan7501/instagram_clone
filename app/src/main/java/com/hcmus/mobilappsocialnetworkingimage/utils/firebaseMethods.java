@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.hcmus.mobilappsocialnetworkingimage.loginActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.loginActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 public class firebaseMethods {

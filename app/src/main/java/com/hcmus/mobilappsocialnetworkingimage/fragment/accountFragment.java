@@ -29,9 +29,8 @@ import com.google.firebase.database.ValueEventListener;
 //import com.google.gson.JsonElement;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
-import com.hcmus.mobilappsocialnetworkingimage.editProfile;
+import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,7 +72,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         edit_pf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getContext(), editProfile.class);
+                Intent intent=new Intent(getContext(), editProfileActivity.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("_username",_username);
                 intent.putExtras(bundle);

@@ -1,18 +1,17 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.firebaseMethods;
 
 public class registerActivity extends AppCompatActivity {

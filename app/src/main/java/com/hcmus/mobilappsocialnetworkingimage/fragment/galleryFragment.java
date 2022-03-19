@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
-import com.hcmus.mobilappsocialnetworkingimage.nextActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.*;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;

@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
 public class loginActivity extends AppCompatActivity {
@@ -73,7 +74,7 @@ public class loginActivity extends AppCompatActivity {
             startActivity(new Intent(this, registerActivity.class));
         });
         forgotPwdBtn.setOnClickListener(view -> {
-            startActivity(new Intent(this,forgotPassword.class));
+            startActivity(new Intent(this, forgotPasswordActivity.class));
         });
 
         for(EditText editText: editTexts){

@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.VideoView;
 
-import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.squareup.picasso.Picasso;

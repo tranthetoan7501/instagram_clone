@@ -12,9 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.shareActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 
 import utils.Permissions;
 

@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -24,6 +24,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;

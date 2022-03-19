@@ -18,28 +18,28 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MobilAppSocialNetworkingImage">
         <activity
-            android:name=".forgotPassword"
+            android:name=".activity.forgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".secondActivity"
+            android:name=".activity.secondActivity"
             android:exported="false" />
         <activity
-            android:name=".editProfile"
+            android:name=".activity.editProfileActivity"
             android:exported="false" />
         <activity
-            android:name=".registerActivity"
+            android:name=".activity.registerActivity"
             android:exported="false" />
         <activity
-            android:name=".loginActivity"
+            android:name=".activity.loginActivity"
             android:exported="false" />
         <activity
-            android:name=".shareActivity"
+            android:name=".activity.shareActivity"
             android:exported="false" />
         <activity
-            android:name=".nextActivity"
+            android:name=".activity.nextActivity"
             android:exported="false" />
         <activity
-            android:name=".mainActivity"
+            android:name=".activity.mainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

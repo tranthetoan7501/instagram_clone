@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.utils;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -16,7 +16,6 @@ public class common {
                         return true;
                 }
             }
-
         }
         return false;
     }

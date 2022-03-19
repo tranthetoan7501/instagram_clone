@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 
 public class secondActivity extends FragmentActivity {

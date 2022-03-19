@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,9 +27,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
-import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,7 +38,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
-public class editProfile extends AppCompatActivity {
+public class editProfileActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView avatar;
     ImageButton back, ok, camera;
@@ -76,7 +76,7 @@ public class editProfile extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfile.this.finish();
+                editProfileActivity.this.finish();
 
             }
         });
@@ -85,7 +85,7 @@ public class editProfile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(username.getText().toString().equals(userInfor.getUsername())){
-                    editProfile.this.finish();
+                    editProfileActivity.this.finish();
                 }
                 else {
                     DatabaseReference myRef = database.getReference("account");
@@ -101,7 +101,7 @@ public class editProfile extends AppCompatActivity {
                                 username.requestFocus();
                             } else {
                                 setdata();
-                                editProfile.this.finish();
+                                editProfileActivity.this.finish();
                             }
                         }
                         @Override

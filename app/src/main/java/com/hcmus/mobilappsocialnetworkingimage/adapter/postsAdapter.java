@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.secondActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.secondActivity;
 
 import java.util.ArrayList;
 import java.util.List;

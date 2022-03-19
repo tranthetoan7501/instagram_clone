@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import com.hcmus.mobilappsocialnetworkingimage.common;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 
 public class networkChangeListener extends BroadcastReceiver {

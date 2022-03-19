@@ -1,12 +1,10 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,10 +18,11 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 
 import java.util.Vector;
 
-public class forgotPassword extends Activity implements View.OnClickListener {
+public class forgotPasswordActivity extends Activity implements View.OnClickListener {
     ImageButton previous, confirm;
     EditText email;
 
@@ -90,10 +89,10 @@ public class forgotPassword extends Activity implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(forgotPassword.this,"We have sent you instructions to reset your password. Please check your email",Toast.LENGTH_LONG).show();
+                            Toast.makeText(forgotPasswordActivity.this,"We have sent you instructions to reset your password. Please check your email",Toast.LENGTH_LONG).show();
                         }
                         else{
-                            Toast.makeText(forgotPassword.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(forgotPasswordActivity.this, "Failed to send reset email!", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
