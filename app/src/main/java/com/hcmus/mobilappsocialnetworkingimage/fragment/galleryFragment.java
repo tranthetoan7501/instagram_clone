@@ -1,18 +1,18 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.*;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
@@ -55,7 +55,9 @@ public class galleryFragment extends Fragment {
 
         TextView nextScreen = (TextView) view.findViewById(R.id.tvNext);
         nextScreen.setOnClickListener(view12 -> {
-
+            Intent intent = new Intent(getActivity(), nextActivity.class);
+//            intent.putExtra(getString(R.string.selected_image), galleryImage.getTag().toString());
+            startActivity(intent);
         });
 
         init();

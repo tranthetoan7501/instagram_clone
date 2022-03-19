@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:src="@drawable/ic_camera"
-        android:background="@android:color/transparent"
+        android:background="@drawable/button_shape"
         android:textSize="25dp"/>
     <TextView
         android:id="@+id/logo"

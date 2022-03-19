@@ -2,6 +2,8 @@ package com.hcmus.mobilappsocialnetworkingimage;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.widget.TextView;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -26,6 +28,7 @@ public class shareActivity extends AppCompatActivity {
         } else {
             verifyPermissions(utils.Permissions.PERMISSIONS);
         }
+
     }
 
     public int getCurrentTabNumber() {

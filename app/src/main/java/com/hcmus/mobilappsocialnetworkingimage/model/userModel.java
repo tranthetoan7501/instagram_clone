@@ -3,7 +3,7 @@ package com.hcmus.mobilappsocialnetworkingimage.model;
 import java.io.Serializable;
 import java.util.List;
 
-public class UserInfor implements Serializable {
+public class userModel implements Serializable {
     private String username;
     private String email;
     private String about;
@@ -11,18 +11,18 @@ public class UserInfor implements Serializable {
     private List<String> follower;
     private List<String> following;
 
-    public UserInfor(){
+    public userModel(){
         username=email=about=avatar=null;
     }
 
-    public UserInfor(String username, String email, String about, String avatar) {
+    public userModel(String username, String email, String about, String avatar) {
         this.username = username;
         this.email = email;
         this.about = about;
         this.avatar = avatar;
     }
 
-    public UserInfor(String username, String email, String about, String avatar, List<String> follower, List<String> following) {
+    public userModel(String username, String email, String about, String avatar, List<String> follower, List<String> following) {
         this.username = username;
         this.email = email;
         this.about = about;

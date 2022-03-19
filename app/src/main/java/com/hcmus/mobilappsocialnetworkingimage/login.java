@@ -1,18 +1,12 @@
 package com.hcmus.mobilappsocialnetworkingimage;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -29,7 +23,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
+import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
 import java.util.Vector;
 
@@ -41,7 +35,7 @@ public class login extends AppCompatActivity {
     Button register;
     Button forgotPass;
     FirebaseAuth mAuth;
-    NetworkChangeListener networkChangeListener=new NetworkChangeListener();
+    com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
 
 
     @Override
@@ -60,7 +54,7 @@ public class login extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         this.finish();
-        MainActivity.fa.finish();
+        mainActivity.fa.finish();
         super.onBackPressed();
     }
 

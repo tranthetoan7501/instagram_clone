@@ -1,4 +1,4 @@
-package com.hcmus.mobilappsocialnetworkingimage;
+package com.hcmus.mobilappsocialnetworkingimage.utils;
 
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.widget.AppCompatButton;
+import com.hcmus.mobilappsocialnetworkingimage.common;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 
-public class NetworkChangeListener extends BroadcastReceiver {
+public class networkChangeListener extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        if (!Common.isConnect(context)) { //Internet is not connected
+        if (!common.isConnect(context)) { //Internet is not connected
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             View layout_dialog = LayoutInflater.from(context).inflate(R.layout.check_internet_dialog, null);
             builder.setView(layout_dialog);

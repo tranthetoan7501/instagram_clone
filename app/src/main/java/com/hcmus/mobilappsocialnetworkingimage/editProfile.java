@@ -27,7 +27,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
+import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -37,14 +38,14 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
-public class edit_profile extends AppCompatActivity {
+public class editProfile extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView avatar;
     ImageButton back, ok, camera;
-    NetworkChangeListener networkChangeListener=new NetworkChangeListener();
+    com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
     EditText username,about;
     Bundle bundle;
-    UserInfor userInfor;
+    userModel userInfor;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
     
     @Override
@@ -59,7 +60,7 @@ public class edit_profile extends AppCompatActivity {
         about=findViewById(R.id.edit_about);
 
         bundle=getIntent().getExtras();
-        userInfor= (UserInfor) getIntent().getSerializableExtra("userInfor");
+        userInfor= (userModel) getIntent().getSerializableExtra("userInfor");
 
         username.setText(userInfor.getUsername());
         about.setText(userInfor.getAbout());
@@ -75,7 +76,7 @@ public class edit_profile extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                edit_profile.this.finish();
+                editProfile.this.finish();
 
             }
         });
@@ -84,7 +85,7 @@ public class edit_profile extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(username.getText().toString().equals(userInfor.getUsername())){
-                    edit_profile.this.finish();
+                    editProfile.this.finish();
                 }
                 else {
                     DatabaseReference myRef = database.getReference("account");
@@ -100,7 +101,7 @@ public class edit_profile extends AppCompatActivity {
                                 username.requestFocus();
                             } else {
                                 setdata();
-                                edit_profile.this.finish();
+                                editProfile.this.finish();
                             }
                         }
                         @Override

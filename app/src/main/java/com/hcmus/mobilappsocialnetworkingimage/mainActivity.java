@@ -30,11 +30,12 @@ import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.searchFragment;
-import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
+import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
+import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
 
-public class MainActivity extends FragmentActivity implements View.OnClickListener {
+public class mainActivity extends FragmentActivity implements View.OnClickListener {
 
     FirebaseAuth mAuth;
     BottomNavigationView bottomNavigationView;
@@ -70,13 +71,11 @@ public class MainActivity extends FragmentActivity implements View.OnClickListen
     private BottomSheetBehavior settingBottomSheetBehavior;
     String previousFragment = "";
 
-    NetworkChangeListener networkChangeListener=new NetworkChangeListener();
+    com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
     public static Activity fa;
-    UserInfor user;
-    MainActivity main;
+    userModel user;
+    mainActivity main;
     Context context;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -5,7 +5,6 @@ import static android.content.ContentValues.TAG;
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -29,15 +28,13 @@ import com.google.firebase.database.ValueEventListener;
 //import com.google.gson.Gson;
 //import com.google.gson.JsonElement;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
-import com.hcmus.mobilappsocialnetworkingimage.edit_profile;
+import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+import com.hcmus.mobilappsocialnetworkingimage.editProfile;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 
@@ -51,7 +48,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     ImageButton video;
     ImageButton tag;
     FirebaseAuth mAuth;
-    UserInfor userInfor;
+    userModel userInfor;
     TextView follower_numbers;
     TextView following_numbers;
     TextView post_numbers;
@@ -76,7 +73,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         edit_pf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=new Intent(getContext(), edit_profile.class);
+                Intent intent=new Intent(getContext(), editProfile.class);
                 Bundle bundle=new Bundle();
                 bundle.putString("_username",_username);
                 intent.putExtras(bundle);
@@ -150,7 +147,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot snapshot:dataSnapshot.getChildren()){
                     if(snapshot.child("id").getValue().equals(mAuth.getUid())){
-                        userInfor=new UserInfor(snapshot.getKey()
+                        userInfor=new userModel(snapshot.getKey()
                                 ,snapshot.child("email").getValue().toString()
                                 ,snapshot.child("about").getValue().toString()
                                 ,snapshot.child("avatar").getValue().toString());

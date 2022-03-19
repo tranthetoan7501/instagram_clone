@@ -21,7 +21,7 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hcmus.mobilappsocialnetworkingimage.model.UserInfor;
+import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 
 public class searchFragment extends Fragment {
@@ -29,7 +29,7 @@ public class searchFragment extends Fragment {
     RecyclerView recyclerView;
     UserAdapter userAdapter;
     private static final String TAG = "searchFragment";
-    List<UserInfor> list = new ArrayList<UserInfor>();
+    List<userModel> list = new ArrayList<userModel>();
 
 
     @Override
@@ -59,7 +59,7 @@ public class searchFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    UserInfor user = dataSnapshot.getValue(UserInfor.class);
+                    userModel user = dataSnapshot.getValue(userModel.class);
                     list.add(user);
                 }
                 userAdapter.notifyDataSetChanged();

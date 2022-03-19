@@ -1,35 +1,21 @@
 package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.net.Uri;
-import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 import android.widget.VideoView;
 
-import com.denzcoskun.imageslider.interfaces.ItemClickListener;
-import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
-import com.hcmus.mobilappsocialnetworkingimage.secondActivity;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.HashMap;
 import java.util.List;
-
-import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 
 public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.thumbnailsViewHolder> {
     List<postsModel> posts;
@@ -40,7 +26,7 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
         this.context = context;
     }
 
-    public thumbnailsAdapter(MainActivity context) {
+    public thumbnailsAdapter(mainActivity context) {
     }
 
     @NonNull
@@ -71,8 +57,8 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
         holder.thumbnail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(context instanceof MainActivity){
-                    ((MainActivity)context).turnOnFragment("postFragment",posts.get(position));
+                if(context instanceof mainActivity){
+                    ((mainActivity)context).turnOnFragment("postFragment",posts.get(position));
                 }
             }
         });

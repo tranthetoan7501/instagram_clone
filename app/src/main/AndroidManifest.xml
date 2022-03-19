@@ -23,7 +23,7 @@
             android:name=".secondActivity"
             android:exported="false" />
         <activity
-            android:name=".edit_profile"
+            android:name=".editProfile"
             android:exported="false" />
         <activity
             android:name=".register"
@@ -35,7 +35,10 @@
             android:name=".shareActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".nextActivity"
+            android:exported="false" />
+        <activity
+            android:name=".mainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

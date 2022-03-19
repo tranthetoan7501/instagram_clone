@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
 
@@ -49,8 +49,8 @@ public class activitiesAdapter extends RecyclerView.Adapter<activitiesAdapter.ac
         holder.preview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(context instanceof MainActivity){
-                    ((MainActivity)context).turnOnFragment("postFragment",null);
+                if(context instanceof mainActivity){
+                    ((mainActivity)context).turnOnFragment("postFragment",null);
                 }
             }
         });

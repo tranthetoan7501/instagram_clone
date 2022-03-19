@@ -12,11 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.hcmus.mobilappsocialnetworkingimage.MainActivity;
+import com.hcmus.mobilappsocialnetworkingimage.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.shareActivity;
-
-import java.security.Permission;
 
 import utils.Permissions;
 
@@ -43,7 +41,7 @@ public class photoFragment extends Fragment {
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                     }
                 } else {
-                    Intent intent = new Intent(getActivity(), MainActivity.class);
+                    Intent intent = new Intent(getActivity(), mainActivity.class);
                     startActivity(intent);
                 }
             }
