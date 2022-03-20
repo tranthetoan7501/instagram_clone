@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +20,7 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
+import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 public class searchFragment extends Fragment {
@@ -25,7 +28,7 @@ public class searchFragment extends Fragment {
     RecyclerView recyclerView;
     UserAdapter userAdapter;
     private static final String TAG = "searchFragment";
-    List<userModel> list = new ArrayList<userModel>();
+    List<userCard> list = new ArrayList<userCard>();
 
 
     @Override
@@ -71,16 +74,16 @@ public class searchFragment extends Fragment {
     void getData(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        Query queryAllAccount = database.getReference("account").orderByChild("username");
+        Query queryAllAccount = database.getReference("user_account_settings").orderByChild("username");
 
         queryAllAccount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    userModel user = new userModel(dataSnapshot.getKey(),
-                                                    dataSnapshot.child("email").getValue().toString(),
-                                                    dataSnapshot.child("about").getValue().toString(),
-                                                    dataSnapshot.child("avatar").getValue().toString());
+                    userCard user = new userCard(dataSnapshot.getKey(),
+                                                    dataSnapshot.child("username").getValue().toString(),
+                                                    dataSnapshot.child("profile_photo").getValue().toString());
+                    Log.d("masv",dataSnapshot.getKey());
                    
                     list.add(user);
                 }

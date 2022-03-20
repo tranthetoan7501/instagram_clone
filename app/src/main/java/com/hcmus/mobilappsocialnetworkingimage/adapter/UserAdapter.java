@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.squareup.picasso.Picasso;
 
@@ -21,10 +22,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder> implements Filterable {
 
-    private List<userModel> listUser;
-    private List<userModel> listUserOld;
+    private List<userCard> listUser;
+    private List<userCard> listUserOld;
 
-    public UserAdapter(List<userModel> list){
+    public UserAdapter(List<userCard> list){
         this.listUser = list;
         this.listUserOld = list;
     }
@@ -38,7 +39,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserVIewHolder holder, int position) {
-        userModel user = listUser.get(position);
+        userCard user = listUser.get(position);
         if(user==null){
             return;
         }
@@ -63,8 +64,8 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
                 if(strSearch.isEmpty()){
                     listUser = listUserOld;
                 }else{
-                    List<userModel> list = new ArrayList<>();
-                    for(userModel user : listUserOld){
+                    List<userCard> list = new ArrayList<>();
+                    for(userCard user : listUserOld){
                         if(user.getUsername().toLowerCase().contains(strSearch.toLowerCase())){
                             list.add(user);
                         }
@@ -79,7 +80,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                listUser = (List<userModel>) filterResults.values;
+                listUser = (List<userCard>) filterResults.values;
                 notifyDataSetChanged();
             }
         };
