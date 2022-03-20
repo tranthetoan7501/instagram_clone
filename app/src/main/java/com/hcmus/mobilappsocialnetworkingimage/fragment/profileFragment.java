@@ -1,29 +1,17 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import adapter.commentsAdapter;
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class profileFragment extends Fragment implements View.OnClickListener{
 
@@ -48,7 +36,6 @@ public class profileFragment extends Fragment implements View.OnClickListener{
         bundle = getArguments();
         Picasso.get().load(bundle.get("avatar").toString()).into(avatar);
         username.setText(bundle.get("username").toString());
-
 
         getData();
         return view;

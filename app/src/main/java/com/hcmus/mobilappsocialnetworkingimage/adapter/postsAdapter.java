@@ -17,7 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.activity.secondActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +85,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         switch(view.getId()){
             case R.id.comment:
                 bundle.putSerializable("type","comment");
-                Intent intent = new Intent(context, secondActivity.class);
+                Intent intent = new Intent(context, navigationActivity.class);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
                 break;

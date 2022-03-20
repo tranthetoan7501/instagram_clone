@@ -21,7 +21,7 @@
             android:name=".activity.forgotPasswordActivity"
             android:exported="false" />
         <activity
-            android:name=".activity.secondActivity"
+            android:name=".activity.navigationActivity"
             android:exported="false" />
         <activity
             android:name=".activity.editProfileActivity"

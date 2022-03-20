@@ -374,7 +374,7 @@ public class mainActivity extends FragmentActivity implements View.OnClickListen
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type","change password");
                 bundle.putString("email", user.getEmail());
-                Intent intent1 = new Intent(this,secondActivity.class);
+                Intent intent1 = new Intent(this, navigationActivity.class);
                 intent1.putExtras(bundle);
                 startActivity(intent1);
                 settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

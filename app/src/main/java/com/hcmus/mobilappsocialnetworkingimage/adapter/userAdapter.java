@@ -10,30 +10,24 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.activity.secondActivity;
-import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
-import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
+import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder> implements Filterable {
+public class userAdapter extends RecyclerView.Adapter<userAdapter.UserVIewHolder> implements Filterable {
 
-    private List<userCard> listUser;
-    private List<userCard> listUserOld;
+    private List<userCardModel> listUser;
+    private List<userCardModel> listUserOld;
     Bundle bundle = new Bundle();
     Context context;
 
-    public UserAdapter(List<userCard> list, Context context){
+    public userAdapter(List<userCardModel> list, Context context){
         this.listUser = list;
         this.listUserOld = list;
         this.context =context;
@@ -48,23 +42,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
     @Override
     public void onBindViewHolder(@NonNull UserVIewHolder holder, int position) {
-        userCard user = listUser.get(position);
-        if(user==null){
+        userCardModel user = listUser.get(position);
+        if(user == null){
             return;
         }
         holder.username.setText(user.getUsername());
         Picasso.get().load(user.getAvatar()).into(holder.avatar);
-        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                bundle.putSerializable("type","profile");
-                bundle.putSerializable("username",holder.username.getText().toString());
-                bundle.putSerializable("id",holder.username.getText().toString());
-                bundle.putSerializable("avatar",user.getAvatar().toString());
-                Intent intent = new Intent(context, secondActivity.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
-            }
+        holder.layoutItem.setOnClickListener(view -> {
+            bundle.putSerializable("type","profile");
+            bundle.putSerializable("username",holder.username.getText().toString());
+            bundle.putSerializable("id",holder.username.getText().toString());
+            bundle.putSerializable("avatar",user.getAvatar().toString());
+            Intent intent = new Intent(context, navigationActivity.class);
+            intent.putExtras(bundle);
+            context.startActivity(intent);
         });
 
     }
@@ -85,9 +76,9 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
                 String strSearch = charSequence.toString();
                 if(strSearch.isEmpty()){
                     listUser = listUserOld;
-                }else{
-                    List<userCard> list = new ArrayList<>();
-                    for(userCard user : listUserOld){
+                } else {
+                    List<userCardModel> list = new ArrayList<>();
+                    for(userCardModel user : listUserOld){
                         if(user.getUsername().toLowerCase().contains(strSearch.toLowerCase())){
                             list.add(user);
                         }
@@ -102,7 +93,7 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
             @Override
             protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-                listUser = (List<userCard>) filterResults.values;
+                listUser = (List<userCardModel>) filterResults.values;
                 notifyDataSetChanged();
             }
         };

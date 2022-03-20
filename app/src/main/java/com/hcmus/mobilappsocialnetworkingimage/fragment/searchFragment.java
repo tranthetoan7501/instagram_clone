@@ -20,14 +20,13 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
-import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
-import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 
 public class searchFragment extends Fragment {
     RecyclerView recyclerView;
-    UserAdapter userAdapter;
+    com.hcmus.mobilappsocialnetworkingimage.adapter.userAdapter userAdapter;
     private static final String TAG = "searchFragment";
-    List<userCard> list = new ArrayList<userCard>();
+    List<userCardModel> list = new ArrayList<userCardModel>();
 
 
     @Override
@@ -61,7 +60,7 @@ public class searchFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    userCard user = new userCard(dataSnapshot.getKey(),
+                    userCardModel user = new userCardModel(dataSnapshot.getKey(),
                                                     dataSnapshot.child("username").getValue().toString(),
                                                     dataSnapshot.child("profile_photo").getValue().toString());
                     Log.d("masv",dataSnapshot.getKey());
@@ -77,7 +76,7 @@ public class searchFragment extends Fragment {
             }
         });
 
-        userAdapter = new UserAdapter(list,getContext());
+        userAdapter = new userAdapter(list,getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);

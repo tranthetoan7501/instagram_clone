@@ -1,15 +1,15 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
-public class userCard {
+public class userCardModel {
     private String user_id;
     private String username;
     private String avatar;
 
-    public userCard() {
+    public userCardModel() {
 
     }
 
-    public userCard(String user_id, String username,String avatar) {
+    public userCardModel(String user_id, String username, String avatar) {
         this.user_id = user_id;
         this.username = username;
         this.avatar = avatar;

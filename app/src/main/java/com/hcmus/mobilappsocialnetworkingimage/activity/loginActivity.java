@@ -1,6 +1,5 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -55,6 +54,8 @@ public class loginActivity extends AppCompatActivity {
         forgotPwdBtn =findViewById(R.id.forget_password);
         loginBtn = findViewById(R.id.login_button);
         registerBtn = findViewById(R.id.register);
+
+        mAuth = FirebaseAuth.getInstance();
         init();
     }
 
