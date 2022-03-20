@@ -1,16 +1,22 @@
 package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.secondActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.squareup.picasso.Picasso;
@@ -24,10 +30,13 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
     private List<userCard> listUser;
     private List<userCard> listUserOld;
+    Bundle bundle = new Bundle();
+    Context context;
 
-    public UserAdapter(List<userCard> list){
+    public UserAdapter(List<userCard> list, Context context){
         this.listUser = list;
         this.listUserOld = list;
+        this.context =context;
     }
 
     @NonNull
@@ -44,7 +53,20 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
             return;
         }
         holder.username.setText(user.getUsername());
-      //  Picasso.get().load(user.getAvatar()).into(holder.avatar);
+        Picasso.get().load(user.getAvatar()).into(holder.avatar);
+        holder.layoutItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                bundle.putSerializable("type","profile");
+                bundle.putSerializable("username",holder.username.getText().toString());
+                bundle.putSerializable("id",holder.username.getText().toString());
+                bundle.putSerializable("avatar",user.getAvatar().toString());
+                Intent intent = new Intent(context, secondActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -90,8 +112,11 @@ public class UserAdapter extends RecyclerView.Adapter<UserAdapter.UserVIewHolder
 
         private CircleImageView avatar;
         private TextView username;
+        private RelativeLayout layoutItem;
+
         public UserVIewHolder(@NonNull View itemView) {
             super(itemView);
+            layoutItem = itemView.findViewById(R.id.item_user_layout);
             avatar = itemView.findViewById(R.id.item_user_avatar);
             username = itemView.findViewById(R.id.item_user_username);
         }

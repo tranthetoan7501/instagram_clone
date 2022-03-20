@@ -14,6 +14,7 @@ import com.hcmus.mobilappsocialnetworkingimage.fragment.*;
 public class secondActivity extends FragmentActivity {
     commentFragment commentFragment = new commentFragment();
     changePassword changePassword = new changePassword();
+    profileFragment profileFragment = new profileFragment();
 
     Bundle bundle = new Bundle();
     @Override
@@ -31,6 +32,9 @@ public class secondActivity extends FragmentActivity {
             bundle1.putString("email", bundle.getString("email"));
             changePassword.setArguments(bundle1);
             replaceFragment(changePassword);
+        }else if(bundle.get("type").equals("profile")){
+            profileFragment.setArguments(bundle);
+            replaceFragment(profileFragment);
         }
     }
 

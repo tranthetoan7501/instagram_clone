@@ -24,7 +24,6 @@ import com.hcmus.mobilappsocialnetworkingimage.model.userCard;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 public class searchFragment extends Fragment {
-    thumbnailsAdapter thumbnailsAdapter;
     RecyclerView recyclerView;
     UserAdapter userAdapter;
     private static final String TAG = "searchFragment";
@@ -53,24 +52,6 @@ public class searchFragment extends Fragment {
         userAdapter.getFilter().filter(querry);
     }
 
-//    public void getListUserFromDB(Query query){
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-//                    UserInfor user = dataSnapshot.getValue(UserInfor.class);
-//                    list.add(user);
-//                }
-//                userAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-
     void getData(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
@@ -96,7 +77,7 @@ public class searchFragment extends Fragment {
             }
         });
 
-        userAdapter = new UserAdapter(list);
+        userAdapter = new UserAdapter(list,getContext());
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
