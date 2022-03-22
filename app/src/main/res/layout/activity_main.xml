@@ -11,19 +11,13 @@
         android:layout_height="match_parent">
 
         <FrameLayout
+            android:visibility="gone"
             android:id="@+id/appbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-            <include android:id="@+id/home_appbar" layout="@layout/appbar_home" android:visibility="invisible"
+            <include android:id="@+id/search_appbar" layout="@layout/appbar_search" android:visibility="gone"
                 />
-            <include android:id="@+id/account_appbar" layout="@layout/appbar_account" android:visibility="invisible"
-                />
-            <include android:id="@+id/search_appbar" layout="@layout/appbar_search" android:visibility="invisible"
-                />
-            <include android:id="@+id/favorite_appbar" layout="@layout/appbar_favorite" android:visibility="invisible"
-                />
-
-            <include android:id="@+id/post_appbar" layout="@layout/appbar_post" android:visibility="invisible"/>
+            <include android:id="@+id/post_appbar" layout="@layout/appbar_post" android:visibility="gone"/>
 
         </FrameLayout>
 
@@ -50,10 +44,8 @@
     </RelativeLayout>
      <include
         layout="@layout/up_item_fragment"
-
         />
     <include
         layout="@layout/setting_fragment"
-
         />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

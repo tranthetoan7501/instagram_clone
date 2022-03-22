@@ -1,5 +1,6 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -7,10 +8,15 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
+
+import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
@@ -19,14 +25,16 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 
 public class searchFragment extends Fragment {
     RecyclerView recyclerView;
     com.hcmus.mobilappsocialnetworkingimage.adapter.userAdapter userAdapter;
-    private static final String TAG = "searchFragment";
     List<userCardModel> list = new ArrayList<userCardModel>();
+    TextInputEditText searhInput;
 
 
     @Override
@@ -42,6 +50,25 @@ public class searchFragment extends Fragment {
 //            container.removeAllViews();
 //        }
         recyclerView = view.findViewById(R.id.grid);
+        searhInput = view.findViewById(R.id.search_appbar_input);
+        View.OnFocusChangeListener ofcListener = new searchFragment.MyFocusChangeListener();
+        searhInput.setOnFocusChangeListener(ofcListener);
+        searhInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                setFilter(searhInput.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
         getData();
 
 
@@ -96,6 +123,18 @@ public class searchFragment extends Fragment {
 //        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
 //        recyclerView.setAdapter(thumbnailsAdapter);
 //        thumbnailsAdapter.notifyDataSetChanged();
+    }
 
+    private class MyFocusChangeListener implements View.OnFocusChangeListener {
+
+        public void onFocusChange(View v, boolean hasFocus){
+
+            if(v.getId() == R.id.search_appbar_input && !hasFocus) {
+
+                InputMethodManager imm =  (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+
+            }
+        }
     }
 }

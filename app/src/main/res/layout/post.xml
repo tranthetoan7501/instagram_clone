@@ -5,6 +5,8 @@
     android:layout_marginVertical="10dp"
     >
 
+    <include android:id="@+id/appbar_post" layout="@layout/appbar_post" android:visibility="gone"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">

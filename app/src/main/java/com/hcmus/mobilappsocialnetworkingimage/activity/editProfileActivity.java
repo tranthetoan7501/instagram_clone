@@ -62,7 +62,7 @@ public class editProfileActivity extends AppCompatActivity {
         bundle=getIntent().getExtras();
         userInfor= (userModel) getIntent().getSerializableExtra("userInfor");
 
-        username.setText(userInfor.getUsername());
+//        username.setText(userInfor.getUsername());
         //about.setText(userInfor.getAbout());
        // Picasso.get().load(userInfor.getAvatar()).into(avatar);
 
