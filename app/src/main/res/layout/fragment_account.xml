@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+<LinearLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent" android:layout_height="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     >
     <include layout="@layout/appbar_account"/>
 
-    <ScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:layout_width="match_parent" android:layout_height="match_parent"
-        xmlns:android="http://schemas.android.com/apk/res/android">
+    <ScrollView
+        android:layout_width="match_parent" android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -35,32 +35,30 @@
                                 android:id="@+id/avatar"
                                 android:layout_width="100dp"
                                 android:layout_height="100dp"
-                                android:src="@drawable/bcd"
                                 />
                         </androidx.cardview.widget.CardView>
+
                         <TextView
-                            android:id="@+id/username"
+                            android:id="@+id/display_name"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Thanh Sơn"
                             android:textColor="@color/black"
-                            android:textStyle="bold"
-                            />
+                            android:textStyle="bold" />
                     </LinearLayout>
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
+
                         <TextView
                             android:id="@+id/post_numbers"
-                            android:layout_centerInParent="true"
-                            android:layout_toLeftOf="@+id/follower_numbers"
-                            android:layout_width="wrap_content"
+                            android:layout_width="8dp"
                             android:layout_height="wrap_content"
-                            android:text="12"
+                            android:layout_centerInParent="true"
+                            android:layout_marginRight="50dp"
+                            android:layout_toLeftOf="@+id/follower_numbers"
                             android:textColor="@color/black"
-                            android:textSize="16dp"
-                            android:layout_marginRight="30dp"              />
+                            android:textSize="16dp" />
 
                         <TextView
                             android:id="@+id/follower_numbers"
@@ -69,7 +67,6 @@
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="30dp"
                             android:layout_marginRight="30dp"
-                            android:text="101"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -81,7 +78,6 @@
                             android:layout_centerInParent="true"
                             android:layout_marginLeft="30dp"
                             android:layout_toRightOf="@id/follower_numbers"
-                            android:text="115"
                             android:textColor="@color/black"
                             android:textSize="16dp" />
 
@@ -139,7 +135,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/description"
-                    android:text="something"
                     android:textColor="@color/black"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"

@@ -26,8 +26,6 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
         this.context = context;
     }
 
-    public thumbnailsAdapter(mainActivity context) {
-    }
 
     @NonNull
     @Override
@@ -39,8 +37,8 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
     @Override
     public void onBindViewHolder(@NonNull thumbnailsViewHolder holder, int position) {
         if (posts.isEmpty()) return;
-        Picasso.get().load(posts.get(position).getImages().get(0)).into(holder.thumbnail);
-        if(posts.get(position).getImages().size() > 1){
+        Picasso.get().load(posts.get(position).getImage_paths().get(0)).into(holder.thumbnail);
+        if(posts.get(position).getImage_paths().size() > 1){
             holder.icon.setVisibility(View.VISIBLE);
             holder.icon.setImageResource(R.drawable.ic_photo_lib);
         }
@@ -58,7 +56,7 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
             @Override
             public void onClick(View view) {
                 if(context instanceof mainActivity){
-                    ((mainActivity)context).turnOnFragment("postFragment",posts.get(position));
+                    ((mainActivity)context).turnOnFragment("postFragment",posts.get(holder.getPosition()));
                 }
             }
         });

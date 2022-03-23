@@ -1,28 +1,33 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class postsModel {
-    String title;
+    String caption;
     List<String> likes;
     List<String> comments;
-    String date;
-    List<String> images;
+    String date_created;
+    List<String> image_paths;
+    String user_id;
+    String tags;
 
-    public postsModel(String title, List<String> likes, List<String> comments, String date, List<String> images) {
-        this.title = title;
+    public postsModel(String caption, List<String> likes, ArrayList<String> comments, String date_created, List<String> image_paths, String user_id, String tags) {
+        this.caption = caption;
         this.likes = likes;
         this.comments = comments;
-        this.date = date;
-        this.images = images;
+        this.date_created = date_created;
+        this.image_paths = image_paths;
+        this.user_id = user_id;
+        this.tags = tags;
     }
 
-    public String getTitle() {
-        return title;
+    public String getCaption() {
+        return caption;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setCaption(String caption) {
+        this.caption = caption;
     }
 
     public List<String> getLikes() {
@@ -41,19 +46,35 @@ public class postsModel {
         this.comments = comments;
     }
 
-    public String getDate() {
-        return date;
+    public String getDate_created() {
+        return date_created;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public void setDate_created(String date_created) {
+        this.date_created = date_created;
     }
 
-    public List<String> getImages() {
-        return images;
+    public List<String> getImage_paths() {
+        return image_paths;
     }
 
-    public void setImages(List<String> images) {
-        this.images = images;
+    public void setImage_paths(List<String> image_paths) {
+        this.image_paths = image_paths;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
     }
 }

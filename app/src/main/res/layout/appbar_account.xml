@@ -10,7 +10,6 @@
         android:id="@+id/username"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:text="thanhson_232"
         android:textColor="@color/black"
         android:textSize="28dp"
         android:textStyle="bold" />

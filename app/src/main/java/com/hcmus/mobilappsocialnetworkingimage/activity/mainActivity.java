@@ -35,6 +35,8 @@ import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
+import java.util.ArrayList;
+
 
 public class mainActivity extends FragmentActivity  {
 
@@ -63,32 +65,6 @@ public class mainActivity extends FragmentActivity  {
 
         if (mAuth.getCurrentUser() ==null) {
             startActivity(new Intent(this, loginActivity.class));
-        }
-        else{
-
-//            FirebaseFirestore db=FirebaseFirestore.getInstance();
-//            DocumentReference docRef = db.collection("account").document(mAuth.getUid());
-//            docRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-//                @Override
-//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-//                    if (task.isSuccessful()) {
-//                        DocumentSnapshot document = task.getResult();
-//                        account = FirebaseAuth.getInstance().getCurrentUser();
-//                        _document = FirebaseFirestore.getInstance();
-//                        _accountFragment.setUserInfo(account,_document);
-//                        if (document.exists()) {
-//                            user=new User(document.get("username").toString()
-//                                    ,document.get("email").toString()
-//                                    ,document.get("about").toString());
-//
-//                        } else {
-//                            Log.d(TAG, "No such document");
-//                        }
-//                    } else {
-//                        Log.d(TAG, "get failed with ", task.getException());
-//                    }
-//                }
-//            });
         }
     }
 
@@ -130,32 +106,23 @@ public class mainActivity extends FragmentActivity  {
             switch (item.getItemId()) {
                 case R.id.homeFragment:
                     if(fragmentManager != null) {
-                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;
                     return true;
 
                 case R.id.searchFragment:
-                    if(fragmentManager != null) {
-                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(_searchFragment).commit();
                     activeFragment = _searchFragment;
                     return true;
 
                 case R.id.accountFragment:
-                    if(fragmentManager != null) {
-                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(_accountFragment).commit();
                     activeFragment = _accountFragment;
 
                     return true;
                 case R.id.favoriteFragment:
-                    if(fragmentManager != null) {
-                        fragmentManager.popBackStack(postFragment.toString(),FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(activityFragment).commit();
                     activeFragment = activityFragment;
                     return true;
@@ -174,15 +141,18 @@ public class mainActivity extends FragmentActivity  {
                 previousFragment = "favoriteFragment";
             }
             Bundle bundle = new Bundle();
-            bundle.putSerializable("title",post.getTitle());
+
+            bundle.putSerializable("caption",post.getCaption());
+            bundle.putSerializable("date_created",post.getDate_created());
+            bundle.putSerializable("user_id",post.getUser_id());
+            bundle.putStringArrayList("image_paths",(ArrayList<String>) post.getImage_paths());
 //            Gson gson = new Gson();
 //            bundle.putSerializable("comments", gson.toJson(post.getComments()));
 //            bundle.putSerializable("likes",gson.toJson(post.getLikes()));
-            bundle.putSerializable("images",post.getImages().toString());
             postFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_layout,postFragment);
-            fragmentTransaction.addToBackStack(postFragment.toString());
+            fragmentTransaction.addToBackStack("postFragment");
             fragmentTransaction.commit();
             return;
         }
