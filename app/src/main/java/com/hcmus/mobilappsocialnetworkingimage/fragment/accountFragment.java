@@ -10,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,22 +38,26 @@ import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.squareup.picasso.Picasso;
 
+import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
+
 public class accountFragment extends Fragment implements View.OnClickListener {
     ImageView avatar;
     Button edit_pf;
-    TextView username,about,display_name;
+    TextView usernameInAppbar,about;
     RecyclerView recyclerView;
     thumbnailsAdapter thumbnailsAdapter;
     ImageButton all_pictures;
     ImageButton video;
     ImageButton tag;
     FirebaseAuth mAuth;
+    userAccountSettingsModel userAccountSettingsModel;
     TextView follower_numbers;
     TextView following_numbers;
     TextView post_numbers;
@@ -76,8 +81,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
         avatar = view.findViewById(R.id.avatar);
-        username = view.findViewById(R.id.username);
-        display_name = view.findViewById(R.id.display_name);
+        usernameInAppbar = view.findViewById(R.id.usernameInAppbar);
         about = view.findViewById(R.id.description);
         edit_pf =view.findViewById(R.id.edit_pf);
         follower_numbers = view.findViewById(R.id.follower_numbers);
@@ -90,18 +94,20 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         edit_pf.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent=new Intent(getContext(), editProfileActivity.class);
                 Bundle bundle=new Bundle();
-                bundle.putString("_username",_username);
+                //bundle.putString("_username",_username);
+                bundle.putSerializable("userAccountSettings", (Serializable) userAccountSettingsModel);
                 intent.putExtras(bundle);
                 //intent.putExtra("userInfor", );
                 startActivity(intent);
             }
         });
 
-//        if (container != null) {
-//            container.removeAllViews();
-//        }
+        if (container != null) {
+            container.removeAllViews();
+        }
         layoutBottomSheet= getActivity().findViewById(R.id.bottomSheetContainer);
         layoutSettingBottomSheet = getActivity().findViewById(R.id.settingBottomSheetContainer);
 
@@ -120,6 +126,42 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         setBottomSheet();
         return view;
     }
+//    public void setUserInfo(UserInfor user,FirebaseAuth mAuth){
+//            this.mAuth=mAuth;
+//            this.userInfor=user;
+//            username.setText(userInfor.getUsername());
+//            about.setText(userInfor.getAbout());
+//            Picasso.get().load(userInfor.getAvatar()).into(avatar);
+//
+//
+//        if(user==null){
+//            return;
+//        }
+////        String id = user.getUid();
+////        Uri photoUrl = user.getPhotoUrl();
+////
+////        DocumentReference doc = document.collection("account").document(id);
+////        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+////            @Override
+////            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+////                if (task.isSuccessful()) {
+////                    DocumentSnapshot document = task.getResult();
+////                    if (document.exists()) {
+////                        username.setText(document.getString("username"));
+////                        about.setText(document.getString("about"));
+////                    } else {
+////                        Log.d(TAG, "No such document");
+////                    }
+////                } else {
+////                    Log.d(TAG, "get failed with ", task.getException());
+////                }
+////            }
+////        });
+////
+////
+////        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
+//
+//    }
 
     void setBottomSheet(){
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
@@ -145,16 +187,24 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("user_account_settings/"+mAuth.getUid());
+        DatabaseReference myRef = database.getReference("user_account_settings").child(mAuth.getUid());
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                        Picasso.get().load(dataSnapshot.child("profile_photo").getValue().toString()).into(avatar);
-                        username.setText(dataSnapshot.child("username").getValue().toString());
-                        about.setText(dataSnapshot.child("description").getValue().toString());
-                        display_name.setText(dataSnapshot.child("display_name").getValue().toString());
-                        following_numbers.setText(dataSnapshot.child("following").getValue().toString());
-                        follower_numbers.setText(dataSnapshot.child("followers").getValue().toString());
+                userAccountSettingsModel=new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
+                        ,dataSnapshot.child("display_name").getValue().toString()
+                        ,Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
+                        ,Integer.parseInt(dataSnapshot.child("followings").getValue().toString())
+                        ,Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
+                        ,dataSnapshot.child("profile_photo").getValue().toString()
+                        ,dataSnapshot.child("username").getValue().toString()
+                        ,dataSnapshot.child("website").getValue().toString());
+                usernameInAppbar.setText(userAccountSettingsModel.getUsername());
+                about.setText(userAccountSettingsModel.getDescription());
+                post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
+                follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+                following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+                Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
             }
 
             @Override
@@ -163,28 +213,6 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
-
-
-
-        if(i==1){
-            DatabaseReference myPosts = database.getReference("user_photos/"+mAuth.getUid());
-            myPosts.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(DataSnapshot dataSnapshot) {
-                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        posts.add(new postsModel(snapshot.child("caption").getValue().toString(),(ArrayList<String>) snapshot.child("likes").getValue(),(ArrayList<String>) snapshot.child("comments").getValue(),snapshot.child("date_created").getValue().toString(),(ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("tags").getValue().toString()));
-                    }
-                    post_numbers.setText(posts.size() +"");
-                    thumbnailsAdapter.notifyDataSetChanged();
-                }
-
-                @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
-                }
-            });
-        }
 
     }
 

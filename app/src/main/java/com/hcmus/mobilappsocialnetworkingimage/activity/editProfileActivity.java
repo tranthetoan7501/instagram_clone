@@ -30,6 +30,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -38,6 +39,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Vector;
 
+import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
+
 public class editProfileActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
     ImageView avatar;
@@ -45,7 +48,7 @@ public class editProfileActivity extends AppCompatActivity {
     com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
     EditText username,about;
     Bundle bundle;
-    userModel userInfor;
+    userAccountSettingsModel userAccountSettingsModel;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
     
     @Override
@@ -60,12 +63,12 @@ public class editProfileActivity extends AppCompatActivity {
         about=findViewById(R.id.edit_about);
 
         bundle=getIntent().getExtras();
-        userInfor= (userModel) getIntent().getSerializableExtra("userInfor");
+        userAccountSettingsModel= (userAccountSettingsModel) getIntent().getSerializableExtra("userAccountSettings");
 
-//        username.setText(userInfor.getUsername());
-        //about.setText(userInfor.getAbout());
-       // Picasso.get().load(userInfor.getAvatar()).into(avatar);
 
+        Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+        username.setText(userAccountSettingsModel.getUsername());
+        about.setText(userAccountSettingsModel.getDescription());
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,44 +76,36 @@ public class editProfileActivity extends AppCompatActivity {
             }
         });
 
-        back.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        back.setOnClickListener(view -> editProfileActivity.this.finish());
+
+        ok.setOnClickListener(view -> {
+            if(username.getText().toString().equals(userAccountSettingsModel.getUsername())
+                && about.getText().toString().equals(userAccountSettingsModel.getDescription())){
                 editProfileActivity.this.finish();
-
             }
-        });
-
-        ok.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if(username.getText().toString().equals(userInfor.getUsername())){
-                    editProfileActivity.this.finish();
-                }
-                else {
-                    DatabaseReference myRef = database.getReference("account");
-                    myRef.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            Vector<String> userCheck = new Vector<>();
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                userCheck.add(snapshot.getKey().toString());
-                            }
-                            if (userCheck.contains(username.getText().toString())) {
-                                username.setError("Username already exist!");
-                                username.requestFocus();
-                            } else {
-                                setdata();
-                                editProfileActivity.this.finish();
-                            }
+            else {
+                DatabaseReference myRef = database.getReference("user");
+                myRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Vector<String> userCheck = new Vector<>();
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            userCheck.add(snapshot.child("username").getValue().toString());
                         }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
+                        if (userCheck.contains(username.getText().toString())) {
+                            username.setError("Username already exist!");
+                            username.requestFocus();
+                        } else {
+                            setdata();
+                            editProfileActivity.this.finish();
                         }
-                    });
+                    }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                }
+                    }
+                });
+
             }
         });
     }
@@ -131,12 +126,11 @@ public class editProfileActivity extends AppCompatActivity {
     }
 
     private void setdata(){
-        DatabaseReference myRef=database.getReference("account");
-        myRef.child(userInfor.getUsername()).get().addOnSuccessListener(dataSnapshot -> {
-           myRef.child(username.getText().toString()).setValue(dataSnapshot.getValue());
-           myRef.child(userInfor.getUsername().toString()).removeValue();
-        });
-        myRef.child(username.getText().toString()).child("id").setValue(FirebaseAuth.getInstance().getUid());
+        System.out.println(about.getText().toString());
+        mAuth=FirebaseAuth.getInstance();
+        DatabaseReference myRef=database.getReference("user_account_settings").child(mAuth.getUid());
+        myRef.child("username").setValue(username.getText().toString());
+        myRef.child("description").setValue(about.getText().toString());
     }
 
     private File savebitmap(Bitmap bmp) {

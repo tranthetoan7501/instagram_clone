@@ -53,7 +53,7 @@ public class firebaseMethods {
                 addNewUser(email, username, "", "");
                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
-                        Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_SHORT).show();
+                           Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, loginActivity.class);
                         mContext.startActivity(intent);
                     } else {

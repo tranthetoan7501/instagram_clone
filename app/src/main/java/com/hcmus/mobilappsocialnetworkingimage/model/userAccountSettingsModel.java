@@ -1,11 +1,13 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
-public class userAccountSettingsModel {
+import java.io.Serializable;
+
+public class userAccountSettingsModel implements Serializable {
 
     private String description;
     private String display_name;
     private long followers;
-    private long following;
+    private long followings;
     private long posts;
     private String profile_photo;
     private String username;
@@ -14,11 +16,11 @@ public class userAccountSettingsModel {
     public userAccountSettingsModel() {
     }
 
-    public userAccountSettingsModel(String description, String display_name, long followers, long following, long posts, String profile_photo, String username, String website) {
+    public userAccountSettingsModel(String description, String display_name, long followers, long followings, long posts, String profile_photo, String username, String website) {
         this.description = description;
         this.display_name = display_name;
         this.followers = followers;
-        this.following = following;
+        this.followings = followings;
         this.posts = posts;
         this.profile_photo = profile_photo;
         this.username = username;
@@ -50,11 +52,11 @@ public class userAccountSettingsModel {
     }
 
     public long getFollowing() {
-        return following;
+        return followings;
     }
 
-    public void setFollowing(long following) {
-        this.following = following;
+    public void setFollowing(long followings) {
+        this.followings = followings;
     }
 
     public long getPosts() {
