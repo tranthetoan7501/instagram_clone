@@ -27,7 +27,6 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 public class changePassword extends Fragment  implements View.OnClickListener{
     ImageButton previous, confirm;
     EditText currentPassword, newPassword, confirmPassword;
-    String email;
     Bundle bundle = new Bundle();
     private FirebaseUser user;
 
@@ -41,7 +40,6 @@ public class changePassword extends Fragment  implements View.OnClickListener{
                              Bundle savedInstanceState) {
         View view =  inflater.inflate(R.layout.fragment_change_password, container, false);
         bundle=this.getArguments();
-        email=bundle.getString("email");
         previous = view.findViewById(R.id.previous);
         previous.setOnClickListener(this);
         confirm=view.findViewById(R.id.confirm);
@@ -59,7 +57,6 @@ public class changePassword extends Fragment  implements View.OnClickListener{
                 getActivity().finish();
                 break;
             case R.id.confirm:
-                System.out.println(email);
                 String curP= currentPassword.getText().toString();
                 String newP = newPassword.getText().toString();
                 String conP= confirmPassword.getText().toString();
@@ -90,7 +87,7 @@ public class changePassword extends Fragment  implements View.OnClickListener{
                 else
                 {
                     user= FirebaseAuth.getInstance().getCurrentUser();
-                    AuthCredential credential= EmailAuthProvider.getCredential(email,curP);
+                    AuthCredential credential= EmailAuthProvider.getCredential(FirebaseAuth.getInstance().getCurrentUser().getEmail(),curP);
                     user.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {

@@ -80,7 +80,6 @@ public class mainActivity extends FragmentActivity  {
         unregisterReceiver(networkChangeListener);
         super.onStop();
     }
-
     void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();

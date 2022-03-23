@@ -247,7 +247,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             case R.id.change_password:
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type","change password");
-//                bundle.putString("email", user.getEmail());
+//                bundle.putString("email", mAuth.getCurrentUser().getEmail());
                 Intent intent1 = new Intent(getContext(), navigationActivity.class);
                 intent1.putExtras(bundle);
                 startActivity(intent1);
