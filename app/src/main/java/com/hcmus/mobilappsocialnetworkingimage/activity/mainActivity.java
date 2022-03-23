@@ -62,8 +62,7 @@ public class mainActivity extends FragmentActivity  {
         fa=this;
         setUpNavigation();
         mAuth=FirebaseAuth.getInstance();
-
-        if (mAuth.getCurrentUser() ==null) {
+        if (mAuth.getCurrentUser()==null) {
             startActivity(new Intent(this, loginActivity.class));
         }
     }

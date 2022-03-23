@@ -29,7 +29,6 @@ public class firebaseMethods {
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app");
         myRef = mFirebaseDatabase.getReference();
         mContext = context;
-
         if (mAuthListener != null) {
             userID = mAuth.getCurrentUser().getUid();
         }

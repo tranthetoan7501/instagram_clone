@@ -10,28 +10,39 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.database.core.Constants;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -40,6 +51,8 @@ import java.io.OutputStream;
 import java.util.Vector;
 
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
+
+import io.grpc.Context;
 
 public class editProfileActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
@@ -50,7 +63,8 @@ public class editProfileActivity extends AppCompatActivity {
     Bundle bundle;
     userAccountSettingsModel userAccountSettingsModel;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    
+    Bitmap imageProfile;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +94,7 @@ public class editProfileActivity extends AppCompatActivity {
 
         ok.setOnClickListener(view -> {
             if(username.getText().toString().equals(userAccountSettingsModel.getUsername())
-                && about.getText().toString().equals(userAccountSettingsModel.getDescription())){
+                && about.getText().toString().equals(userAccountSettingsModel.getDescription())&& imageProfile==null){
                 editProfileActivity.this.finish();
             }
             else {
@@ -131,200 +145,86 @@ public class editProfileActivity extends AppCompatActivity {
         DatabaseReference myRef=database.getReference("user_account_settings").child(mAuth.getUid());
         myRef.child("username").setValue(username.getText().toString());
         myRef.child("description").setValue(about.getText().toString());
-    }
-
-    private File savebitmap(Bitmap bmp) {
-        String extStorageDirectory = Environment.getExternalStorageDirectory().toString();
-        OutputStream outStream = null;
-        // String temp = null;
-        File file = new File(extStorageDirectory, "temp.png");
-        if (file.exists()) {
-            file.delete();
-            file = new File(extStorageDirectory, "temp.png");
-
+        myRef=database.getReference("users").child(mAuth.getUid());
+        myRef.child("username").setValue(username.getText().toString());
+        if(imageProfile!=null){
+            firebaseUploadBitmap(imageProfile);
         }
 
-        try {
-            outStream = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.PNG, 100, outStream);
-            outStream.flush();
-            outStream.close();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
-        return file;
     }
 
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-
         builder.setTitle("Add Photo!");
-
         builder.setItems(options, new DialogInterface.OnClickListener() {
-
             @Override
-
             public void onClick(DialogInterface dialog, int item) {
-
-                if (options[item].equals("Take Photo"))
-
-                {
-
+                if (options[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
-                    File f = new File(android.os.Environment.getExternalStorageDirectory(), "temp.jpg");
-
-                    intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(f));
-                    //pic = f;
-
                     startActivityForResult(intent, 1);
-
-
                 }
-
                 else if (options[item].equals("Choose from Gallery"))
-
                 {
-
                     Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
                     startActivityForResult(intent, 2);
-
-
-
                 }
-
                 else if (options[item].equals("Cancel")) {
-
                     dialog.dismiss();
-
                 }
-
             }
-
         });
-
         builder.show();
-
     }
 
+    private void firebaseUploadBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] data = stream.toByteArray();
+        StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
+        StorageReference imageRef = imageStorage.child("profile_photos/"+FirebaseAuth.getInstance().getUid()+"/"+"imagePath");
+        Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
+            }
+            return imageRef.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                DatabaseReference myRef=database.getReference("user_account_settings").child(mAuth.getUid());
+                myRef.child("profile_photo").setValue(downloadUri.toString());
+            } else {
+                Toast.makeText(editProfileActivity.this,"Change profile photo failed",Toast.LENGTH_LONG).show();
+            }
+        });
 
-
+    }
     @Override
-
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == 1) {
-                //h=0;
-                File f = new File(Environment.getExternalStorageDirectory().toString());
-
-                for (File temp : f.listFiles()) {
-
-                    if (temp.getName().equals("temp.jpg")) {
-
-                        f = temp;
-                        File photo = new File(Environment.getExternalStorageDirectory(), "temp.jpg");
-                        //pic = photo;
-                        break;
-
-                    }
-
-                }
-
-                try {
-
-                    Bitmap bitmap;
-
-                    BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
-
-
-                    bitmap = BitmapFactory.decodeFile(f.getAbsolutePath(),
-
-                            bitmapOptions);
-
-
-                    avatar.setImageBitmap(bitmap);
-
-
-                    String path = android.os.Environment
-
-                            .getExternalStorageDirectory()
-
-                            + File.separator
-
-                            + "Phoenix" + File.separator + "default";
-                    //p = path;
-
-                    f.delete();
-
-                    OutputStream outFile = null;
-
-                    File file = new File(path, String.valueOf(System.currentTimeMillis()) + ".jpg");
-
-                    try {
-
-                        outFile = new FileOutputStream(file);
-
-                        bitmap.compress(Bitmap.CompressFormat.JPEG, 85, outFile);
-                        //pic=file;
-                        outFile.flush();
-
-                        outFile.close();
-
-
-                    } catch (FileNotFoundException e) {
-
-                        e.printStackTrace();
-
-                    } catch (IOException e) {
-
-                        e.printStackTrace();
-
-                    } catch (Exception e) {
-
-                        e.printStackTrace();
-
-                    }
-
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-
-                }
-
-            } else if (requestCode == 2) {
-
-
+                Bundle extras = data.getExtras();
+                Bitmap imageBitmap = (Bitmap) extras.get("data");
+                imageBitmap=Bitmap.createScaledBitmap(imageBitmap,200,200,true);
+                avatar.setImageBitmap(imageBitmap);
+                imageProfile=imageBitmap;
+            }else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 // h=1;
                 //imgui = selectedImage;
                 String[] filePath = {MediaStore.Images.Media.DATA};
-
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
-
                 c.moveToFirst();
-
                 int columnIndex = c.getColumnIndex(filePath[0]);
-
                 String picturePath = c.getString(columnIndex);
-
                 c.close();
-
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
-
-
                 Log.w("path of image from gallery......******************.........", picturePath + "");
-
-
+                thumbnail=Bitmap.createScaledBitmap(thumbnail,200,200,true);
                 avatar.setImageBitmap(thumbnail);
-
+                imageProfile=thumbnail;
             }
-
         }
     }
 }

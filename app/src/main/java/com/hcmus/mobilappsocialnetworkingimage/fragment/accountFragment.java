@@ -100,7 +100,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 //bundle.putString("_username",_username);
                 bundle.putSerializable("userAccountSettings", (Serializable) userAccountSettingsModel);
                 intent.putExtras(bundle);
-                //intent.putExtra("userInfor", );
+
                 startActivity(intent);
             }
         });
@@ -184,7 +184,6 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         thumbnailsAdapter = new thumbnailsAdapter(posts,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(thumbnailsAdapter);
-
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myRef = database.getReference("user_account_settings").child(mAuth.getUid());
@@ -194,7 +193,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 userAccountSettingsModel=new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
                         ,dataSnapshot.child("display_name").getValue().toString()
                         ,Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
-                        ,Integer.parseInt(dataSnapshot.child("followings").getValue().toString())
+                        ,Integer.parseInt(dataSnapshot.child("following").getValue().toString())
                         ,Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
                         ,dataSnapshot.child("profile_photo").getValue().toString()
                         ,dataSnapshot.child("username").getValue().toString()
