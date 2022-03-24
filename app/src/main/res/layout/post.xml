@@ -61,13 +61,21 @@
         android:layout_marginHorizontal="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <ImageButton
             android:id="@+id/like"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_like"
             android:background="@android:color/transparent"
-            />
+            android:src="@drawable/ic_like" />
+
+        <ImageButton
+            android:id="@+id/liked"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_like_filled" />
 
         <ImageButton
             android:id="@+id/comment"

@@ -31,6 +31,7 @@ import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.searchFragment;
+import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
@@ -61,17 +62,17 @@ public class mainActivity extends FragmentActivity  {
         setContentView(R.layout.activity_main);
         fa=this;
         setUpNavigation();
-        mAuth=FirebaseAuth.getInstance();
-        if (mAuth.getCurrentUser()==null) {
-            startActivity(new Intent(this, loginActivity.class));
-        }
     }
 
     @Override
     protected void onStart() {
         IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
+        mAuth=FirebaseAuth.getInstance();
         super.onStart();
+        if (mAuth.getCurrentUser()==null) {
+            startActivity(new Intent(this, loginActivity.class));
+        }
     }
 
 
@@ -129,7 +130,7 @@ public class mainActivity extends FragmentActivity  {
         }
     };
 
-    public void turnOnFragment(String fragment, postsModel post){
+    public void turnOnFragment(String fragment, thumbnailsModel post){
         if(fragment.equals("postFragment")){
             Fragment f = fragmentManager.findFragmentByTag("accountFragment");
             if(f!=null && f.isVisible()){
@@ -139,9 +140,7 @@ public class mainActivity extends FragmentActivity  {
                 previousFragment = "favoriteFragment";
             }
             Bundle bundle = new Bundle();
-
-            bundle.putSerializable("caption",post.getCaption());
-            bundle.putSerializable("date_created",post.getDate_created());
+            bundle.putSerializable("post_id",post.getPost_id());
             bundle.putSerializable("user_id",post.getUser_id());
             bundle.putStringArrayList("image_paths",(ArrayList<String>) post.getImage_paths());
 //            Gson gson = new Gson();

@@ -9,7 +9,7 @@ import android.widget.VideoView;
 
 import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
 import com.squareup.picasso.Picasso;
 
 import androidx.annotation.NonNull;
@@ -18,14 +18,13 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.thumbnailsViewHolder> {
-    List<postsModel> posts;
+    List<thumbnailsModel> thumbnails;
     Context context;
 
-    public thumbnailsAdapter(List<postsModel> posts, Context context) {
-        this.posts = posts;
+    public thumbnailsAdapter(List<thumbnailsModel> thumbnails, Context context) {
+        this.thumbnails = thumbnails;
         this.context = context;
     }
-
 
     @NonNull
     @Override
@@ -36,9 +35,9 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
 
     @Override
     public void onBindViewHolder(@NonNull thumbnailsViewHolder holder, int position) {
-        if (posts.isEmpty()) return;
-        Picasso.get().load(posts.get(position).getImage_paths().get(0)).into(holder.thumbnail);
-        if(posts.get(position).getImage_paths().size() > 1){
+        if (thumbnails.isEmpty()) return;
+        Picasso.get().load(thumbnails.get(position).getImage_paths().get(0)).into(holder.thumbnail);
+        if(thumbnails.get(position).getImage_paths().size() > 1){
             holder.icon.setVisibility(View.VISIBLE);
             holder.icon.setImageResource(R.drawable.ic_photo_lib);
         }
@@ -56,7 +55,7 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
             @Override
             public void onClick(View view) {
                 if(context instanceof mainActivity){
-                    ((mainActivity)context).turnOnFragment("postFragment",posts.get(holder.getPosition()));
+                    ((mainActivity)context).turnOnFragment("postFragment", thumbnails.get(holder.getPosition()));
                 }
             }
         });
@@ -64,7 +63,7 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
 
     @Override
     public int getItemCount() {
-        return posts.size();
+        return thumbnails.size();
     }
 
     class thumbnailsViewHolder extends RecyclerView.ViewHolder{

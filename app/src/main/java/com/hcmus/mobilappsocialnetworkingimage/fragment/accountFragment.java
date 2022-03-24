@@ -45,7 +45,7 @@ import java.util.List;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.squareup.picasso.Picasso;
 
-import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.*;
 
 public class accountFragment extends Fragment implements View.OnClickListener {
     ImageView avatar;
@@ -126,42 +126,6 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         setBottomSheet();
         return view;
     }
-//    public void setUserInfo(UserInfor user,FirebaseAuth mAuth){
-//            this.mAuth=mAuth;
-//            this.userInfor=user;
-//            username.setText(userInfor.getUsername());
-//            about.setText(userInfor.getAbout());
-//            Picasso.get().load(userInfor.getAvatar()).into(avatar);
-//
-//
-//        if(user==null){
-//            return;
-//        }
-////        String id = user.getUid();
-////        Uri photoUrl = user.getPhotoUrl();
-////
-////        DocumentReference doc = document.collection("account").document(id);
-////        doc.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-////            @Override
-////            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-////                if (task.isSuccessful()) {
-////                    DocumentSnapshot document = task.getResult();
-////                    if (document.exists()) {
-////                        username.setText(document.getString("username"));
-////                        about.setText(document.getString("about"));
-////                    } else {
-////                        Log.d(TAG, "No such document");
-////                    }
-////                } else {
-////                    Log.d(TAG, "get failed with ", task.getException());
-////                }
-////            }
-////        });
-////
-////
-////        Glide.with(this).load(photoUrl).error(R.drawable.default_avatar);
-//
-//    }
 
     void setBottomSheet(){
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
@@ -180,38 +144,61 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     }
 
     void getData(int i){
-        List<postsModel> posts = new ArrayList<>();
-        thumbnailsAdapter = new thumbnailsAdapter(posts,getContext());
+        List<thumbnailsModel> thumbails = new ArrayList<>();
+        thumbnailsAdapter = new thumbnailsAdapter(thumbails,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(thumbnailsAdapter);
         mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("user_account_settings").child(mAuth.getUid());
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userAccountSettingsModel=new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
-                        ,dataSnapshot.child("display_name").getValue().toString()
-                        ,Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
-                        ,Integer.parseInt(dataSnapshot.child("following").getValue().toString())
-                        ,Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
-                        ,dataSnapshot.child("profile_photo").getValue().toString()
-                        ,dataSnapshot.child("username").getValue().toString()
-                        ,dataSnapshot.child("website").getValue().toString());
-                usernameInAppbar.setText(userAccountSettingsModel.getUsername());
-                about.setText(userAccountSettingsModel.getDescription());
-                post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
-                follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
-                following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
-                Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
-            }
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+        if(mAuth.getCurrentUser() != null) {
+            DatabaseReference myRef = database.getReference("user_account_settings").child(mAuth.getUid());
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    userAccountSettingsModel = new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
+                            , dataSnapshot.child("display_name").getValue().toString()
+                            , Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
+                            , Integer.parseInt(dataSnapshot.child("following").getValue().toString())
+                            , Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
+                            , dataSnapshot.child("profile_photo").getValue().toString()
+                            , dataSnapshot.child("username").getValue().toString()
+                            , dataSnapshot.child("website").getValue().toString());
+                    usernameInAppbar.setText(userAccountSettingsModel.getUsername());
+                    about.setText(userAccountSettingsModel.getDescription());
+                    post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
+                    follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+                    Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.w(TAG, "Failed to read value.", error.toException());
+                }
+            });
+            if(i==1){
+                DatabaseReference myPosts = database.getReference("user_photos/"+mAuth.getUid());
+                myPosts.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("post_id").getValue().toString()));
+                        }
+                        post_numbers.setText(thumbails.size() + "");
+                        thumbnailsAdapter.notifyDataSetChanged();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
             }
-        });
+        }
+
+
 
     }
 

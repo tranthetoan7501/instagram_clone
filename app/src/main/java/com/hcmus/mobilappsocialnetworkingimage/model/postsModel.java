@@ -11,8 +11,9 @@ public class postsModel {
     List<String> image_paths;
     String user_id;
     String tags;
+    String post_id;
 
-    public postsModel(String caption, List<String> likes, ArrayList<String> comments, String date_created, List<String> image_paths, String user_id, String tags) {
+    public postsModel(String caption, List<String> likes, List<String> comments, String date_created, List<String> image_paths, String user_id, String tags, String post_id) {
         this.caption = caption;
         this.likes = likes;
         this.comments = comments;
@@ -20,6 +21,7 @@ public class postsModel {
         this.image_paths = image_paths;
         this.user_id = user_id;
         this.tags = tags;
+        this.post_id = post_id;
     }
 
     public String getCaption() {
@@ -76,5 +78,13 @@ public class postsModel {
 
     public void setTags(String tags) {
         this.tags = tags;
+    }
+
+    public String getPost_id() {
+        return post_id;
+    }
+
+    public void setPost_id(String post_id) {
+        this.post_id = post_id;
     }
 }
