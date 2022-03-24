@@ -26,7 +26,6 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 
@@ -34,7 +33,7 @@ public class searchFragment extends Fragment {
     RecyclerView recyclerView;
     com.hcmus.mobilappsocialnetworkingimage.adapter.userAdapter userAdapter;
     List<userCardModel> list = new ArrayList<userCardModel>();
-    TextInputEditText searhInput;
+    TextInputEditText searchInput;
 
 
     @Override
@@ -49,19 +48,20 @@ public class searchFragment extends Fragment {
 //        if (container != null) {
 //            container.removeAllViews();
 //        }
-        recyclerView = view.findViewById(R.id.grid);
-        searhInput = view.findViewById(R.id.search_appbar_input);
+        recyclerView = view.findViewById(R.id.grid_card);
+
+        searchInput = view.findViewById(R.id.search_appbar_input);
         View.OnFocusChangeListener ofcListener = new searchFragment.MyFocusChangeListener();
-        searhInput.setOnFocusChangeListener(ofcListener);
-        searhInput.addTextChangedListener(new TextWatcher() {
+        searchInput.setOnFocusChangeListener(ofcListener);
+        searchInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                setFilter(searchInput.getText().toString());
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                setFilter(searhInput.getText().toString());
+                setFilter(searchInput.getText().toString());
             }
 
             @Override
@@ -81,7 +81,12 @@ public class searchFragment extends Fragment {
     void getData(){
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        Query queryAllAccount = database.getReference("user_account_settings").orderByChild("username");
+        Query queryAllAccount = database.getReference("user_account_settings");
+
+
+        userAdapter = new userAdapter(list,getContext());
+
+
 
         queryAllAccount.addValueEventListener(new ValueEventListener() {
             @Override
@@ -90,7 +95,7 @@ public class searchFragment extends Fragment {
                     userCardModel user = new userCardModel(dataSnapshot.getKey(),
                                                     dataSnapshot.child("username").getValue().toString(),
                                                     dataSnapshot.child("profile_photo").getValue().toString());
-                    Log.d("masv",dataSnapshot.getKey());
+
                    
                     list.add(user);
                 }
@@ -103,7 +108,7 @@ public class searchFragment extends Fragment {
             }
         });
 
-        userAdapter = new userAdapter(list,getContext());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
