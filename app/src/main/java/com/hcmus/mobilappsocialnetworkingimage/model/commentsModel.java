@@ -1,36 +1,21 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
+import java.util.List;
+
 public class commentsModel {
     String comment;
-    String count_likes;
+    List<String> likes;
     String date_created;
-    String username;
-    String avatar;
     String user_id;
 
-    public commentsModel(String comment, String count_likes, String date_created, String username, String avatar, String user_id) {
+    public commentsModel() {
+    }
+
+    public commentsModel(String comment, List<String> likes, String date_created, String user_id) {
         this.comment = comment;
-        this.count_likes = count_likes;
+        this.likes = likes;
         this.date_created = date_created;
-        this.username = username;
-        this.avatar = avatar;
         this.user_id = user_id;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getAvatar() {
-        return avatar;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
     }
 
     public String getComment() {
@@ -41,12 +26,12 @@ public class commentsModel {
         this.comment = comment;
     }
 
-    public String getCount_likes() {
-        return count_likes;
+    public List<String> getLikes() {
+        return likes;
     }
 
-    public void setCount_likes(String count_likes) {
-        this.count_likes = count_likes;
+    public void setLikes(List<String> likes) {
+        this.likes = likes;
     }
 
     public String getDate_created() {

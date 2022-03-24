@@ -3,52 +3,44 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_marginBottom="8dp"
     >
-    <de.hdodenhof.circleimageview.CircleImageView
+
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/avatar"
-        android:layout_marginHorizontal="10dp"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="40dp"
         android:layout_height="55dp"
-        android:src="@drawable/bcd"
-        app:civ_border_width="2dp"
+        android:layout_marginHorizontal="10dp"
         app:civ_border_color="@color/white"
-        />
+        app:civ_border_width="2dp" />
 
     <TextView
-        android:layout_toRightOf="@+id/avatar"
-        android:layout_marginTop="10dp"
         android:id="@+id/description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Thanh Sơn"
-        android:textAllCaps="false"
-        android:textColor="@color/black"
+        android:layout_marginTop="10dp"
+        android:layout_toRightOf="@+id/avatar"
         android:background="@android:color/transparent"
-        />
+        android:textAllCaps="false"
+        android:textColor="@color/black" />
 
     <TextView
-        android:layout_alignLeft="@+id/description"
-        android:layout_below="@+id/description"
         android:id="@+id/date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="16h"
-        android:textAllCaps="false"
+        android:layout_below="@+id/description"
+        android:layout_alignLeft="@+id/description"
         android:background="@android:color/transparent"
-        />
+        android:textAllCaps="false" />
 
     <TextView
-        android:layout_marginHorizontal="10dp"
-        android:layout_toRightOf="@+id/date"
-        android:layout_below="@+id/description"
         android:id="@+id/num_likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="1 like"
-        android:textAllCaps="false"
+        android:layout_below="@+id/description"
+        android:layout_marginHorizontal="10dp"
+        android:layout_toRightOf="@+id/date"
         android:background="@android:color/transparent"
-        android:textStyle="bold"
-        />
+        android:textAllCaps="false"
+        android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/like"

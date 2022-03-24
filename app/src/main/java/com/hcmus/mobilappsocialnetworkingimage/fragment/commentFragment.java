@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.model.commentsModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -45,6 +47,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
     Bundle bundle = new Bundle();
     FirebaseDatabase database;
     FirebaseAuth mAuth;
+    List<commentsModel> comments = new ArrayList<>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,6 +72,9 @@ public class commentFragment extends Fragment implements View.OnClickListener{
     }
 
     void getData(){
+        commentsAdapter = new commentsAdapter(getContext(),comments);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
+        recyclerView.setAdapter(commentsAdapter);
         database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference postDetails = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
         postDetails.addValueEventListener(new ValueEventListener() {
@@ -76,6 +82,14 @@ public class commentFragment extends Fragment implements View.OnClickListener{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 description.setText(snapshot.child("caption").getValue().toString());
                 date.setText(snapshot.child("date_created").getValue().toString());
+                if(snapshot.child("comments").getChildrenCount() != 0) {
+
+                }
+                for(DataSnapshot data : snapshot.child("comments").getChildren()){
+                    commentsModel temp = data.getValue(commentsModel.class);
+                    comments.add(temp);
+                }
+                commentsAdapter.notifyDataSetChanged();
             }
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -104,41 +118,6 @@ public class commentFragment extends Fragment implements View.OnClickListener{
 
 
     }
-
-//    void getData(){
-//        Picasso.get().load(bundle.get("image").toString()).into(avatar);
-//        String str[] = bundle.get("description").toString().split("\n");
-//        description.setText(Html.fromHtml("<b>" + str[0]+"</b>" + " " + str[1]));
-//        date.setText(bundle.get("date").toString());
-//
-//        List<String> image = new ArrayList<>();
-//        List<String> description = new ArrayList<>();
-//        List<String> date = new ArrayList<>();
-//        List<String> num_likes = new ArrayList<>();
-//
-//        LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false);
-//        commentsAdapter = new commentsAdapter(getContext(),description,date,num_likes,image);
-//        recyclerView.setLayoutManager(linearLayout);
-//        recyclerView.setAdapter(commentsAdapter);
-//
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        description.add("Toàn lé\nAnh em nhóm 5 thánh bú liếm");
-//        date.add("27/10/2001");
-//        num_likes.add("15 likes");
-//
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        description.add("Toàn lé\nAnh em nhóm 5 thánh bú liếm");
-//        date.add("27/10/2001");
-//        num_likes.add("15 likes");
-//
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        description.add("Toàn lé\nAnh em nhóm 5 thánh bú liếm");
-//        date.add("27/10/2001");
-//        num_likes.add("15 likes");
-//
-//        commentsAdapter.notifyDataSetChanged();
-//
-//    }
 
 
     @Override
