@@ -1,13 +1,17 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.Html;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +30,9 @@ import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.commentsModel;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,6 +47,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
     CircleImageView avatar;
     RecyclerView recyclerView;
     EditText comment;
+    ImageButton sendComment;
     CircleImageView belowAvatar;
     TextView description;
     TextView date;
@@ -66,13 +73,16 @@ public class commentFragment extends Fragment implements View.OnClickListener{
         previous.setOnClickListener(this);
         bundle = getArguments();
         date = view.findViewById(R.id.date);
+        sendComment = view.findViewById(R.id.sendComment);
+        sendComment.setOnClickListener(this);
         mAuth = FirebaseAuth.getInstance();
         getData();
+        handleEvent();
         return view;
     }
 
     void getData(){
-        commentsAdapter = new commentsAdapter(getContext(),comments);
+        commentsAdapter = new commentsAdapter(getContext(),comments,bundle.getString("user_id"),bundle.getString("post_id"));
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         recyclerView.setAdapter(commentsAdapter);
         database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
@@ -82,9 +92,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 description.setText(snapshot.child("caption").getValue().toString());
                 date.setText(snapshot.child("date_created").getValue().toString());
-                if(snapshot.child("comments").getChildrenCount() != 0) {
-
-                }
+                comments.clear();
                 for(DataSnapshot data : snapshot.child("comments").getChildren()){
                     commentsModel temp = data.getValue(commentsModel.class);
                     comments.add(temp);
@@ -119,12 +127,52 @@ public class commentFragment extends Fragment implements View.OnClickListener{
 
     }
 
+    void handleEvent(){
+        comment.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(comment.getText().equals("")) {
+                    sendComment.setVisibility(View.GONE);
+                }
+                else{
+                    sendComment.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+    }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.previous:
                 getActivity().finish();
+                break;
+            case R.id.sendComment:
+                if(comment.getText()!=null){
+                    DatabaseReference pushComment = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"comments");
+                    if(pushComment != null){
+                        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),comments.size()+"");
+                        pushComment.child(model.getComment_id()).setValue(model);
+                        comment.setText("");
+                    }
+                    else {
+                        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),"0");
+                        pushComment.child("comments/0").setValue(model);
+                        comment.setText("");
+                    }
+                }
                 break;
         }
     }

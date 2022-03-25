@@ -183,6 +183,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 myPosts.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        thumbails.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("post_id").getValue().toString()));
                         }

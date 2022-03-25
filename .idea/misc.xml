@@ -92,7 +92,7 @@
         <entry key="app/src/main/res/layout/appbar_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/appbar_post.xml" value="0.11041666666666666" />
         <entry key="app/src/main/res/layout/card_search.xml" value="0.1" />
-        <entry key="app/src/main/res/layout/comment.xml" value="0.2703488372093023" />
+        <entry key="app/src/main/res/layout/comment.xml" value="0.22786560058593752" />
         <entry key="app/src/main/res/layout/fragment_account.xml" value="0.4665939331054688" />
         <entry key="app/src/main/res/layout/fragment_all_pictures.xml" value="0.20690155029296875" />
         <entry key="app/src/main/res/layout/fragment_comment.xml" value="0.1" />
@@ -122,7 +122,7 @@
   <component name="VisualizationToolProject">
     <option name="state">
       <ProjectState>
-        <option name="scale" value="0.37271728515625" />
+        <option name="scale" value="0.1" />
       </ProjectState>
     </option>
   </component>

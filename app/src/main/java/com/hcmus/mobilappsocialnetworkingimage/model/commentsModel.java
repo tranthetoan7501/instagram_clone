@@ -7,15 +7,17 @@ public class commentsModel {
     List<String> likes;
     String date_created;
     String user_id;
+    String comment_id;
 
     public commentsModel() {
     }
 
-    public commentsModel(String comment, List<String> likes, String date_created, String user_id) {
+    public commentsModel(String comment, List<String> likes, String date_created, String user_id, String comment_id) {
         this.comment = comment;
         this.likes = likes;
         this.date_created = date_created;
         this.user_id = user_id;
+        this.comment_id = comment_id;
     }
 
     public String getComment() {
@@ -48,5 +50,13 @@ public class commentsModel {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getComment_id() {
+        return comment_id;
+    }
+
+    public void setComment_id(String comment_id) {
+        this.comment_id = comment_id;
     }
 }

@@ -44,13 +44,24 @@
 
     <ImageButton
         android:id="@+id/like"
-        android:layout_marginRight="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_baseline_favorite_border_24"
-        android:background="@android:color/transparent"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
         android:foreground="?selectableItemBackgroundBorderless"
-        />
+        android:src="@drawable/ic_baseline_favorite_border_24" />
+
+    <ImageButton
+        android:visibility="gone"
+        android:id="@+id/liked"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="10dp"
+        android:background="@android:color/transparent"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_like_filled" />
 </RelativeLayout>

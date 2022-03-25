@@ -102,12 +102,11 @@
         />
 
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/comment_section"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         >
         <de.hdodenhof.circleimageview.CircleImageView
             android:layout_marginHorizontal="10dp"
@@ -122,13 +121,26 @@
 
         <EditText
             android:id="@+id/comment"
+            android:layout_toRightOf="@id/avatar_below"
+            android:layout_toLeftOf="@id/sendComment"
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:background="@drawable/custominput"
             android:hint="Add a comment..."
             android:paddingLeft="10dp"
-            android:drawableEnd="@drawable/ic_comment"
             android:paddingRight="13dp"
             />
-    </LinearLayout>
+
+        <ImageButton
+            android:visibility="gone"
+            android:layout_marginHorizontal="10dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:id="@+id/sendComment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_message"
+            android:background="@android:color/transparent"
+            />
+    </RelativeLayout>
 </RelativeLayout>
