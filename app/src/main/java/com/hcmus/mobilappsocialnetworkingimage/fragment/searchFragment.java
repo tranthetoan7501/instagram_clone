@@ -91,6 +91,7 @@ public class searchFragment extends Fragment {
         queryAllAccount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                list.clear();
                 for (DataSnapshot dataSnapshot:snapshot.getChildren()){
                     userCardModel user = new userCardModel(dataSnapshot.getKey(),
                                                     dataSnapshot.child("username").getValue().toString(),
@@ -113,21 +114,6 @@ public class searchFragment extends Fragment {
         recyclerView.setAdapter(userAdapter);
         RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
-
-
-
-
-//        List<String> image = new ArrayList<>();
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        image.add("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRAkfPHSBKmkBxQOjAQPB3jvYaBaQ9a6bh_rA&usqp=CAU");
-//        thumbnailsAdapter = new thumbnailsAdapter(image,getContext(),1);
-//        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
-//        recyclerView.setAdapter(thumbnailsAdapter);
-//        thumbnailsAdapter.notifyDataSetChanged();
     }
 
     private class MyFocusChangeListener implements View.OnFocusChangeListener {

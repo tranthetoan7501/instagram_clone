@@ -9,6 +9,7 @@ import android.widget.VideoView;
 
 import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
 import com.squareup.picasso.Picasso;
 
@@ -56,6 +57,9 @@ public class thumbnailsAdapter extends RecyclerView.Adapter<thumbnailsAdapter.th
             public void onClick(View view) {
                 if(context instanceof mainActivity){
                     ((mainActivity)context).turnOnFragment("postFragment", thumbnails.get(holder.getPosition()));
+                }
+                else {
+                    ((navigationActivity)context).turnOnFragment("postFragment", thumbnails.get(holder.getPosition()));
                 }
             }
         });

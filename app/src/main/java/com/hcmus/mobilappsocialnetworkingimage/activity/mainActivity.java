@@ -112,6 +112,9 @@ public class mainActivity extends FragmentActivity  {
                     return true;
 
                 case R.id.searchFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(_searchFragment).commit();
                     activeFragment = _searchFragment;
                     return true;
@@ -122,6 +125,9 @@ public class mainActivity extends FragmentActivity  {
 
                     return true;
                 case R.id.favoriteFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(activityFragment).commit();
                     activeFragment = activityFragment;
                     return true;
@@ -143,9 +149,6 @@ public class mainActivity extends FragmentActivity  {
             bundle.putSerializable("post_id",post.getPost_id());
             bundle.putSerializable("user_id",post.getUser_id());
             bundle.putStringArrayList("image_paths",(ArrayList<String>) post.getImage_paths());
-//            Gson gson = new Gson();
-//            bundle.putSerializable("comments", gson.toJson(post.getComments()));
-//            bundle.putSerializable("likes",gson.toJson(post.getLikes()));
             postFragment.setArguments(bundle);
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.replace(R.id.fragment_layout,postFragment);

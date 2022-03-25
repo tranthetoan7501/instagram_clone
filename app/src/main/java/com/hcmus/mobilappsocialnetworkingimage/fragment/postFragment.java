@@ -103,7 +103,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
         }
         imageSlider.setImageList(imageList,false);
         post_id = bundle.getString("post_id");
-        DatabaseReference postDetails = database.getReference("user_photos/"+mAuth.getUid()+"/"+bundle.get("post_id"));
+        DatabaseReference postDetails = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
         postDetails.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -126,7 +126,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
         });
 
 
-        DatabaseReference myPosts = database.getReference("user_account_settings/"+mAuth.getUid());
+        DatabaseReference myPosts = database.getReference("user_account_settings/"+bundle.get("user_id"));
         myPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

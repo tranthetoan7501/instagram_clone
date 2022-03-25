@@ -53,7 +53,7 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.UserVIewHolder
         holder.layoutItem.setOnClickListener(view -> {
             bundle.putSerializable("type","profile");
             bundle.putSerializable("username",holder.username.getText().toString());
-            bundle.putSerializable("id",holder.username.getText().toString());
+            bundle.putSerializable("id",listUser.get(position).getUser_id());
             bundle.putSerializable("avatar",user.getAvatar().toString());
             Intent intent = new Intent(context, navigationActivity.class);
             intent.putExtras(bundle);
