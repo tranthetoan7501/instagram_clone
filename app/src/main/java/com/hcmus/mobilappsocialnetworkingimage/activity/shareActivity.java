@@ -2,7 +2,6 @@ package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -66,10 +65,10 @@ public class shareActivity extends AppCompatActivity {
         adapter.addFragment(new galleryFragment());
         adapter.addFragment(new photoFragment());
 
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = findViewById(R.id.container);
         mViewPager.setAdapter(adapter);
 
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabsBottom);
+        TabLayout tabLayout = findViewById(R.id.tabsBottom);
         tabLayout.setupWithViewPager(mViewPager);
 
         tabLayout.getTabAt(0).setText("GALLERY");
