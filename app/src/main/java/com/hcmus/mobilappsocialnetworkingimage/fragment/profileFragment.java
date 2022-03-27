@@ -7,9 +7,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -44,6 +47,12 @@ public class profileFragment extends Fragment implements View.OnClickListener{
     TextView follower_numbers;
     TextView following_numbers;
     TextView post_numbers;
+    Button follow;
+    String id;
+    Integer authFollower = 100;
+    Integer clientFollowing = 100;
+    FirebaseAuth mAuth;
+    FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -58,7 +67,11 @@ public class profileFragment extends Fragment implements View.OnClickListener{
         previous.setOnClickListener(this);
         avatar = view.findViewById(R.id.avatar);
         username = view.findViewById(R.id.username);
+        follow =view.findViewById(R.id.set_follow);
+        follow.setOnClickListener(this);
+        mAuth = FirebaseAuth.getInstance();
         bundle = getArguments();
+        id = bundle.get("id").toString();
         Picasso.get().load(bundle.get("avatar").toString()).into(avatar);
         username.setText(bundle.get("username").toString());
         about = view.findViewById(R.id.description);
@@ -129,6 +142,49 @@ public class profileFragment extends Fragment implements View.OnClickListener{
             case R.id.previous:
                 getActivity().finish();
                 break;
+            case R.id.set_follow:
+                if(mAuth.getUid().equals(id)){
+
+                }else{
+                      String authId = mAuth.getUid();
+                      DatabaseReference myRef = database.getReference("following").child(mAuth.getUid()).child(id).child("user_id");
+                      myRef.setValue(id);
+                      DatabaseReference anotherRef = database.getReference("followers").child(id).child(mAuth.getUid()).child("user_id");
+                      anotherRef.setValue(mAuth.getUid());
+
+
+
+                    DatabaseReference userSetting = database.getReference("user_account_settings");
+
+                    userSetting.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            Integer authFollower = Integer.parseInt(snapshot.child(authId).child("following").getValue().toString())+1;
+                            Integer clientFollowing = Integer.parseInt(snapshot.child(id).child("followers").getValue().toString())+1;
+                            userSetting.child(authId).child("following").setValue(authFollower);
+                            userSetting.child(id).child("followers").setValue(clientFollowing);
+
+
+
+
+
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+
+
+
+                }
+
+                break;
+
         }
     }
 }
