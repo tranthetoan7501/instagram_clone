@@ -85,12 +85,35 @@ public class profileFragment extends Fragment implements View.OnClickListener{
     }
 
     void getData(int i){
+
+        DatabaseReference checkFollowing = database.getReference("following").child(mAuth.getUid());
+
+        checkFollowing.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                    if(dataSnapshot.getKey().toString().equals(id)){
+                        follow.setText("Unfollow");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+
         List<thumbnailsModel> thumbails = new ArrayList<>();
         thumbnailsAdapter = new thumbnailsAdapter(thumbails,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(thumbnailsAdapter);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+
             DatabaseReference myRef = database.getReference("user_account_settings").child(bundle.get("id").toString());
+
             myRef.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -102,6 +125,7 @@ public class profileFragment extends Fragment implements View.OnClickListener{
                             , dataSnapshot.child("profile_photo").getValue().toString()
                             , dataSnapshot.child("username").getValue().toString()
                             , dataSnapshot.child("website").getValue().toString());
+
                     about.setText(userAccountSettingsModel.getDescription());
                     post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
                     follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
@@ -142,40 +166,40 @@ public class profileFragment extends Fragment implements View.OnClickListener{
             case R.id.previous:
                 getActivity().finish();
                 break;
+
             case R.id.set_follow:
                 if(mAuth.getUid().equals(id)){
 
                 }else{
-                      String authId = mAuth.getUid();
-                      DatabaseReference myRef = database.getReference("following").child(mAuth.getUid()).child(id).child("user_id");
-                      myRef.setValue(id);
-                      DatabaseReference anotherRef = database.getReference("followers").child(id).child(mAuth.getUid()).child("user_id");
-                      anotherRef.setValue(mAuth.getUid());
+
+                    if(follow.getText().toString().equals("Follow")){
+                        String authId = mAuth.getUid();
+                        DatabaseReference myRef = database.getReference("following").child(mAuth.getUid()).child(id).child("user_id");
+                        myRef.setValue(id);
+                        DatabaseReference anotherRef = database.getReference("followers").child(id).child(mAuth.getUid()).child("user_id");
+                        anotherRef.setValue(mAuth.getUid());
 
 
 
-                    DatabaseReference userSetting = database.getReference("user_account_settings");
+                        DatabaseReference userSetting = database.getReference("user_account_settings");
 
-                    userSetting.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            Integer authFollower = Integer.parseInt(snapshot.child(authId).child("following").getValue().toString())+1;
-                            Integer clientFollowing = Integer.parseInt(snapshot.child(id).child("followers").getValue().toString())+1;
-                            userSetting.child(authId).child("following").setValue(authFollower);
-                            userSetting.child(id).child("followers").setValue(clientFollowing);
+                        userSetting.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Integer authFollower = Integer.parseInt(snapshot.child(authId).child("following").getValue().toString())+1;
+                                Integer clientFollowing = Integer.parseInt(snapshot.child(id).child("followers").getValue().toString())+1;
+                                userSetting.child(authId).child("following").setValue(authFollower);
+                                userSetting.child(id).child("followers").setValue(clientFollowing);
+                                follow.setText("Unfollow");
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
 
+                            }
+                        });
+                    }
 
-
-
-
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
 
 
 
