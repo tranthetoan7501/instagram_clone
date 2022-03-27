@@ -62,7 +62,9 @@ public class postFragment extends Fragment implements View.OnClickListener {
     FirebaseDatabase database;
     FirebaseAuth mAuth;
     ImageButton like;
+    ImageButton liked;
     String post_id;
+    ArrayList<String> likes = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,8 @@ public class postFragment extends Fragment implements View.OnClickListener {
         database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         like = view.findViewById(R.id.like);
         like.setOnClickListener(this);
+        liked = view.findViewById(R.id.liked);
+        liked.setOnClickListener(this);
         getData();
         return view;
     }
@@ -107,11 +111,22 @@ public class postFragment extends Fragment implements View.OnClickListener {
         postDetails.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                likes.clear();
                 date.setText(dataSnapshot.child("date_created").getValue().toString());
                 description.setText(dataSnapshot.child("caption").getValue().toString());
                 if(dataSnapshot.child("likes").getChildrenCount() != 0 ){
-                    ArrayList<String> likes = (ArrayList<String>) dataSnapshot.child("likes").getValue();
-                    num_likes.setText(Html.fromHtml("<b>" +likes.size() + " likes</b>" ));
+                    likes = (ArrayList<String>) dataSnapshot.child("likes").getValue();
+                    if(likes.contains(mAuth.getUid())){
+                        like.setVisibility(View.INVISIBLE);
+                        liked.setVisibility(View.VISIBLE);
+                    }
+                    num_likes.setVisibility(View.VISIBLE);
+                    if(likes.size() > 1 ){
+                        num_likes.setText(Html.fromHtml("<b>" +likes.size() + " likes</b>" ));
+                    }
+                    else{
+                        num_likes.setText(Html.fromHtml("<b>" +likes.size() + " like</b>" ));
+                    }
                 }
                 else{
                     num_likes.setVisibility(View.GONE);
@@ -155,6 +170,27 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 Intent intent = new Intent(getContext(), navigationActivity.class);
                 intent.putExtras(bundle1);
                 startActivity(intent);
+                break;
+            case R.id.like:
+                DatabaseReference myLike = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
+                if(myLike != null){
+                    if(likes !=null)
+                        myLike.child(likes.size()+"").setValue(mAuth.getUid());
+                    else{
+                        myLike.child("0").setValue(mAuth.getUid());
+                    }
+                }
+                else{
+                    myLike.child("likes/0").setValue(mAuth.getUid());
+                }
+                like.setVisibility(View.INVISIBLE);
+                liked.setVisibility(View.VISIBLE);
+                break;
+            case R.id.liked:
+                DatabaseReference myLike1 = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
+                myLike1.child(likes.indexOf(mAuth.getUid())+"").removeValue();
+                like.setVisibility(View.VISIBLE);
+                liked.setVisibility(View.INVISIBLE);
                 break;
             case R.id.previous:
                 getActivity().getSupportFragmentManager().popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
