@@ -2,6 +2,7 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,11 +27,13 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,9 +72,13 @@ public class profileFragment extends Fragment implements View.OnClickListener{
         username = view.findViewById(R.id.username);
         follow =view.findViewById(R.id.set_follow);
         follow.setOnClickListener(this);
+
         mAuth = FirebaseAuth.getInstance();
         bundle = getArguments();
         id = bundle.get("id").toString();
+        if(mAuth.getUid().equals(id)){
+            follow.setText("Edit Profile");
+        }
         Picasso.get().load(bundle.get("avatar").toString()).into(avatar);
         username.setText(bundle.get("username").toString());
         about = view.findViewById(R.id.description);
@@ -169,7 +176,11 @@ public class profileFragment extends Fragment implements View.OnClickListener{
 
             case R.id.set_follow:
                 if(mAuth.getUid().equals(id)){
-
+                    Intent intent=new Intent(getContext(), editProfileActivity.class);
+                    Bundle bundle=new Bundle();
+                    bundle.putSerializable("userAccountSettings", (Serializable) userAccountSettingsModel);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
                 }else{
 
                     if(follow.getText().toString().equals("Follow")){
@@ -178,7 +189,6 @@ public class profileFragment extends Fragment implements View.OnClickListener{
                         myRef.setValue(id);
                         DatabaseReference anotherRef = database.getReference("followers").child(id).child(mAuth.getUid()).child("user_id");
                         anotherRef.setValue(mAuth.getUid());
-
 
 
                         DatabaseReference userSetting = database.getReference("user_account_settings");
@@ -198,13 +208,9 @@ public class profileFragment extends Fragment implements View.OnClickListener{
 
                             }
                         });
+                    }else if(follow.getText().toString().equals("Unfollow")){
+
                     }
-
-
-
-
-
-
                 }
 
                 break;

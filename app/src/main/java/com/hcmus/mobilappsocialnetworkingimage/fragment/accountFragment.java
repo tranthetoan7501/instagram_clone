@@ -57,7 +57,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     ImageButton video;
     ImageButton tag;
     FirebaseAuth mAuth;
-    userAccountSettingsModel userAccountSettingsModel;
+    static userAccountSettingsModel userAccountSettingsModel;
     TextView follower_numbers;
     TextView following_numbers;
     TextView post_numbers;
