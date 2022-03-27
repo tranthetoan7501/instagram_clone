@@ -106,6 +106,7 @@ public class mainActivity extends FragmentActivity  {
                 case R.id.homeFragment:
                     if(fragmentManager != null) {
                         fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentManager.popBackStack("editpostFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;

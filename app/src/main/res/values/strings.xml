@@ -7,6 +7,8 @@
     <string name="nav_up_story">Tin</string>
     <string name="nav_favorite">Yêu thích</string>
     <string name="nav_profile">My Profile</string>
+    <string name="nav_post_modify">Chỉnh sửa</string>
+    <string name="nav_post_delete">Xóa bài viết</string>
 
 
     <string name="nav_change_pass">Đổi mật khẩu</string>

@@ -12,4 +12,5 @@
         android:textSize="28dp"
         android:textStyle="bold"
         android:textColor="@color/black"
-        /></LinearLayout>
+        />
+</LinearLayout>

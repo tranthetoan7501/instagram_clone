@@ -16,11 +16,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,6 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import org.w3c.dom.Text;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -64,8 +68,13 @@ public class postFragment extends Fragment implements View.OnClickListener {
     ImageButton like;
     ImageButton liked;
     String post_id;
+    Button setting;
     ArrayList<String> likes = new ArrayList<>();
-
+    private LinearLayout layoutSettingBottomSheet;
+    private BottomSheetBehavior settingBottomSheetBehavior;
+    LinearLayout modify;
+    LinearLayout post_owner;
+    Bundle bundle2 = new Bundle();
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +83,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.post, container, false);
+        View view = inflater.inflate(R.layout.fragment_post, container, false);
         bundle = this.getArguments();
         imageSlider = view.findViewById(R.id.image_slider);
         num_likes = view.findViewById(R.id.num_likes);
@@ -95,7 +104,17 @@ public class postFragment extends Fragment implements View.OnClickListener {
         like.setOnClickListener(this);
         liked = view.findViewById(R.id.liked);
         liked.setOnClickListener(this);
+        layoutSettingBottomSheet= getActivity().findViewById(R.id.post_setting);
+        setting = view.findViewById(R.id.setting_button);
+        setting.setOnClickListener(this);
+        if(bundle.getString("user_id").equals(mAuth.getUid())){
+            post_owner = getActivity().findViewById(R.id.post_owner);
+            post_owner.setVisibility(View.VISIBLE);
+            modify = getActivity().findViewById(R.id.modify);
+            modify.setOnClickListener(this);
+        }
         getData();
+        setBottomSheet();
         return view;
     }
 
@@ -105,6 +124,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
         for(String s: myImages){
             imageList.add(new SlideModel(s));
         }
+        bundle2.putStringArrayList("image_paths", myImages);
         imageSlider.setImageList(imageList,false);
         post_id = bundle.getString("post_id");
         DatabaseReference postDetails = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
@@ -114,6 +134,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 likes.clear();
                 date.setText(dataSnapshot.child("date_created").getValue().toString());
                 description.setText(dataSnapshot.child("caption").getValue().toString());
+                bundle2.putString("caption",description.getText().toString());
                 if(dataSnapshot.child("likes").getChildrenCount() != 0 ){
                     likes = (ArrayList<String>) dataSnapshot.child("likes").getValue();
                     if(likes.contains(mAuth.getUid())){
@@ -145,7 +166,9 @@ public class postFragment extends Fragment implements View.OnClickListener {
         myPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                bundle2.putString("profile_photo",dataSnapshot.child("profile_photo").getValue().toString());
                 Picasso.get().load(dataSnapshot.child("profile_photo").getValue().toString()).into(avatar);
+                bundle2.putString("username",dataSnapshot.child("username").getValue().toString());
                 username.setText(dataSnapshot.child("username").getValue().toString());
                 username1.setText(dataSnapshot.child("username").getValue().toString());
             }
@@ -158,6 +181,22 @@ public class postFragment extends Fragment implements View.OnClickListener {
         });
 
     }
+
+    void setBottomSheet(){
+        settingBottomSheetBehavior = BottomSheetBehavior.from(layoutSettingBottomSheet);
+
+        settingBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+            @Override
+            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+            }
+
+            @Override
+            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+                getActivity().findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
+            }
+        });
+    }
+
 
     @Override
     public void onClick(View view) {
@@ -194,6 +233,20 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.previous:
                 getActivity().getSupportFragmentManager().popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                break;
+            case R.id.setting_button:
+                if (settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED || settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_SETTLING){
+                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                }else{
+                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                }
+                break;
+            case R.id.modify:
+                bundle2.putString("post_id",bundle.getString("post_id"));
+                editpostFragment editpostFragment = new editpostFragment();
+                editpostFragment.setArguments(bundle2);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, editpostFragment).addToBackStack("editpostFragment").commit();
+                settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 break;
         }
     }

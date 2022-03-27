@@ -18,6 +18,7 @@ public class navigationActivity extends FragmentActivity {
     changePassword changePassword = new changePassword();
     profileFragment profileFragment = new profileFragment();
     postFragment postFragment = new postFragment();
+    editpostFragment editpostFragment = new editpostFragment();
     Bundle bundle = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,12 @@ public class navigationActivity extends FragmentActivity {
             fragmentTransaction.commit();
             return;
         }
+//        else if(fragment.equals("editpostFragment")){
+//            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+//            fragmentTransaction.replace(R.id.fragment_layout,editpostFragment);
+//            fragmentTransaction.addToBackStack("editpostFragment");
+//            fragmentTransaction.commit();
+//        }
     }
 
 }
