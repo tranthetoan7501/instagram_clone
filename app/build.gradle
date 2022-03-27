@@ -56,5 +56,5 @@ dependencies {
     implementation 'com.google.android.material:material:1.5.0'
     implementation "androidx.recyclerview:recyclerview:1.2.1"
     implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
+    implementation 'com.github.nostra13:Android-Universal-Image-Loader:f6a9615868482672c3630cb7db6dcf43391e80de'
 }

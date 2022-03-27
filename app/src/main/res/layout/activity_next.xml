@@ -30,15 +30,15 @@
                     android:scaleType="centerCrop"
                     android:layout_centerVertical="true"
                     android:layout_margin="10dp"
-                    android:id="@+id/imageShare"
-                    android:src="@drawable/avatar" />
+                    android:id="@+id/imageShare" />
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:id="@+id/descriptionText"
-                    android:hint="Write a description..."
+                    android:hint="Write a caption..."
                     android:layout_toRightOf="@id/imageShare"
-                    android:layout_centerVertical="true"/>
+                    android:layout_centerVertical="true"
+                    android:textSize="15sp"/>
 
             </RelativeLayout>
         </RelativeLayout>

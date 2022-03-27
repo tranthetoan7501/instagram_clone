@@ -13,9 +13,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
@@ -25,6 +28,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
+
 import java.util.ArrayList;
 
 public class galleryFragment extends Fragment {
@@ -37,6 +41,7 @@ public class galleryFragment extends Fragment {
     private Spinner directorySpinner;
 
     private ArrayList<String> directories;
+    private String mSelectedImage;
 
     @Nullable
     @Override
@@ -60,7 +65,7 @@ public class galleryFragment extends Fragment {
 
         nextScreen.setOnClickListener(view12 -> {
             Intent intent = new Intent(getActivity(), nextActivity.class);
-//            intent.putExtra(getString(R.string.selected_image), galleryImage.getTag().toString());
+            intent.putExtra(getString(R.string.selected_image), mSelectedImage);
             startActivity(intent);
         });
 
@@ -108,13 +113,21 @@ public class galleryFragment extends Fragment {
         int imageWidth = gridWidth/NUM_GRID_COL;
         gridView.setColumnWidth(imageWidth);
 
-        gridImageAdapter adapter = new gridImageAdapter(getActivity(), R.layout.layout_grid_imageview, ":/", imgURLs);
+        gridImageAdapter adapter = new gridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "file://", imgURLs);
         gridView.setAdapter(adapter);
 
-        if (imgURLs.size() > 0)
-            setImage(imgURLs.get(0), galleryImage);
+        if (imgURLs.size() > 0) {
+            setImage(imgURLs.get(0), galleryImage );
+            mSelectedImage = imgURLs.get(0);
+        } else {
+            Toast.makeText(getActivity(), "No images found", Toast.LENGTH_SHORT).show();
+        }
 
-        gridView.setOnItemClickListener((adapterView, view, i, l) -> setImage(imgURLs.get(i), galleryImage));
+
+        gridView.setOnItemClickListener((adapterView, view, i, l) -> {
+            setImage(imgURLs.get(i), galleryImage);
+            mSelectedImage = imgURLs.get(i);
+        });
 
     }
 

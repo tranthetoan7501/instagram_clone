@@ -111,7 +111,6 @@ public class commentFragment extends Fragment implements View.OnClickListener{
                     if(dataSnapshot.getKey().equals(mAuth.getUid())){
                         Picasso.get().load(dataSnapshot.child("profile_photo").getValue().toString()).into(belowAvatar);
                     }
-
                 }
             }
             @Override

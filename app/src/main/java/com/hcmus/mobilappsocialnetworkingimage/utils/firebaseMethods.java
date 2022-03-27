@@ -2,16 +2,24 @@ package com.hcmus.mobilappsocialnetworkingimage.utils;
 
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.widget.Toast;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.loginActivity;
+import com.hcmus.mobilappsocialnetworkingimage.model.photoModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+
+import java.io.ByteArrayOutputStream;
 
 public class firebaseMethods {
 
@@ -21,6 +29,7 @@ public class firebaseMethods {
     private FirebaseDatabase mFirebaseDatabase;
     private DatabaseReference myRef;
     private String userID;
+    private StorageReference mStorageReference;
 
     private Context mContext;
 
@@ -29,6 +38,7 @@ public class firebaseMethods {
         mFirebaseDatabase = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app");
         myRef = mFirebaseDatabase.getReference();
         mContext = context;
+        mStorageReference = FirebaseStorage.getInstance().getReference();
         if (mAuthListener != null) {
             userID = mAuth.getCurrentUser().getUid();
         }
@@ -83,6 +93,31 @@ public class firebaseMethods {
         );
 
         myRef.child(mContext.getString(R.string.dbname_user_account_settings)).child(userID).setValue(settingsModel);
+    }
 
+    public void uploadNewPhoto(String imgUrl, String caption, String date_created, String tags) {
+
+        String timestamp = String.valueOf(System.currentTimeMillis());
+
+        String user_id = FirebaseAuth.getInstance().getUid();
+        StorageReference storageReference = mStorageReference
+                .child("photos/users/" + user_id + "/photo" + timestamp);
+        photoModel photo = new photoModel(caption, date_created, tags, user_id);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        // convert imageurl to bitmap
+        Bitmap bitmap = null;
+        bitmap = BitmapFactory.decodeFile(imgUrl);
+
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        UploadTask uploadTask = storageReference.putBytes(data);
+        uploadTask.addOnFailureListener(exception -> {
+            Toast.makeText(mContext, "Upload failed", Toast.LENGTH_SHORT).show();
+
+        }).addOnSuccessListener(taskSnapshot -> {
+            Toast.makeText(mContext, "Photo upload failed ", Toast.LENGTH_SHORT).show();
+        });
     }
 }

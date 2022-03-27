@@ -19,17 +19,29 @@
                     android:layout_marginEnd="20dp"
                     android:layout_centerVertical="true"
                     android:id="@+id/back_button"
-                    android:src="@drawable/ic_arrow_back"/>
+                    android:src="@drawable/ic_back_arrow_ios"/>
 
                 <TextView
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="20dp"
+                    android:text="New Post"
+                    android:textStyle="bold"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="20sp"
+                    android:textColor="@color/black"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
                     android:text="Share"
                     android:layout_alignParentRight="true"
                     android:layout_marginEnd="20dp"
                     android:textSize="20sp"
-                    android:textColor="@color/DodgerBlue"
+                    android:textColor="#039BF9"
                     android:layout_centerVertical="true"
+                    android:textStyle="bold"
                     android:id="@+id/tvShare"/>
             </RelativeLayout>
 

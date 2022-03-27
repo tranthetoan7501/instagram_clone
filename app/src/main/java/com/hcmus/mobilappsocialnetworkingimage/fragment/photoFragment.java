@@ -10,16 +10,12 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 
 public class photoFragment extends Fragment {
 
-    // Constants
-    private static final String TAG = "PhotoFragment";
     private static final int PHOTO_FRAGMENT_NUM = 1;
-    private static final int GALLERY_FRAGMENT_NUM = 2;
     private static final int CAMERA_REQUEST_CODE = 5;
 
     @Nullable
@@ -27,17 +23,14 @@ public class photoFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         
-        Button btnLaunchCamera = (Button) view.findViewById(R.id.btnLaunchCamera);
-        btnLaunchCamera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (((shareActivity) getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM) {
-                    if (((shareActivity) getActivity()).checkPermissions(utils.permissions.CAMERA_PERMISSION[0])) {
-                        Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
-                    }
+        Button btnLaunchCamera = view.findViewById(R.id.btnLaunchCamera);
+        btnLaunchCamera.setOnClickListener(view1 -> {
+            if (((shareActivity) getActivity()).getCurrentTabNumber() == PHOTO_FRAGMENT_NUM) {
+                if (((shareActivity) getActivity()).checkPermissions(utils.permissions.CAMERA_PERMISSION[0])) {
+                    Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
                 } else {
-                    Intent intent = new Intent(getActivity(), mainActivity.class);
+                    Intent intent = new Intent(getActivity(), shareActivity.class);
                     startActivity(intent);
                 }
             }
