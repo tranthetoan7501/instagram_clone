@@ -173,12 +173,12 @@
                     />
 
                 <com.google.android.material.button.MaterialButton
-                    android:id="@+id/edit_pf"
+                    android:id="@+id/set_follow"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Edit Profile"
+                    android:text="Follow"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:backgroundTint="@color/white"
