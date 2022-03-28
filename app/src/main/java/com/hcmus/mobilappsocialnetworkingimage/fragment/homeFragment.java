@@ -21,7 +21,8 @@ import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-import adapter.postsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
+
 import adapter.storiesAdapter;
 
 
@@ -29,7 +30,7 @@ public class homeFragment extends Fragment {
     RecyclerView stories;
     adapter.storiesAdapter storiesAdapter;
     RecyclerView posts;
-    adapter.postsAdapter postsAdapter;
+    postsAdapter postsAdapter;
     ImageButton upItemBtn;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;

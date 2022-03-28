@@ -203,7 +203,27 @@ public class profileFragment extends Fragment implements View.OnClickListener{
                             }
                         });
                     }else if(follow.getText().toString().equals("Unfollow")){
+                        String authId = mAuth.getUid();
+                        DatabaseReference myRef = database.getReference("following").child(authId+"/"+id);
+                        myRef.removeValue();
+                        DatabaseReference anotherRef = database.getReference("followers").child(id+"/"+authId);
+                        anotherRef.removeValue();
+                        DatabaseReference userSetting = database.getReference("user_account_settings");
+                        userSetting.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                Integer authFollower = Integer.parseInt(snapshot.child(authId).child("following").getValue().toString())-1;
+                                Integer clientFollowing = Integer.parseInt(snapshot.child(id).child("followers").getValue().toString())-1;
+                                userSetting.child(authId).child("following").setValue(authFollower);
+                                userSetting.child(id).child("followers").setValue(clientFollowing);
+                                follow.setText("Follow");
+                            }
 
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                     }
                 }
 
