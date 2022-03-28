@@ -243,6 +243,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.modify:
                 bundle2.putString("post_id",bundle.getString("post_id"));
+                bundle2.putString("user_id",bundle.getString("user_id"));
                 editpostFragment editpostFragment = new editpostFragment();
                 editpostFragment.setArguments(bundle2);
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, editpostFragment).addToBackStack("editpostFragment").commit();

@@ -15,6 +15,8 @@ import androidx.fragment.app.FragmentManager;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.squareup.picasso.Picasso;
 
@@ -25,6 +27,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class editpostFragment extends Fragment implements View.OnClickListener {
     ImageButton previous;
+    ImageButton done;
     Bundle bundle = new Bundle();
     CircleImageView avatar;
     TextView username;
@@ -41,6 +44,8 @@ public class editpostFragment extends Fragment implements View.OnClickListener {
         username = view.findViewById(R.id.up_name);
         imageSlider = view.findViewById(R.id.image_slider);
         edit_caption = view.findViewById(R.id.edit_caption);
+        done = view.findViewById(R.id.done);
+        done.setOnClickListener(this);
         getData();
         return view;
     }
@@ -61,6 +66,14 @@ public class editpostFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch(view.getId()){
             case R.id.previous:
+                getActivity().getSupportFragmentManager().popBackStack();
+                break;
+            case R.id.done:
+                FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference editPost = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
+                System.out.println(edit_caption.getText());
+                System.out.println(editPost.child("caption"));
+                editPost.child("caption").setValue(edit_caption.getText().toString());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;
         }
