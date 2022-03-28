@@ -9,15 +9,14 @@
     android:orientation="vertical"
     app:behavior_hideable="true"
     app:behavior_peekHeight="0dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
-    >
-    <View
+    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+    <ImageView
         android:layout_gravity="center"
         android:layout_width="30dp"
         android:layout_height="5dp"
+        android:id="@+id/header_Arrow_Image"
         android:background="@color/LightGrey"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginTop="10dp" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -32,8 +31,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        />
+        android:layout_marginTop="2dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,12 +40,13 @@
         android:gravity="center"
         android:orientation="horizontal"
         android:layout_marginTop="20dp"
+        android:id="@+id/post_layout"
         android:padding="12dp">
         <ImageView
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_baseline_grid_on_24"/>
+            android:src="@drawable/ic_baseline_grid_on_24" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -55,17 +54,16 @@
             android:layout_marginEnd="25dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/nav_up_image"
-            />
+            android:text="Post" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp"
-        />
+        android:layout_marginLeft="60dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -73,7 +71,6 @@
         android:focusable="true"
         android:gravity="center"
         android:orientation="horizontal"
-
         android:padding="12dp">
         <ImageView
             android:layout_width="25dp"
@@ -87,17 +84,16 @@
             android:layout_marginEnd="25dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/nav_up_video"
-            />
+            android:text="Real" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp"
-        />
+        android:layout_marginLeft="60dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -105,7 +101,6 @@
         android:focusable="true"
         android:gravity="center"
         android:orientation="horizontal"
-
         android:padding="12dp">
         <ImageView
             android:layout_width="25dp"
@@ -119,17 +114,16 @@
             android:layout_marginEnd="25dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/nav_up_story"
-            />
+            android:text="Story" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
         android:layout_marginTop="2dp"
         android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp"
-        />
+        android:layout_marginLeft="60dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -150,9 +144,9 @@
             android:layout_marginEnd="25dp"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="@string/nav_favorite"
-            />
+            android:text="Like" />
     </LinearLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
@@ -160,6 +154,5 @@
         android:layout_marginTop="2dp"
         android:layout_marginLeft="60dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="10dp"
-        />
+        android:layout_marginBottom="10dp" />
 </LinearLayout>

@@ -1,20 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_height="40dp" android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
-    <ImageButton
-        android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:id="@+id/camera"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:src="@drawable/ic_camera"
-        android:background="@drawable/button_shape"
-        android:textSize="25dp"/>
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
@@ -24,8 +10,7 @@
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:layout_toRightOf="@+id/camera"
-        android:text="PGram"
+        android:text="Instagram"
         android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="20dp" />
@@ -50,10 +35,11 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="10dp"
         android:paddingBottom="5dp"
         android:background="@android:color/transparent"
         android:src="@drawable/ic_message"
         android:textSize="25dp"/>
+
 </RelativeLayout>

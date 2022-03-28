@@ -64,8 +64,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             public void onClick(View view) {
                 if(holder.like.isActivated())
                     holder.like.setImageResource(R.drawable.ic_like);
-                else
-                holder.like.setImageResource(R.drawable.ic_like_filled);
+                else holder.like.setImageResource(R.drawable.ic_like_filled);
             }
         });
 

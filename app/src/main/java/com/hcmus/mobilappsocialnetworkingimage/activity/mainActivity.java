@@ -1,39 +1,27 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
+
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.accountFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.activityFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.postFragment;
 import com.hcmus.mobilappsocialnetworkingimage.fragment.searchFragment;
 import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
-import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 
 import java.util.ArrayList;

@@ -3,8 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
     <include android:id="@+id/home_appbar" layout="@layout/appbar_home"/>
     <ScrollView
         android:layout_width="match_parent"

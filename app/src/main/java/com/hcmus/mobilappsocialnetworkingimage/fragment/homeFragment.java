@@ -2,18 +2,17 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.hcmus.mobilappsocialnetworkingimage.R;
@@ -26,7 +25,7 @@ import adapter.postsAdapter;
 import adapter.storiesAdapter;
 
 
-public class homeFragment extends Fragment implements View.OnClickListener {
+public class homeFragment extends Fragment {
     RecyclerView stories;
     adapter.storiesAdapter storiesAdapter;
     RecyclerView posts;
@@ -34,7 +33,8 @@ public class homeFragment extends Fragment implements View.OnClickListener {
     ImageButton upItemBtn;
     private LinearLayout layoutBottomSheet;
     private BottomSheetBehavior bottomSheetBehavior;
-    ImageButton cameraButton;
+    private ImageView header_Arrow_Image;
+    private LinearLayout post_layout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,15 +44,12 @@ public class homeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-//        if (container != null) {
-//            container.removeAllViews();
-//        }
+
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         stories = view.findViewById(R.id.stories);
         posts = view.findViewById(R.id.posts);
         upItemBtn = view.findViewById(R.id.add_button);
-        cameraButton = view.findViewById(R.id.camera);
-        cameraButton.setOnClickListener(this);
+
         getDataStories();
         getDataPosts();
         setBottomSheetBehavior();
@@ -62,6 +59,9 @@ public class homeFragment extends Fragment implements View.OnClickListener {
     void setBottomSheetBehavior(){
         layoutBottomSheet= getActivity().findViewById(R.id.bottomSheetContainer);
         bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+        header_Arrow_Image = getActivity().findViewById(R.id.header_Arrow_Image);
+        post_layout = getActivity().findViewById(R.id.post_layout);
+
         bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
             @Override
             public void onStateChanged(@NonNull View bottomSheet, int newState) {
@@ -72,10 +72,27 @@ public class homeFragment extends Fragment implements View.OnClickListener {
                 getActivity().findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
             }
         });
-        upItemBtn.setOnClickListener(this);
+
+        upItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            }
+        });
+
+        header_Arrow_Image.setOnClickListener(v -> {
+            if(bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+            } else {
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+            }
+        });
+
+        post_layout.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), shareActivity.class);
+            startActivity(intent);
+        });
     }
-
-
 
     void getDataStories(){
         List<String> name = new ArrayList<>();
@@ -122,23 +139,5 @@ public class homeFragment extends Fragment implements View.OnClickListener {
         description.add("Anh em nhóm 5 thánh bú liếm");
         date.add("27/10/2001");
         postsAdapter.notifyDataSetChanged();
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case R.id.add_button:
-                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                }else{
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                }
-                break;
-            case R.id.camera:
-                Intent shareIntent = new Intent(getContext(), shareActivity.class);
-                startActivity(shareIntent);
-                break;
-        }
     }
 }

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_width="match_parent" android:layout_height="70dp"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginBottom="5dp"
-    >
+    android:layout_marginBottom="5dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:layout_marginHorizontal="10dp"
@@ -13,10 +12,7 @@
         app:civ_border_width="2dp"
         app:civ_border_color="#D34267"
         android:layout_centerVertical="true"
-        android:id="@+id/avatar"
-        />
-
-
+        android:id="@+id/avatar" />
 
     <TextView
         android:layout_centerVertical="true"
@@ -26,8 +22,7 @@
         android:layout_height="wrap_content"
         android:text="ajskdljkasl"
         android:textColor="@color/black"
-        android:layout_toLeftOf="@+id/preview"
-        />
+        android:layout_toLeftOf="@+id/preview" />
 
 
     <ImageView
@@ -37,15 +32,13 @@
         android:layout_alignParentRight="true"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/bcd"
-        />
+        android:src="@drawable/bcd" />
 
     <View
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        />
+        android:layout_marginTop="2dp" />
 
 </RelativeLayout>
