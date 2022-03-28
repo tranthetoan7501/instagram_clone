@@ -2,12 +2,14 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -75,6 +77,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
     LinearLayout modify;
     LinearLayout post_owner;
     Bundle bundle2 = new Bundle();
+    LinearLayout delete;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +115,8 @@ public class postFragment extends Fragment implements View.OnClickListener {
             post_owner.setVisibility(View.VISIBLE);
             modify = getActivity().findViewById(R.id.modify);
             modify.setOnClickListener(this);
+            delete = getActivity().findViewById(R.id.delete);
+            delete.setOnClickListener(this);
         }
         getData();
         setBottomSheet();
@@ -131,6 +136,8 @@ public class postFragment extends Fragment implements View.OnClickListener {
         postDetails.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                if (!dataSnapshot.exists())
+                    return;
                 likes.clear();
                 date.setText(dataSnapshot.child("date_created").getValue().toString());
                 description.setText(dataSnapshot.child("caption").getValue().toString());
@@ -249,6 +256,31 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout, editpostFragment).addToBackStack("editpostFragment").commit();
                 settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
                 break;
+            case R.id.delete:
+                settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                DatabaseReference deletePost = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
+                                deletePost.removeValue();
+                                getActivity().getSupportFragmentManager().popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Are you sure?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                break;
+
+
         }
     }
 }
