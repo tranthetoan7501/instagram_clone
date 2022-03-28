@@ -1,5 +1,6 @@
 package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.view.LayoutInflater;
@@ -9,7 +10,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.squareImageView;
@@ -18,21 +18,21 @@ import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class gridImageAdapter extends ArrayAdapter<String> {
+public class gridImageAdapter extends ArrayAdapter {
 
-    private Context mContext;
-    private LayoutInflater mInflater;
-    private int layoutResource;
+    private Activity mContext;
+    private int layoutResourceId;
     private ArrayList<String> imgURLs;
+    public List<Integer> selectedPositions = new ArrayList<>();
 
 
-    public gridImageAdapter(Context context, int layoutResource, String append, ArrayList<String> imgURLs) {
-        super(context, layoutResource, imgURLs);
-        mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        mContext = context;
-        this.layoutResource = layoutResource;
+    public gridImageAdapter(Activity mContext, int layoutResourceId, ArrayList<String> imgURLs) {
+        super(mContext, layoutResourceId, imgURLs);
+        this.mContext = mContext;
         this.imgURLs = imgURLs;
+        this.layoutResourceId = layoutResourceId;
     }
 
     private static class ViewHolder{
@@ -42,55 +42,54 @@ public class gridImageAdapter extends ArrayAdapter<String> {
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public View getView(int position, View convertView, ViewGroup parent) {
+        ViewHolder viewHolder;
 
-        final ViewHolder holder;
-        if(convertView == null){
-            convertView = mInflater.inflate(layoutResource, parent, false);
-            holder = new ViewHolder();
-            holder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.gridImageProgressbar);
-            holder.image = (squareImageView) convertView.findViewById(R.id.gridImageView);
+        if (convertView == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            convertView = inflater.inflate(layoutResourceId, parent, false);
 
-            convertView.setTag(holder);
+            viewHolder = new ViewHolder();
+            viewHolder.image = (squareImageView) convertView.findViewById(R.id.gridImageView);
+            viewHolder.mProgressBar = (ProgressBar) convertView.findViewById(R.id.gridImageProgressbar);
+            convertView.setTag(viewHolder);
+        } else {
+            viewHolder = (ViewHolder) convertView.getTag();
         }
-        else{
-            holder = (ViewHolder) convertView.getTag();
-        }
 
-        String imgURL = getItem(position);
+        String imgURL = (String) getItem(position);
 
         ImageLoader imageLoader = ImageLoader.getInstance();
 
-        imageLoader.displayImage("file://" + imgURL, holder.image, new ImageLoadingListener() {
+        imageLoader.displayImage("file://" + imgURL, viewHolder.image, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String imageUri, View view) {
-                if(holder.mProgressBar != null){
-                    holder.mProgressBar.setVisibility(View.VISIBLE);
+                if (viewHolder.mProgressBar != null) {
+                    viewHolder.mProgressBar.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-                if(holder.mProgressBar != null){
-                    holder.mProgressBar.setVisibility(View.GONE);
+                if (viewHolder.mProgressBar != null) {
+                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                if(holder.mProgressBar != null){
-                    holder.mProgressBar.setVisibility(View.GONE);
+                if (viewHolder.mProgressBar != null) {
+                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
             }
 
             @Override
             public void onLoadingCancelled(String imageUri, View view) {
-                if(holder.mProgressBar != null){
-                    holder.mProgressBar.setVisibility(View.GONE);
+                if (viewHolder.mProgressBar != null) {
+                    viewHolder.mProgressBar.setVisibility(View.GONE);
                 }
             }
         });
-
         return convertView;
     }
 }

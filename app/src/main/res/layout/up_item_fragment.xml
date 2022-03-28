@@ -13,41 +13,27 @@
     <ImageView
         android:layout_gravity="center"
         android:layout_width="30dp"
-        android:layout_height="5dp"
+        android:layout_height="2dp"
         android:id="@+id/header_Arrow_Image"
         android:background="@color/LightGrey"
         android:layout_marginTop="10dp" />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="sans-serif-light"
-        android:gravity="center"
-        android:text="Tạo"
-        android:padding="15dp"
-        android:textColor="@color/black"
-        android:textSize="25sp"
-        android:textStyle="bold" />
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/LightGrey"
-        android:layout_marginTop="2dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:clickable="true"
         android:focusable="true"
-        android:gravity="center"
         android:orientation="horizontal"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:id="@+id/post_layout"
         android:padding="12dp">
         <ImageView
+            android:layout_gravity="center"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_baseline_grid_on_24" />
         <TextView
+            android:layout_gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
@@ -146,13 +132,4 @@
             android:textStyle="bold"
             android:text="Like" />
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        android:layout_marginLeft="60dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="10dp" />
 </LinearLayout>

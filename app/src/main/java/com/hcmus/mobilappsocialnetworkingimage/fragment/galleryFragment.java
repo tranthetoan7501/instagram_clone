@@ -2,6 +2,7 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +14,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -41,7 +41,7 @@ public class galleryFragment extends Fragment {
     private Spinner directorySpinner;
 
     private ArrayList<String> directories;
-    private String mSelectedImage;
+    private ArrayList<String> mSelectedImage = new ArrayList<>();
 
     @Nullable
     @Override
@@ -107,26 +107,27 @@ public class galleryFragment extends Fragment {
     }
 
     private void setupGridView(String selectedDirectory) {
-        final ArrayList<String> imgURLs = fileSearch.getFilePaths(selectedDirectory);
-
+        ArrayList<String> imgURLs = fileSearch.getFilePaths(selectedDirectory);
         int gridWidth = getResources().getDisplayMetrics().widthPixels;
-        int imageWidth = gridWidth/NUM_GRID_COL;
+        int imageWidth = gridWidth / NUM_GRID_COL;
         gridView.setColumnWidth(imageWidth);
 
-        gridImageAdapter adapter = new gridImageAdapter(getActivity(), R.layout.layout_grid_imageview, "file://", imgURLs);
+        gridImageAdapter adapter = new gridImageAdapter(getActivity(), R.layout.layout_grid_imageview, imgURLs);
         gridView.setAdapter(adapter);
 
-        if (imgURLs.size() > 0) {
-            setImage(imgURLs.get(0), galleryImage );
-            mSelectedImage = imgURLs.get(0);
-        } else {
-            Toast.makeText(getActivity(), "No images found", Toast.LENGTH_SHORT).show();
-        }
+        gridView.setOnItemClickListener((parent, v, position, id) -> {
 
+            int selectedIndex = adapter.selectedPositions.indexOf(position);
+            if (selectedIndex > -1) {
+                View tv = gridView.getChildAt(position);
+                tv.setBackgroundColor(Color.TRANSPARENT);
+                adapter.selectedPositions.remove(selectedIndex);
+            } else {
+                setImage(imgURLs.get(position), galleryImage);
+                mSelectedImage.add(imgURLs.get(position));
+                adapter.selectedPositions.add(position);
 
-        gridView.setOnItemClickListener((adapterView, view, i, l) -> {
-            setImage(imgURLs.get(i), galleryImage);
-            mSelectedImage = imgURLs.get(i);
+            }
         });
 
     }

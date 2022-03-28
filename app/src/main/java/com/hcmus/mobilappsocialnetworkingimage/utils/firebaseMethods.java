@@ -20,6 +20,7 @@ import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 
 public class firebaseMethods {
 
@@ -95,29 +96,29 @@ public class firebaseMethods {
         myRef.child(mContext.getString(R.string.dbname_user_account_settings)).child(userID).setValue(settingsModel);
     }
 
-    public void uploadNewPhoto(String imgUrl, String caption, String date_created, String tags) {
+    public void uploadNewPhoto(ArrayList<String> imgUrls, String caption, String date_created, String tags) {
 
-        String timestamp = String.valueOf(System.currentTimeMillis());
+        // convert image url to bitmap
+        for (int i = 0; i < imgUrls.size(); i++) {
+            String timestamp = String.valueOf(System.currentTimeMillis());
+            String user_id = FirebaseAuth.getInstance().getUid();
+            StorageReference storageReference = mStorageReference
+                    .child("photos/users/" + user_id + "/" + timestamp);
+            photoModel photo = new photoModel(caption, date_created, tags, user_id);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            Bitmap bitmap = null;
+            bitmap = BitmapFactory.decodeFile(imgUrls.get(i));
 
-        String user_id = FirebaseAuth.getInstance().getUid();
-        StorageReference storageReference = mStorageReference
-                .child("photos/users/" + user_id + "/photo" + timestamp);
-        photoModel photo = new photoModel(caption, date_created, tags, user_id);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            byte[] data = baos.toByteArray();
 
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        // convert imageurl to bitmap
-        Bitmap bitmap = null;
-        bitmap = BitmapFactory.decodeFile(imgUrl);
+            UploadTask uploadTask = storageReference.putBytes(data);
+            uploadTask.addOnFailureListener(exception -> {
 
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
 
-        UploadTask uploadTask = storageReference.putBytes(data);
-        uploadTask.addOnFailureListener(exception -> {
-            Toast.makeText(mContext, "Upload failed", Toast.LENGTH_SHORT).show();
+            }).addOnSuccessListener(taskSnapshot -> {
 
-        }).addOnSuccessListener(taskSnapshot -> {
-            Toast.makeText(mContext, "Photo upload failed ", Toast.LENGTH_SHORT).show();
-        });
+            });
+        }
     }
 }
