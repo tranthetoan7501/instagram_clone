@@ -63,7 +63,7 @@ public class firebaseMethods {
                 addNewUser(email, username, "", "");
                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
-                           Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, loginActivity.class);
                         mContext.startActivity(intent);
                     } else {
@@ -96,20 +96,38 @@ public class firebaseMethods {
         myRef.child(mContext.getString(R.string.dbname_user_account_settings)).child(userID).setValue(settingsModel);
     }
 
-    public void uploadNewPhoto(ArrayList<String> imgUrls, String caption, String date_created, String tags) {
+    public void uploadNewPhoto(ArrayList<String> imgUrls, Bitmap bm, String caption, String date_created, String tags) {
+        String timestamp;
+        String user_id = FirebaseAuth.getInstance().getUid();
 
-        // convert image url to bitmap
-        for (int i = 0; i < imgUrls.size(); i++) {
-            String timestamp = String.valueOf(System.currentTimeMillis());
-            String user_id = FirebaseAuth.getInstance().getUid();
+        if (bm == null) {
+            for (int i = 0; i < imgUrls.size(); i++) {
+                timestamp = String.valueOf(System.currentTimeMillis());
+
+                StorageReference storageReference = mStorageReference
+                        .child("photos/users/" + user_id + "/" + timestamp);
+                photoModel photo = new photoModel(caption, date_created, tags, user_id);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                Bitmap bitmap = null;
+                bitmap = BitmapFactory.decodeFile(imgUrls.get(i));
+
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+                byte[] data = baos.toByteArray();
+
+                UploadTask uploadTask = storageReference.putBytes(data);
+                uploadTask.addOnFailureListener(exception -> {
+
+
+                }).addOnSuccessListener(taskSnapshot -> {
+
+                });
+            }
+        } else {
+            timestamp = String.valueOf(System.currentTimeMillis());
             StorageReference storageReference = mStorageReference
                     .child("photos/users/" + user_id + "/" + timestamp);
-            photoModel photo = new photoModel(caption, date_created, tags, user_id);
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            Bitmap bitmap = null;
-            bitmap = BitmapFactory.decodeFile(imgUrls.get(i));
-
-            bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, baos);
             byte[] data = baos.toByteArray();
 
             UploadTask uploadTask = storageReference.putBytes(data);

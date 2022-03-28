@@ -14,6 +14,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -116,13 +117,16 @@ public class galleryFragment extends Fragment {
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener((parent, v, position, id) -> {
+            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
 
             int selectedIndex = adapter.selectedPositions.indexOf(position);
             if (selectedIndex > -1) {
                 View tv = gridView.getChildAt(position);
-                tv.setBackgroundColor(Color.TRANSPARENT);
+                tv.setBackgroundColor(Color.RED);
                 adapter.selectedPositions.remove(selectedIndex);
             } else {
+                View tv = gridView.getChildAt(position);
+                tv.setBackgroundColor(Color.BLUE);
                 setImage(imgURLs.get(position), galleryImage);
                 mSelectedImage.add(imgURLs.get(position));
                 adapter.selectedPositions.add(position);

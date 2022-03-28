@@ -8,4 +8,5 @@ public class filePaths {
 
     public String PICTURES = ROOT_DIR + "/Pictures";
     public String CAMERA = ROOT_DIR + "/DCIM/camera";
+
 }

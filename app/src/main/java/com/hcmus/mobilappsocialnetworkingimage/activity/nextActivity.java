@@ -1,6 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ public class nextActivity extends AppCompatActivity {
     private ImageView backButton;
     private TextView shareButton;
     private firebaseMethods firebaseMethods;
+    private Bitmap bitmap;
 
     private Intent intent;
     private ArrayList<String> imgUrls;
@@ -47,7 +49,12 @@ public class nextActivity extends AppCompatActivity {
             imageShare.buildDrawingCache();
             LocalDateTime myDateObj = LocalDateTime.now();
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-            firebaseMethods.uploadNewPhoto(imgUrls, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
+            if (intent.hasExtra(getString(R.string.selected_image))){
+                firebaseMethods.uploadNewPhoto(imgUrls, null, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
+
+            } else {
+                firebaseMethods.uploadNewPhoto(imgUrls, bitmap, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
+            }
             finish();
             Intent intent = new Intent(nextActivity.this, mainActivity.class);
             startActivity(intent);
@@ -69,6 +76,10 @@ public class nextActivity extends AppCompatActivity {
             imgUrls = intent.getStringArrayListExtra(getString(R.string.selected_image));
             Uri uri = Uri.parse(imgUrls.get(0));
             imageShare.setImageURI(uri);
+        } else {
+            bitmap = intent.getParcelableExtra("imageBitmap");
+            imageShare.setImageBitmap(bitmap);
+
         }
     }
 }
