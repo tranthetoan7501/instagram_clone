@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -144,44 +146,45 @@ public class homeFragment extends Fragment {
         post_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         post_recyclerView.setAdapter(postsAdapter);
         mAuth = FirebaseAuth.getInstance();
-
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference myFollowing = database.getReference("following/"+mAuth.getUid());
                 myFollowing.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        post.clear();
                         List<String> key = new ArrayList<>();
                         key.add(mAuth.getUid());
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             key.add(snapshot.getKey());
                         }
 
-                        for(String s : key){
-                            DatabaseReference myPosts = database.getReference("user_photos").child(s);
-                            myPosts.addValueEventListener(new ValueEventListener() {
-                                @Override
-                                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                    for(DataSnapshot data : snapshot.getChildren()){
-                                        post.add(data.getValue(postsModel.class));
-                                    }
-                                    Collections.shuffle(post);
-                                    postsAdapter.notifyDataSetChanged();
-                                }
+                            DatabaseReference myPosts = database.getReference("user_photos");
+                           myPosts.addValueEventListener(new ValueEventListener() {
+                               @Override
+                               public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                   post.clear();
+                                   for(DataSnapshot data : snapshot.getChildren()){
+                                       if(key.contains(data.getKey())){
+                                           for(DataSnapshot p : data.getChildren()){
+                                               post.add(p.getValue(postsModel.class));
+                                           }
+                                       }
+                                   }
+                                   postsAdapter.notifyDataSetChanged();
+                               }
 
-                                @Override
-                                public void onCancelled(@NonNull DatabaseError error) {
+                               @Override
+                               public void onCancelled(@NonNull DatabaseError error) {
 
-                                }
-                            });
+                               }
+                           });
                         }
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
 
                     }
                 });
+
 
     }
 }
