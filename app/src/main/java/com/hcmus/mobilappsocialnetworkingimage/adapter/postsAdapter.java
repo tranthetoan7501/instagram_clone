@@ -36,7 +36,7 @@ import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> implements View.OnClickListener {
+public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> {
     List<postsModel> post;
     Context context;
 
@@ -55,11 +55,11 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     @Override
     public void onBindViewHolder(@NonNull postsViewHolder holder, int position) {
         if (post.isEmpty()) return;
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
         holder.date.setText(post.get(position).getDate_created());
         holder.description.setText(post.get(position).getCaption());
         if(post.get(position).getLikes() != null ){
-            FirebaseAuth mAuth = FirebaseAuth.getInstance();
-            if(post.contains(mAuth.getUid())){
+            if(post.get(position).getLikes().contains(mAuth.getUid())){
                 holder.like.setVisibility(View.INVISIBLE);
                 holder.liked.setVisibility(View.VISIBLE);
             }
@@ -97,23 +97,54 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 Log.w(TAG, "Failed to read value.", error.toException());
             }
         });
+
+        holder.like.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference myLike = database.getReference("user_photos/"+post.get(holder.getAdapterPosition()).getUser_id()+"/"+post.get(holder.getAdapterPosition()).getPost_id()+"/"+"likes");
+                if(myLike != null){
+                    if(post.get(holder.getAbsoluteAdapterPosition()).getLikes() !=null)
+                        myLike.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().size()+"").setValue(mAuth.getUid());
+                    else{
+                        myLike.child("0").setValue(mAuth.getUid());
+                    }
+                }
+                else{
+                    myLike.child("likes/0").setValue(mAuth.getUid());
+                }
+                holder.like.setVisibility(View.INVISIBLE);
+                holder.liked.setVisibility(View.VISIBLE);
+            }
+        });
+
+        holder.liked.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatabaseReference myLike1 = database.getReference("user_photos/"+post.get(holder.getAbsoluteAdapterPosition()).getUser_id()+"/"+post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+"/"+"likes");
+                myLike1.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().indexOf(mAuth.getUid())+"").removeValue();
+                holder.like.setVisibility(View.VISIBLE);
+                holder.liked.setVisibility(View.INVISIBLE);
+            }
+        });
+
+        holder.comment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type","comment");
+                bundle.putSerializable("post_id",post.get(holder.getAbsoluteAdapterPosition()).getPost_id());
+                bundle.putSerializable("user_id",post.get(holder.getAbsoluteAdapterPosition()).getUser_id());
+                Intent intent = new Intent(context, navigationActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
     }
 
     @Override
     public int getItemCount() {
         return post.size();
-    }
-
-    @Override
-    public void onClick(View view) {
-//        switch(view.getId()){
-//            case R.id.comment:
-//                bundle.putSerializable("type","comment");
-//                Intent intent = new Intent(context, navigationActivity.class);
-//                intent.putExtras(bundle);
-//                context.startActivity(intent);
-//                break;
-//        }
     }
 
     class postsViewHolder extends RecyclerView.ViewHolder{
