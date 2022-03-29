@@ -22,10 +22,10 @@ public class shareActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_share);
 
-        if(checkPermissionsArray(utils.permissions.PERMISSIONS)) {
+        if(checkPermissionsArray(permissions.PERMISSIONS)) {
             setupViewPager();
         } else {
-            verifyPermissions(utils.permissions.PERMISSIONS);
+            verifyPermissions(permissions.PERMISSIONS);
         }
     }
 

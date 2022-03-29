@@ -1,4 +1,4 @@
-package utils;
+package com.hcmus.mobilappsocialnetworkingimage.utils;
 
 import android.Manifest;
 

@@ -34,21 +34,41 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/story.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/thumbnail.xml" value="0.18802083333333333" />
         <entry key="..\:/MobilAppSocialNetworkingImage/app/src/main/res/layout/up_item_fragment.xml" value="0.18802083333333333" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-hdpi/ic_oval.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-hdpi/ic_twotone_border_clear_24.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-hdpi/rounded_border_text_view.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/button_shape.xml" value="0.15989583333333332" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_close.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_eraser.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_gallery.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_insert_emoticon.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_background.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_pgram_background.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_launcher_pgram_word_background.xml" value="0.15416666666666667" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_oval.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_photo_filter.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_redo.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_save.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_sticker.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_text.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_undo.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/font/roboto_medium.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_image.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_profile.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_forgot_password.xml" value="0.23822463768115942" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_login.xml" value="0.2" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_main.xml" value="0.12273550724637682" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_register.xml" value="0.176" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_second.xml" value="0.18489583333333334" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/add_text_dialog.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_account.xml" value="0.125" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/check_internet_dialog.xml" value="0.4" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/color_picker_item_list.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.2" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_bottom_properties_dialog.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_bottom_shapes_dialog.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_bottom_sticker_emoji_dialog.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_change_password.xml" value="0.176" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_comment.xml" value="0.13802083333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.1286231884057971" />
@@ -56,9 +76,14 @@
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/ic_twotone_border_clear_24.xml" value="0.13802083333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/intro.xml" value="0.12409420289855072" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/post.xml" value="0.13802083333333334" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/row_editing_tools.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/row_emoji.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/row_filter_view.xml" value="0.1" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/row_sticker.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.15416666666666667" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher_pgram.xml" value="0.16145833333333334" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/mipmap-anydpi-v26/ic_launcher_pgram_word.xml" value="0.16145833333333334" />
+        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/xml/file_paths.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/photoeditor/src/main/res/drawable/a.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/photoeditor/src/main/res/drawable/rounded_border_tv.xml" value="0.1" />
         <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/photoeditor/src/main/res/layout/view_photo_editor_image.xml" value="0.1" />

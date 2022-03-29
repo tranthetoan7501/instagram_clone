@@ -6,8 +6,13 @@ public class userModel {
     private String username;
     private String email;
     private String phone_number;
+    private String avatar;
 
-    public userModel() {
+    public userModel(){
+        user_id=username=email=phone_number="";
+    }
+    public userModel(String username, String about, String avatar) {
+
 
     }
 
