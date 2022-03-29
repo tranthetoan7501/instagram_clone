@@ -6,14 +6,18 @@ import java.util.List;
 public class postsModel {
     String caption;
     List<String> likes;
-    List<String> comments;
+    List<commentsModel> comments;
     String date_created;
     List<String> image_paths;
     String user_id;
     String tags;
     String post_id;
 
-    public postsModel(String caption, List<String> likes, List<String> comments, String date_created, List<String> image_paths, String user_id, String tags, String post_id) {
+    public postsModel(){
+
+    }
+
+    public postsModel(String caption, List<String> likes, List<commentsModel> comments, String date_created, List<String> image_paths, String user_id, String tags, String post_id) {
         this.caption = caption;
         this.likes = likes;
         this.comments = comments;
@@ -40,11 +44,11 @@ public class postsModel {
         this.likes = likes;
     }
 
-    public List<String> getComments() {
+    public List<commentsModel> getComments() {
         return comments;
     }
 
-    public void setComments(List<String> comments) {
+    public void setComments(List<commentsModel> comments) {
         this.comments = comments;
     }
 

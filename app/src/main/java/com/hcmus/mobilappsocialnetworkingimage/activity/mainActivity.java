@@ -127,13 +127,13 @@ public class mainActivity extends FragmentActivity  {
 
     public void turnOnFragment(String fragment, thumbnailsModel post){
         if(fragment.equals("postFragment")){
-            Fragment f = fragmentManager.findFragmentByTag("accountFragment");
-            if(f!=null && f.isVisible()){
-                previousFragment = "accountFragment";
-            }
-            else{
-                previousFragment = "favoriteFragment";
-            }
+//[            Fragment f = fragmentManager.findFragmentByTag("accountFragment");
+//            if(f!=null && f.isVisible()){
+//                previousFragment = "accountFragment";
+//            }
+//            else{
+//                previousFragment = "favoriteFragment";
+//            }]
             Bundle bundle = new Bundle();
             bundle.putSerializable("post_id",post.getPost_id());
             bundle.putSerializable("user_id",post.getUser_id());
