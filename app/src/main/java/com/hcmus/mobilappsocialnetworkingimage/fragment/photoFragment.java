@@ -12,17 +12,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.permissions;
 
 public class photoFragment extends Fragment {
 
-    // Constants
-    private static final String TAG = "PhotoFragment";
     private static final int PHOTO_FRAGMENT_NUM = 1;
-    private static final int GALLERY_FRAGMENT_NUM = 2;
     private static final int CAMERA_REQUEST_CODE = 5;
 
     @Nullable
@@ -38,10 +35,10 @@ public class photoFragment extends Fragment {
                     if (((shareActivity) getActivity()).checkPermissions(permissions.CAMERA_PERMISSION[0])) {
                         Intent cameraIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                         startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE);
+                    } else {
+                        Intent intent = new Intent(getActivity(), mainActivity.class);
+                        startActivity(intent);
                     }
-                } else {
-                    Intent intent = new Intent(getActivity(), mainActivity.class);
-                    startActivity(intent);
                 }
             }
         });

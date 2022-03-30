@@ -1,7 +1,5 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.ConnectivityManager;
@@ -11,6 +9,10 @@ import android.view.KeyEvent;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -104,9 +106,8 @@ public class loginActivity extends AppCompatActivity {
         }
         else {
             if(email.contains("@")) {
-                loginbyFirebase(email,password);
-            }
-            else{
+                loginByFirebase(email, password);
+            } else {
                 FirebaseDatabase database=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference myRef=database.getReference("users");
                 myRef.addValueEventListener(new ValueEventListener() {
@@ -120,7 +121,7 @@ public class loginActivity extends AppCompatActivity {
                         }
 
                         if(userCheck.contains(email)){
-                            loginbyFirebase(emailCheck.elementAt(userCheck.indexOf(email)),password);
+                            loginByFirebase(emailCheck.elementAt(userCheck.indexOf(email)),password);
                         }
                     }
 
@@ -134,7 +135,7 @@ public class loginActivity extends AppCompatActivity {
         }
 
     }
-    private void loginbyFirebase(String email, String password){
+    private void loginByFirebase(String email, String password){
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 if (mAuth.getCurrentUser().isEmailVerified()) {

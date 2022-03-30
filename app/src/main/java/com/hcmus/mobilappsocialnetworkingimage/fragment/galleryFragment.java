@@ -2,7 +2,6 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -34,7 +33,7 @@ import java.util.ArrayList;
 
 public class galleryFragment extends Fragment {
 
-    private static final int NUM_GRID_COL = 3;
+    private static final int NUM_GRID_COL = 4;
 
     private GridView gridView;
     private ImageView galleryImage;
@@ -117,20 +116,25 @@ public class galleryFragment extends Fragment {
         gridView.setAdapter(adapter);
 
         gridView.setOnItemClickListener((parent, v, position, id) -> {
-            Toast.makeText(getActivity(), "Clicked", Toast.LENGTH_LONG).show();
 
             int selectedIndex = adapter.selectedPositions.indexOf(position);
             if (selectedIndex > -1) {
-                View tv = gridView.getChildAt(position);
-                tv.setBackgroundColor(Color.RED);
+                v.setAlpha(1f);
                 adapter.selectedPositions.remove(selectedIndex);
+                mSelectedImage.remove(imgURLs.get(position));
+                if (mSelectedImage.size() == 0) {
+                    Toast.makeText(getActivity(), "Click", Toast.LENGTH_SHORT).show();
+                    // remove gallery view
+                    galleryImage.setVisibility(View.GONE);
+                } else {
+                    setImage(mSelectedImage.get(mSelectedImage.size() - 1), galleryImage);
+                }
             } else {
-                View tv = gridView.getChildAt(position);
-                tv.setBackgroundColor(Color.BLUE);
+                galleryImage.setVisibility(View.VISIBLE);
+                v.setAlpha(0.5f);
                 setImage(imgURLs.get(position), galleryImage);
                 mSelectedImage.add(imgURLs.get(position));
                 adapter.selectedPositions.add(position);
-
             }
         });
 
