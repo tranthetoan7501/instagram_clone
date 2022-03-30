@@ -17,6 +17,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,6 +36,8 @@ import java.util.List;
 
 import com.hcmus.mobilappsocialnetworkingimage.adapter.commentsAdapter;
 import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.UUID;
+
 
 public class commentFragment extends Fragment implements View.OnClickListener{
     commentsAdapter  commentsAdapter;
@@ -49,6 +53,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
     FirebaseDatabase database;
     FirebaseAuth mAuth;
     List<commentsModel> comments = new ArrayList<>();
+//    Integer keyMax = -1;
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +104,21 @@ public class commentFragment extends Fragment implements View.OnClickListener{
 
             }
         });
+
+        DatabaseReference myInfor = database.getReference("user_account_settings");
+        myInfor.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Picasso.get().load(snapshot.child(bundle.getString("user_id")+"/profile_photo").getValue().toString()).into(avatar);
+                Picasso.get().load(snapshot.child(bundle.getString("user_id")+"/profile_photo").getValue().toString()).into(belowAvatar);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 
@@ -111,18 +131,10 @@ public class commentFragment extends Fragment implements View.OnClickListener{
             case R.id.sendComment:
                 if(comment.getText()!=null){
                     DatabaseReference pushComment = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"comments");
-                    if(pushComment != null){
-                        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),comments.size()+"");
+                    String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
+                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),UUID.randomUUID().toString() + "");
                         pushComment.child(model.getComment_id()).setValue(model);
                         comment.setText("");
-                    }
-                    else {
-                        String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),"0");
-                        pushComment.child("comments/0").setValue(model);
-                        comment.setText("");
-                    }
                 }
                 break;
         }

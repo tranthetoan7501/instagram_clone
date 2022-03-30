@@ -2,11 +2,12 @@ package com.hcmus.mobilappsocialnetworkingimage.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class postsModel {
     String caption;
     List<String> likes;
-    List<commentsModel> comments;
+    Map<String,Object> comments;
     String date_created;
     List<String> image_paths;
     String user_id;
@@ -17,16 +18,7 @@ public class postsModel {
 
     }
 
-    public postsModel(String caption, List<String> likes, List<commentsModel> comments, String date_created, List<String> image_paths, String user_id, String tags, String post_id) {
-        this.caption = caption;
-        this.likes = likes;
-        this.comments = comments;
-        this.date_created = date_created;
-        this.image_paths = image_paths;
-        this.user_id = user_id;
-        this.tags = tags;
-        this.post_id = post_id;
-    }
+
 
     public String getCaption() {
         return caption;
@@ -44,11 +36,11 @@ public class postsModel {
         this.likes = likes;
     }
 
-    public List<commentsModel> getComments() {
+    public Map<String, Object> getComments() {
         return comments;
     }
 
-    public void setComments(List<commentsModel> comments) {
+    public void setComments(Map<String, Object> comments) {
         this.comments = comments;
     }
 

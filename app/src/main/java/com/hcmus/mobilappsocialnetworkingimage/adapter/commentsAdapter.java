@@ -1,16 +1,21 @@
 package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,9 +56,6 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
     @Override
     public void onBindViewHolder(@NonNull commentsViewHolder holder, int position) {
         if (comments.isEmpty()) return;
-//        Picasso.get().load(comments.get(position).getUser_id()).into(holder.avatar);
-////        String str[] = description.get(position).split("\n");
-////        holder.description.setText(Html.fromHtml("<b>" + str[0]+"</b>" + description.get(position).replace(str[0]," ")));
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
         if(comments.get(position).getLikes() == null){
@@ -122,6 +124,31 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
                 holder.liked.setVisibility(View.GONE);
             }
         });
+
+        holder.full_comment.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                DatabaseReference deleteComment = database.getReference("user_photos/"+user+"/"+post_id+"/comments");
+                                deleteComment.child(comments.get(holder.getAbsoluteAdapterPosition()).getComment_id()).removeValue();
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage("Are you sure to delete this comment?").setPositiveButton("Yes", dialogClickListener)
+                        .setNegativeButton("No", dialogClickListener).show();
+                return false;
+            }
+        });
     }
     @Override
     public int getItemCount() {
@@ -135,6 +162,7 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
         TextView num_likes;
         ImageButton like;
         ImageButton liked;
+        RelativeLayout full_comment;
         public commentsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
@@ -143,6 +171,7 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
             num_likes = itemView.findViewById(R.id.num_likes);
             like = itemView.findViewById(R.id.like);
             liked = itemView.findViewById(R.id.liked);
+            full_comment = itemView.findViewById(R.id.full_comment);
 
         }
     }
