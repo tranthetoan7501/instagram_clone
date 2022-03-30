@@ -2,6 +2,7 @@ package com.hcmus.mobilappsocialnetworkingimage.photoEditor;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -38,6 +39,7 @@ import androidx.transition.TransitionManager;
 
 import com.example.photoeditor.shape.ShapeBuilder;
 import com.example.photoeditor.shape.ShapeType;
+import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.base.BaseActivity;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.filters.FilterListener;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.filters.FilterViewAdapter;
@@ -45,6 +47,7 @@ import com.hcmus.mobilappsocialnetworkingimage.photoEditor.tools.EditingToolsAda
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.tools.ToolType;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 import com.hcmus.mobilappsocialnetworkingimage.R;
@@ -83,6 +86,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private ConstraintLayout mRootView;
     private final ConstraintSet mConstraintSet = new ConstraintSet();
     private boolean mIsFilterVisible;
+    Bundle bundle=new Bundle();
+    Bitmap bitmap;
 
     @Nullable
     @VisibleForTesting
@@ -132,31 +137,38 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 .build(); // build photo editor sdk
 
         mPhotoEditor.setOnPhotoEditorListener(this);
-        Bundle bundle=getIntent().getExtras();
+        bundle=getIntent().getExtras();
         //Set Image Dynamically
         //mPhotoEditorView.getSource().setImageResource(drawableId);
 
         //mPhotoEditorView.getSource().setImageBitmap(bundle.getParcelable("ImageProfile"));
 
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inTargetDensity = DisplayMetrics.DENSITY_DEFAULT;
-        Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),
-                R.drawable.paris_tower, o);
-        int w = bmp.getWidth();
-        int h = bmp.getHeight();
-        System.out.println(w+"::::"+h);
-        Bitmap bitmap=bundle.getParcelable("ImageProfile");
+//        BitmapFactory.Options o = new BitmapFactory.Options();
+//        o.inTargetDensity = DisplayMetrics.DENSITY_DEFAULT;
+//        Bitmap bmp = BitmapFactory.decodeResource(this.getResources(),
+//                R.drawable.paris_tower, o);
+//        int w = bmp.getWidth();
+//        int h = bmp.getHeight();
+//        System.out.println(w+"::::"+h);
+//        Bitmap bitmap=bundle.getParcelable("ImageProfile");
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         int height = displayMetrics.heightPixels;
         int width = displayMetrics.widthPixels;
-//        bitmap = BitmapFactory.decodeResource(getResources(),
-//                R.drawable.paris_tower);
+////        bitmap = BitmapFactory.decodeResource(getResources(),
+////                R.drawable.paris_tower);
+
+//        System.out.println(bitmap.getWidth()+"::::"+bitmap.getHeight());
+        //mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
+
+        bitmap=byteToBitmap(bundle.getByteArray("ImagePath"));
         bitmap=BITMAP_RESIZER(bitmap,width,height-100);
-        System.out.println(bitmap.getWidth()+"::::"+bitmap.getHeight());
-        mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
-        //mPhotoEditorView.getSource().setImageBitmap(bitmap);
+        mPhotoEditorView.getSource().setImageBitmap(bitmap);
         mSaveFileHelper = new FileSaveHelper(this);
+    }
+    public static Bitmap byteToBitmap(byte[] b) {
+        return (b == null || b.length == 0) ? null : BitmapFactory
+                .decodeByteArray(b, 0, b.length);
     }
     public Bitmap BITMAP_RESIZER(Bitmap bitmap,int newWidth,int newHeight) {
         Bitmap scaledBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888);
@@ -292,7 +304,24 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 break;
 
             case R.id.imgSave:
-                saveImage();
+                //saveImage();
+                Intent intent = new Intent();
+                mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
+                    @Override
+                    public void onBitmapReady(Bitmap saveBitmap) {
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        saveBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+                        byte[] bytesArrayBmp = baos.toByteArray();
+                        intent.putExtra("imagePath",bytesArrayBmp);
+                        setResult(RESULT_OK, intent);
+                        finish();
+                        onBackPressed();
+                    }
+
+                    @Override
+                    public void onFailure(Exception e) {
+                    }
+                });
                 break;
 
             case R.id.imgClose:

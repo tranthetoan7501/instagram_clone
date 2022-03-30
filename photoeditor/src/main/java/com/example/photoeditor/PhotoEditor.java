@@ -251,13 +251,7 @@ public interface PhotoEditor {
                     @NonNull PhotoEditor.OnSaveListener onSaveListener);
 
 
-    /**
-     * Save the edited image as bitmap
-     *
-     * @param onSaveBitmap callback for saving image as bitmap
-     * @see OnSaveBitmap
-     */
-    @SuppressLint("StaticFieldLeak")
+
     void saveAsBitmap(@NonNull OnSaveBitmap onSaveBitmap);
 
     /**

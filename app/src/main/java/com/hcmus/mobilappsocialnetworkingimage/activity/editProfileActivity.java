@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.util.Log;
@@ -57,7 +58,7 @@ import io.grpc.Context;
 
 public class editProfileActivity extends AppCompatActivity {
     FirebaseAuth mAuth;
-    ImageView avatar;
+    public static ImageView avatar;
     ImageButton back, ok, camera;
     com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
     EditText username,about;
@@ -154,7 +155,7 @@ public class editProfileActivity extends AppCompatActivity {
         }
 
     }
-
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -165,11 +166,13 @@ public class editProfileActivity extends AppCompatActivity {
                 if (options[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                     startActivityForResult(intent, 1);
+
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {
                     Intent intent = new   Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 2);
+
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
@@ -208,15 +211,12 @@ public class editProfileActivity extends AppCompatActivity {
             if (requestCode == 1) {
                 Bundle extras = data.getExtras();
                 Bitmap imageBitmap = (Bitmap) extras.get("data");
+                imageProfile=imageBitmap;
+                sendToEdit(imageProfile);
                 imageBitmap=Bitmap.createScaledBitmap(imageBitmap,200,200,true);
                 avatar.setImageBitmap(imageBitmap);
-                imageProfile=imageBitmap;
-//                Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
-//                Bundle bundle=new Bundle();
-//                bundle.putParcelable("ImageProfile",imageProfile);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
-            }else if (requestCode == 2) {
+            }
+            else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
                 // h=1;
                 //imgui = selectedImage;
@@ -228,15 +228,26 @@ public class editProfileActivity extends AppCompatActivity {
                 c.close();
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.w("path of image from gallery......******************.........", picturePath + "");
-                thumbnail=Bitmap.createScaledBitmap(thumbnail,200,200,true);
-                avatar.setImageBitmap(thumbnail);
                 imageProfile=thumbnail;
-//                Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
-//                Bundle bundle=new Bundle();
-//                bundle.putParcelable("ImageProfile",imageProfile);
-//                intent.putExtras(bundle);
-//                startActivity(intent);
+                sendToEdit(imageProfile);
+                imageProfile=Bitmap.createScaledBitmap(thumbnail,200,200,true);
+                avatar.setImageBitmap(imageProfile);
+            }
+            else if(requestCode==0){
+                imageProfile=EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
+                imageProfile=Bitmap.createScaledBitmap(imageProfile,200,200,true);
+                avatar.setImageBitmap(imageProfile);
             }
         }
+    }
+    public void sendToEdit(Bitmap bitmap){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        byte[] bytesArrayBmp = baos.toByteArray();
+        Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putByteArray("ImagePath",bytesArrayBmp);
+        intent.putExtras(bundle);
+        startActivityForResult(intent,SECOND_ACTIVITY_REQUEST_CODE);
     }
 }
