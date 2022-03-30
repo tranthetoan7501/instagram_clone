@@ -1,6 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -74,5 +75,10 @@ public class shareActivity extends AppCompatActivity {
         tabLayout.getTabAt(0).setText("GALLERY");
         tabLayout.getTabAt(1).setText("PHOTO");
 
+    }
+
+    public void saveBitmapToImage(Bitmap bitmap) {
+        // save image to gallery
+        //imageUtils.saveImageToGallery(shareActivity.this, bitmap);
     }
 }

@@ -3,83 +3,45 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/bottomSheetContainer"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:background="@drawable/up_item_background"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:behavior_hideable="true"
-    app:behavior_peekHeight="0dp"
-    app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="30dp"
-        android:layout_height="2dp"
-        android:id="@+id/header_Arrow_Image"
-        android:background="@color/LightGrey"
-        android:layout_marginTop="10dp" />
+    app:behavior_peekHeight= "300dp"
+    android:padding="5dp"
+    app:layout_behavior="com.google.android.material">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
         android:id="@+id/post_layout"
-        android:padding="12dp">
-        <ImageView
-            android:layout_gravity="center"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:layout_marginStart="10dp"
-            android:src="@drawable/ic_baseline_grid_on_24" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+
         <TextView
-            android:layout_gravity="center"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:paddingRight="10dp"
             android:text="Post" />
-    </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp" />
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:clickable="true"
-        android:focusable="true"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="12dp">
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="10dp"
-            android:src="@drawable/ic_baseline_ondemand_video_24"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Real" />
+            android:src="@drawable/ic_baseline_grid_on_24"/>
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp" />
+        android:layout_marginTop="2dp" />
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -87,29 +49,28 @@
         android:focusable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:textColor="@color/black"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:paddingRight="5dp"
+            android:text="Story" />
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_baseline_add_circle_outline_24"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Story" />
     </LinearLayout>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/LightGrey"
-        android:layout_marginTop="2dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginLeft="60dp" />
+        android:layout_marginTop="2dp" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -117,19 +78,48 @@
         android:focusable="true"
         android:gravity="center"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:textSize="15sp"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:text="Reel" />
         <ImageView
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="10dp"
+            android:src="@drawable/ic_baseline_ondemand_video_24"/>
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/LightGrey"
+        android:layout_marginTop="2dp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15sp"
+            android:layout_weight="@integer/material_motion_duration_long_1"
+            android:paddingRight="10dp"
+            android:textColor="@color/black"
+            android:text="Like" />
+        <ImageView
+            android:layout_marginLeft="10dp"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
             android:layout_marginStart="10dp"
             android:src="@drawable/ic_baseline_favorite_border_24"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginEnd="25dp"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            android:text="Like" />
     </LinearLayout>
 </LinearLayout>

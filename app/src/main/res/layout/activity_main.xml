@@ -27,8 +27,8 @@
             app:menu="@menu/bottom_navigation" />
 
     </RelativeLayout>
-     <include
-        layout="@layout/up_item_fragment" />
+<!--     <include-->
+<!--        layout="@layout/up_item_fragment" />-->
     <include
         layout="@layout/setting_fragment" />
     <include

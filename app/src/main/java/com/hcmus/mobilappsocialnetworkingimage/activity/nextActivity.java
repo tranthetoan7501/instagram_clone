@@ -11,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.firebase.storage.FirebaseStorage;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.utils.firebaseMethods;
 
@@ -30,7 +29,7 @@ public class nextActivity extends AppCompatActivity {
     private Intent intent;
     private ArrayList<String> imgUrls;
 
-    FirebaseStorage storage = FirebaseStorage.getInstance();
+//    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,6 +69,7 @@ public class nextActivity extends AppCompatActivity {
     }
 
     void setImage(){
+
         intent = getIntent();
 
         if (intent.hasExtra(getString(R.string.selected_image))){

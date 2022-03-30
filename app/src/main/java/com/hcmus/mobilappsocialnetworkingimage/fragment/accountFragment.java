@@ -4,13 +4,6 @@ import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Parcelable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,31 +14,29 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-//import com.bumptech.glide.Glide;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-//import com.google.gson.Gson;
-//import com.google.gson.JsonElement;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.loginActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
-import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
-import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.thumbnailsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
-import com.squareup.picasso.Picasso;
-
-import com.hcmus.mobilappsocialnetworkingimage.model.*;
 
 public class accountFragment extends Fragment implements View.OnClickListener {
     ImageView avatar;
@@ -64,10 +55,10 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     String _username;
     ImageButton upItemBtn1;
     ImageButton settingBtn;
-    private LinearLayout layoutSettingBottomSheet;
-    private BottomSheetBehavior settingBottomSheetBehavior;
-    private LinearLayout layoutBottomSheet;
-    private BottomSheetBehavior bottomSheetBehavior;
+   // private LinearLayout layoutSettingBottomSheet;
+   // private BottomSheetBehavior settingBottomSheetBehavior;
+   // private LinearLayout layoutBottomSheet;
+   // private BottomSheetBehavior bottomSheetBehavior;
     LinearLayout logout;
     LinearLayout change_password;
 
@@ -108,8 +99,8 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         if (container != null) {
             container.removeAllViews();
         }
-        layoutBottomSheet= getActivity().findViewById(R.id.bottomSheetContainer);
-        layoutSettingBottomSheet = getActivity().findViewById(R.id.settingBottomSheetContainer);
+     //   layoutBottomSheet= getActivity().findViewById(R.id.bottomSheetContainer);
+      //  layoutSettingBottomSheet = getActivity().findViewById(R.id.settingBottomSheetContainer);
 
         logout = getActivity().findViewById(R.id.logout);
         change_password = getActivity().findViewById(R.id.change_password);
@@ -128,19 +119,19 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     }
 
     void setBottomSheet(){
-        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        settingBottomSheetBehavior = BottomSheetBehavior.from( layoutSettingBottomSheet);
+      //  bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
+       // settingBottomSheetBehavior = BottomSheetBehavior.from( layoutSettingBottomSheet);
 
-        settingBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-            }
-
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                getActivity().findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
-            }
-        });
+//        settingBottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
+//            @Override
+//            public void onStateChanged(@NonNull View bottomSheet, int newState) {
+//            }
+//
+//            @Override
+//            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
+//                getActivity().findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
+//            }
+//        });
     }
 
     void getData(int i){
@@ -209,25 +200,25 @@ public class accountFragment extends Fragment implements View.OnClickListener {
             case R.id.video:
                 getData(2);
                 break;
-            case R.id.add_button_account:
-                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    settingBtn.setEnabled(false);
-                }else{
-                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    settingBtn.setEnabled(true);
-                }
-                break;
-            case R.id.setting_button_account:
-                if (settingBottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
-                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    upItemBtn1.setEnabled(false);
-
-                }else{
-                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-                    upItemBtn1.setEnabled(true);
-                }
-                break;
+//            case R.id.add_button_account:
+//                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
+//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                    settingBtn.setEnabled(false);
+//                }else{
+//                    bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                    settingBtn.setEnabled(true);
+//                }
+//                break;
+//            case R.id.setting_button_account:
+//                if (settingBottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
+//                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+//                    upItemBtn1.setEnabled(false);
+//
+//                }else{
+//                    settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                    upItemBtn1.setEnabled(true);
+//                }
+//                break;
             case R.id.change_password:
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type","change password");

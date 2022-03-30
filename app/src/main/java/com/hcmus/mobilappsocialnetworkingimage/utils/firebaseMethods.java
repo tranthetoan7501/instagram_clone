@@ -60,9 +60,10 @@ public class firebaseMethods {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 userID = mAuth.getCurrentUser().getUid();
-                addNewUser(email, username, "", "");
+
                 mAuth.getCurrentUser().sendEmailVerification().addOnCompleteListener(task1 -> {
                     if (task1.isSuccessful()) {
+                        addNewUser(email, username, "", "");
                         Toast.makeText(mContext, "Verification email sent", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(mContext, loginActivity.class);
                         mContext.startActivity(intent);

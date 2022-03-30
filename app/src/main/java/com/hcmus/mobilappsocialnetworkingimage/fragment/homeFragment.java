@@ -1,29 +1,23 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
-import static android.content.ContentValues.TAG;
-
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,19 +25,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.postsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
-import com.hcmus.mobilappsocialnetworkingimage.model.thumbnailsModel;
-import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
-import com.squareup.picasso.Picasso;
-
 import adapter.storiesAdapter;
-
 
 public class homeFragment extends Fragment {
     RecyclerView stories;
@@ -51,10 +39,6 @@ public class homeFragment extends Fragment {
     RecyclerView posts;
     postsAdapter postsAdapter;
     ImageButton upItemBtn;
-    private LinearLayout layoutBottomSheet;
-    private BottomSheetBehavior bottomSheetBehavior;
-    private ImageView header_Arrow_Image;
-    private LinearLayout post_layout;
     RecyclerView post_recyclerView;
     FirebaseAuth mAuth;
 
@@ -74,46 +58,38 @@ public class homeFragment extends Fragment {
         post_recyclerView = view.findViewById(R.id.posts);
         getDataStories();
         getDataPosts();
-        setBottomSheetBehavior();
+        upItemBtn.setOnClickListener(v -> openDialog());
+
         return view;
     }
 
-    void setBottomSheetBehavior(){
-        layoutBottomSheet= getActivity().findViewById(R.id.bottomSheetContainer);
-        bottomSheetBehavior = BottomSheetBehavior.from(layoutBottomSheet);
-        header_Arrow_Image = getActivity().findViewById(R.id.header_Arrow_Image);
-        post_layout = getActivity().findViewById(R.id.post_layout);
+    private void openDialog() {
+        final Dialog dialog = new Dialog(getActivity());
 
-        bottomSheetBehavior.addBottomSheetCallback(new BottomSheetBehavior.BottomSheetCallback() {
-            @Override
-            public void onStateChanged(@NonNull View bottomSheet, int newState) {
-            }
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.up_item_fragment);
 
-            @Override
-            public void onSlide(@NonNull View bottomSheet, float slideOffset) {
-                getActivity().findViewById(R.id.container).setAlpha((float) 1.5 - slideOffset);
-            }
-        });
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
 
-        upItemBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            }
-        });
+        upItemBtn.getLocationOnScreen(new int[2]);
+        wlp.gravity = Gravity.TOP | Gravity.LEFT;
+        wlp.x = upItemBtn.getLeft() - upItemBtn.getWidth() / 2;
+        wlp.y = upItemBtn.getTop() + upItemBtn.getHeight();
+        window.setAttributes(wlp);
+        dialog.show();
 
-        header_Arrow_Image.setOnClickListener(v -> {
-            if(bottomSheetBehavior.getState() != BottomSheetBehavior.STATE_EXPANDED){
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-            } else {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-            }
-        });
+        LinearLayout add_post = dialog.findViewById(R.id.post_layout);
 
-        post_layout.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), shareActivity.class);
-            startActivity(intent);
-        });
+        add_post.setOnClickListener(v -> {
+            dialog.dismiss();
+            openDialogPost();
+        } );
+    }
+
+    private void openDialogPost() {
+        Intent intent = new Intent(getActivity(), shareActivity.class);
+        startActivity(intent);
     }
 
     void getDataStories(){
@@ -138,7 +114,6 @@ public class homeFragment extends Fragment {
         storiesAdapter.notifyDataSetChanged();
 
     }
-
 
     void getDataPosts(){
         List<postsModel> post = new ArrayList<>();

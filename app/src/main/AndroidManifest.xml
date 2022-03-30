@@ -11,13 +11,13 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
-        android:usesCleartextTraffic="true"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_pgram"
         android:label="PGram"
         android:roundIcon="@mipmap/ic_launcher_pgram_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MobilAppSocialNetworkingImage">
+        android:theme="@style/Theme.MobilAppSocialNetworkingImage"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.forgotPasswordActivity"
             android:exported="false" />
@@ -50,36 +50,41 @@
         </activity>
         <activity
             android:name="com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity"
-            android:screenOrientation="portrait"
-            android:exported="true">
-<!--            android:theme="@style/AppTheme.NoActionBar">-->
+            android:exported="true"
+            android:screenOrientation="portrait">
+
+            <!-- android:theme="@style/AppTheme.NoActionBar"> -->
 
             <intent-filter
                 android:label="@string/app_intent_name"
                 android:scheme="file"
                 tools:ignore="AppLinkUrlError">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="action_nextgen_edit" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
-
             <intent-filter>
                 <action android:name="android.intent.action.EDIT" />
+
                 <category android:name="android.intent.category.DEFAULT" />
+
                 <data android:mimeType="image/*" />
             </intent-filter>
-
-
         </activity>
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
