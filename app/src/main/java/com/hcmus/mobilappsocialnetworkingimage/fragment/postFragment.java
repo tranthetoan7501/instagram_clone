@@ -1,7 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import static android.content.ContentValues.TAG;
-
+import java.util.UUID;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.media.Image;
@@ -40,6 +40,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
+import com.hcmus.mobilappsocialnetworkingimage.model.notificationsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
 import com.squareup.picasso.Picasso;
 
@@ -207,6 +208,8 @@ public class postFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        String key = UUID.randomUUID().toString();
+
         switch (view.getId()){
             case R.id.comment:
                 Bundle bundle1 = new Bundle();
@@ -231,12 +234,20 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 }
                 like.setVisibility(View.INVISIBLE);
                 liked.setVisibility(View.VISIBLE);
+                if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
+                    DatabaseReference myNotification = database.getReference();
+                    myNotification.child("notification").child(bundle.getString("user_id")).child(key).setValue(new notificationsModel(key,mAuth.getUid(),bundle.getString("post_id"),"liked your post.","22/3/2022",false));
+                }
                 break;
             case R.id.liked:
                 DatabaseReference myLike1 = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
                 myLike1.child(likes.indexOf(mAuth.getUid())+"").removeValue();
                 like.setVisibility(View.VISIBLE);
                 liked.setVisibility(View.INVISIBLE);
+                if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
+                    DatabaseReference myNotification = database.getReference();
+                    myNotification.child("notification").child(bundle.getString("user_id")+"/"+key).removeValue();
+                }
                 break;
             case R.id.previous:
                 getActivity().getSupportFragmentManager().popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);

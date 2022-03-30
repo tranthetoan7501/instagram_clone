@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -39,6 +41,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> {
     List<postsModel> post;
     Context context;
+    LinearLayout layoutSettingBottomSheet;
 
     public postsAdapter(List<postsModel> post, Context context) {
         this.post = post;
@@ -137,6 +140,20 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 Intent intent = new Intent(context, navigationActivity.class);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
+            }
+        });
+
+        holder.setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())){
+                    BottomSheetBehavior settingBottomSheetBehavior = BottomSheetBehavior.from(layoutSettingBottomSheet);
+                    if (settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED || settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_SETTLING){
+                        settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                    }else{
+                        settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+                    }
+                }
             }
         });
 
