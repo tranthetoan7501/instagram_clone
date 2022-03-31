@@ -1,5 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -7,10 +9,18 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.SyncStateContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -19,6 +29,8 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -34,6 +46,7 @@ import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 import com.squareup.picasso.Picasso;
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.util.Vector;
 
 public class editProfileActivity extends AppCompatActivity {
@@ -46,6 +59,11 @@ public class editProfileActivity extends AppCompatActivity {
     userAccountSettingsModel userAccountSettingsModel;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
     Bitmap imageProfile;
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
+    public final String APP_TAG = "MyCustomApp";
+    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
+    public String photoFileName = "photo.jpg";
+    File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +86,6 @@ public class editProfileActivity extends AppCompatActivity {
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 selectImage();
             }
         });
@@ -135,7 +152,18 @@ public class editProfileActivity extends AppCompatActivity {
         }
 
     }
-    private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
+
+    public File getPhotoFileUri(String fileName) {
+        File mediaStorageDir = new File(getExternalFilesDir(Environment.DIRECTORY_PICTURES), APP_TAG);
+        if (!mediaStorageDir.exists() && !mediaStorageDir.mkdirs()){
+            Log.d(APP_TAG, "failed to create directory");
+        }
+        // Return the file target for the photo based on filename
+        File file = new File(mediaStorageDir.getPath() + File.separator + fileName);
+
+        return file;
+    }
+
     private void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -145,7 +173,14 @@ public class editProfileActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int item) {
                 if (options[item].equals("Take Photo")) {
                     Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                    startActivityForResult(intent, 1);
+                    photoFile = getPhotoFileUri(photoFileName);
+                    Uri fileProvider = FileProvider.getUriForFile(editProfileActivity.this, "com.hcmus.mobilappsocialnetworkingimage.provider", photoFile);
+                    intent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
+                    if (intent.resolveActivity(getPackageManager()) != null) {
+                        // Start the image capture intent to take photo
+                        startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
+                    }
+
 
                 }
                 else if (options[item].equals("Choose from Gallery"))
@@ -188,18 +223,17 @@ public class editProfileActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
-            if (requestCode == 1) {
-                Bundle extras = data.getExtras();
-                Bitmap imageBitmap = (Bitmap) extras.get("data");
-                imageProfile = imageBitmap;
+            if (requestCode == CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+                 // by this point we have the camera photo on disk
+                Bitmap takenImage = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                // RESIZE BITMAP, see section below
+                imageProfile=takenImage;
                 sendToEdit(imageProfile);
-                imageBitmap=Bitmap.createScaledBitmap(imageBitmap,200,200,true);
-                avatar.setImageBitmap(imageBitmap);
+
             }
             else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
-                // h=1;
-                //imgui = selectedImage;
+
                 String[] filePath = {MediaStore.Images.Media.DATA};
                 Cursor c = getContentResolver().query(selectedImage, filePath, null, null, null);
                 c.moveToFirst();
@@ -210,8 +244,7 @@ public class editProfileActivity extends AppCompatActivity {
                 Log.w("path of image from gallery......******************.........", picturePath + "");
                 imageProfile=thumbnail;
                 sendToEdit(imageProfile);
-                imageProfile=Bitmap.createScaledBitmap(thumbnail,200,200,true);
-                avatar.setImageBitmap(imageProfile);
+
             }
             else if(requestCode==0){
                 imageProfile=EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
@@ -220,6 +253,27 @@ public class editProfileActivity extends AppCompatActivity {
             }
         }
     }
+//    private Bitmap getRoundedCroppedBitmap(Bitmap bitmap) {
+//        int widthLight = bitmap.getWidth();
+//        int heightLight = bitmap.getHeight();
+//
+//        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
+//                Bitmap.Config.ARGB_8888);
+//
+//        Canvas canvas = new Canvas(output);
+//        Paint paintColor = new Paint();
+//        paintColor.setFlags(Paint.ANTI_ALIAS_FLAG);
+//
+//        RectF rectF = new RectF(new Rect(0, 0, widthLight, heightLight));
+//
+//        canvas.drawRoundRect(rectF, widthLight / 2, heightLight / 2, paintColor);
+//
+//        Paint paintImage = new Paint();
+//        paintImage.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
+//        canvas.drawBitmap(bitmap, 0, 0, paintImage);
+//
+//        return output;
+//    }
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);

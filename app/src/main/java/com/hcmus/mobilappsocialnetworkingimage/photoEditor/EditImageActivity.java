@@ -151,10 +151,10 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 //        int h = bmp.getHeight();
 //        System.out.println(w+"::::"+h);
 //        Bitmap bitmap=bundle.getParcelable("ImageProfile");
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+//        int height = displayMetrics.heightPixels;
+//        int width = displayMetrics.widthPixels;
 ////        bitmap = BitmapFactory.decodeResource(getResources(),
 ////                R.drawable.paris_tower);
 
@@ -162,7 +162,7 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         //mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
 
         bitmap=byteToBitmap(bundle.getByteArray("ImagePath"));
-        bitmap=BITMAP_RESIZER(bitmap,width,height-100);
+        //bitmap=BITMAP_RESIZER(bitmap,width,height-100);
         mPhotoEditorView.getSource().setImageBitmap(bitmap);
         mSaveFileHelper = new FileSaveHelper(this);
     }
@@ -403,7 +403,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
             requestPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE);
         }
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
