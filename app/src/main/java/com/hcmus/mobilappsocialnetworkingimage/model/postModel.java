@@ -1,10 +1,9 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class postsModel {
+public class postModel {
     String caption;
     List<String> likes;
     Map<String,Object> comments;
@@ -14,11 +13,18 @@ public class postsModel {
     String tags;
     String post_id;
 
-    public postsModel(){
+    public postModel(){
 
     }
 
-
+    public postModel(String caption, String date_created, List<String> image_paths, String tags, String post_id, String user_id) {
+        this.caption = caption;
+        this.date_created = date_created;
+        this.user_id = user_id;
+        this.tags = tags;
+        this.post_id = post_id;
+        this.image_paths = image_paths;
+    }
 
     public String getCaption() {
         return caption;

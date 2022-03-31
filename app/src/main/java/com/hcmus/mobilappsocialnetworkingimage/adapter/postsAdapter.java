@@ -16,7 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -30,7 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -39,11 +38,11 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> {
-    List<postsModel> post;
+    List<postModel> post;
     Context context;
     LinearLayout layoutSettingBottomSheet;
 
-    public postsAdapter(List<postsModel> post, Context context) {
+    public postsAdapter(List<postModel> post, Context context) {
         this.post = post;
         this.context = context;
     }

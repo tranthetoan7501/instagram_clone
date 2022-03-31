@@ -26,7 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.postsAdapter;
-import com.hcmus.mobilappsocialnetworkingimage.model.postsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +75,7 @@ public class homeFragment extends Fragment {
         upItemBtn.getLocationOnScreen(new int[2]);
         wlp.gravity = Gravity.TOP | Gravity.LEFT;
         wlp.x = upItemBtn.getLeft() - upItemBtn.getWidth() / 2;
-        wlp.y = upItemBtn.getTop() + upItemBtn.getHeight();
+        wlp.y = upItemBtn.getTop() + upItemBtn.getHeight() / 2;
         window.setAttributes(wlp);
         dialog.show();
 
@@ -116,7 +116,7 @@ public class homeFragment extends Fragment {
     }
 
     void getDataPosts(){
-        List<postsModel> post = new ArrayList<>();
+        List<postModel> post = new ArrayList<>();
         postsAdapter = new postsAdapter(post,getContext());
         post_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         post_recyclerView.setAdapter(postsAdapter);
@@ -140,7 +140,7 @@ public class homeFragment extends Fragment {
                                    for(DataSnapshot data : snapshot.getChildren()){
                                        if(key.contains(data.getKey())){
                                            for(DataSnapshot p : data.getChildren()){
-                                               post.add(p.getValue(postsModel.class));
+                                               post.add(p.getValue(postModel.class));
                                            }
                                        }
                                    }

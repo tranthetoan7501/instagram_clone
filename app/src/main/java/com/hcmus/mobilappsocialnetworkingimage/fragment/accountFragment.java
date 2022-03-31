@@ -176,7 +176,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         thumbails.clear();
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("post_id").getValue().toString()));
+                            if (snapshot.child("image_path").getValue() != null) {
+                                thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(), snapshot.child("user_id").getValue().toString(), snapshot.child("post_id").getValue().toString()));
+                            }
                         }
                         post_numbers.setText(thumbails.size() + "");
                         thumbnailsAdapter.notifyDataSetChanged();

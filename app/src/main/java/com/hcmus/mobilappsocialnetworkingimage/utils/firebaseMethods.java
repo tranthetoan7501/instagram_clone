@@ -15,12 +15,14 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.loginActivity;
-import com.hcmus.mobilappsocialnetworkingimage.model.photoModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class firebaseMethods {
 
@@ -98,8 +100,9 @@ public class firebaseMethods {
     }
 
     public void uploadNewPhoto(ArrayList<String> imgUrls, Bitmap bm, String caption, String date_created, String tags) {
+        List<String> imgUrlListFirebase = new ArrayList<>();
         String timestamp;
-        String user_id = FirebaseAuth.getInstance().getUid();
+        AtomicReference<String> user_id = new AtomicReference<>(FirebaseAuth.getInstance().getUid());
 
         if (bm == null) {
             for (int i = 0; i < imgUrls.size(); i++) {
@@ -107,7 +110,6 @@ public class firebaseMethods {
 
                 StorageReference storageReference = mStorageReference
                         .child("photos/users/" + user_id + "/" + timestamp);
-                photoModel photo = new photoModel(caption, date_created, tags, user_id);
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 Bitmap bitmap = null;
                 bitmap = BitmapFactory.decodeFile(imgUrls.get(i));
@@ -117,12 +119,16 @@ public class firebaseMethods {
 
                 UploadTask uploadTask = storageReference.putBytes(data);
                 uploadTask.addOnFailureListener(exception -> {
-
-
-                }).addOnSuccessListener(taskSnapshot -> {
-
-                });
-            }
+                    Toast.makeText(mContext, "Failed to upload photo", Toast.LENGTH_SHORT).show();
+                }).addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                    imgUrlListFirebase.add(uri.toString());
+                    if (imgUrlListFirebase.size() == imgUrls.size()) {
+                        String post_id = myRef.child("user_photos").child(user_id.get()).push().getKey();
+                        postModel post = new postModel(caption, date_created, imgUrlListFirebase, tags, post_id, user_id.get());
+                        myRef.child("user_photos").child(user_id.get()).child(post_id).setValue(post);
+                    }
+            }));
+        }
         } else {
             timestamp = String.valueOf(System.currentTimeMillis());
             StorageReference storageReference = mStorageReference
@@ -133,10 +139,10 @@ public class firebaseMethods {
 
             UploadTask uploadTask = storageReference.putBytes(data);
             uploadTask.addOnFailureListener(exception -> {
-
+                Toast.makeText(mContext, "Failed to upload photo", Toast.LENGTH_SHORT).show();
 
             }).addOnSuccessListener(taskSnapshot -> {
-
+                //
             });
         }
     }
