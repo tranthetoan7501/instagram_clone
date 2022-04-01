@@ -142,6 +142,19 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             }
         });
 
+        holder.num_likes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type","like");
+                bundle.putSerializable("post_id",post.get(holder.getAbsoluteAdapterPosition()).getPost_id());
+                bundle.putSerializable("user_id",post.get(holder.getAbsoluteAdapterPosition()).getUser_id());
+                Intent intent = new Intent(context, navigationActivity.class);
+                intent.putExtras(bundle);
+                context.startActivity(intent);
+            }
+        });
+
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

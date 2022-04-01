@@ -19,6 +19,7 @@ public class navigationActivity extends FragmentActivity {
     profileFragment profileFragment = new profileFragment();
     postFragment postFragment = new postFragment();
     editpostFragment editpostFragment = new editpostFragment();
+    likeFragment likeFragment = new likeFragment();
     Bundle bundle = new Bundle();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +39,9 @@ public class navigationActivity extends FragmentActivity {
         } else if (bundle.get("type").equals("profile")) {
             profileFragment.setArguments(bundle);
             replaceFragment(profileFragment);
+        } else if (bundle.get("type").equals("like")) {
+            likeFragment.setArguments(bundle);
+            replaceFragment(likeFragment);
         }
     }
 
