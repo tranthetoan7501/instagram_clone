@@ -66,6 +66,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
     LinearLayout post_owner;
     Bundle bundle2 = new Bundle();
     LinearLayout delete;
+    ArrayList<String> myImages;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,7 +113,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
     }
 
     void getData(){
-        ArrayList<String> myImages = (ArrayList<String>) bundle.get("image_paths");
+        myImages = (ArrayList<String>) bundle.get("image_paths");
         List<SlideModel> imageList = new ArrayList<SlideModel>();
         for(String s: myImages){
             imageList.add(new SlideModel(s));
@@ -195,7 +196,6 @@ public class postFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        String key = UUID.randomUUID().toString();
 
         switch (view.getId()){
             case R.id.comment:
@@ -208,22 +208,27 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.like:
+                Integer id = -1;
                 DatabaseReference myLike = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
                 if(myLike != null){
-                    if(likes !=null)
-                        myLike.child(likes.size()+"").setValue(mAuth.getUid());
+                    if(likes !=null) {
+                        id = likes.size();
+                        myLike.child(id + "").setValue(mAuth.getUid());
+                    }
                     else{
                         myLike.child("0").setValue(mAuth.getUid());
+                        id = 0;
                     }
                 }
                 else{
                     myLike.child("likes/0").setValue(mAuth.getUid());
+                    id = 0;
                 }
                 like.setVisibility(View.INVISIBLE);
                 liked.setVisibility(View.VISIBLE);
                 if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
                     DatabaseReference myNotification = database.getReference();
-                    myNotification.child("notification").child(bundle.getString("user_id")).child(key).setValue(new notificationsModel(key,mAuth.getUid(),bundle.getString("post_id"),"liked your post.","22/3/2022",false));
+                    myNotification.child("notification").child(bundle.getString("user_id")).child(bundle.getString("post_id") + "-like-"+id).setValue(new notificationsModel(bundle.getString("post_id") + "-like-"+id,mAuth.getUid(),bundle.getString("post_id"),"liked your post.","22/3/2022",false,myImages));
                 }
                 break;
             case R.id.liked:
@@ -233,7 +238,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 liked.setVisibility(View.INVISIBLE);
                 if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
                     DatabaseReference myNotification = database.getReference();
-                    myNotification.child("notification").child(bundle.getString("user_id")+"/"+key).removeValue();
+                    myNotification.child("notification").child(bundle.getString("user_id")).child(bundle.getString("post_id") + "-like-"+likes.indexOf(mAuth.getUid())+"").removeValue();
                 }
                 break;
             case R.id.previous:

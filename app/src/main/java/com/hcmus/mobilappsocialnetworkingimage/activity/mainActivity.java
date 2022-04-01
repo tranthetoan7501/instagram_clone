@@ -101,6 +101,7 @@ public class mainActivity extends FragmentActivity  {
                     return true;
 
                 case R.id.searchFragment:
+                    mAuth.signOut();
                     if(fragmentManager != null) {
                         fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }

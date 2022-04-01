@@ -159,7 +159,8 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                     about.setText(userAccountSettingsModel.getDescription());
                     post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
                     follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
-                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));                        post_numbers.setText(thumbails.size() + "");
+                    post_numbers.setText(userAccountSettingsModel.getPosts() + "");
                     Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
                 }
 
@@ -180,7 +181,6 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                                 thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(), snapshot.child("user_id").getValue().toString(), snapshot.child("post_id").getValue().toString()));
                             }
                         }
-                        post_numbers.setText(thumbails.size() + "");
                         thumbnailsAdapter.notifyDataSetChanged();
                     }
 

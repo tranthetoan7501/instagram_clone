@@ -29,6 +29,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
+import com.hcmus.mobilappsocialnetworkingimage.model.notificationsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.squareup.picasso.Picasso;
 
@@ -103,10 +104,13 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         holder.like.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                int pos = 0;
                 DatabaseReference myLike = database.getReference("user_photos/"+post.get(holder.getAdapterPosition()).getUser_id()+"/"+post.get(holder.getAdapterPosition()).getPost_id()+"/"+"likes");
                 if(myLike != null){
-                    if(post.get(holder.getAbsoluteAdapterPosition()).getLikes() !=null)
-                        myLike.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().size()+"").setValue(mAuth.getUid());
+                    if(post.get(holder.getAbsoluteAdapterPosition()).getLikes() !=null) {
+                        myLike.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().size() + "").setValue(mAuth.getUid());
+                        pos = post.get(holder.getAbsoluteAdapterPosition()).getLikes().size();
+                    }
                     else{
                         myLike.child("0").setValue(mAuth.getUid());
                     }
@@ -116,6 +120,10 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 }
                 holder.like.setVisibility(View.INVISIBLE);
                 holder.liked.setVisibility(View.VISIBLE);
+                if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
+                    DatabaseReference myNotification = database.getReference();
+                    myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+ pos).setValue(new notificationsModel(post.get(holder.getAbsoluteAdapterPosition()).getPost_id() + "-like-"+ pos,mAuth.getUid(),post.get(holder.getAbsoluteAdapterPosition()).getPost_id(),"liked your post.","22/3/2022",false, (ArrayList<String>) post.get(holder.getAbsoluteAdapterPosition()).getImage_paths()));
+                }
             }
         });
 
@@ -126,6 +134,11 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 myLike1.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().indexOf(mAuth.getUid())+"").removeValue();
                 holder.like.setVisibility(View.VISIBLE);
                 holder.liked.setVisibility(View.INVISIBLE);
+                if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
+                    DatabaseReference myNotification = database.getReference();
+                    myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+post.get(holder.getAbsoluteAdapterPosition()).getLikes().indexOf(mAuth.getUid())+"").removeValue();
+                }
+
             }
         });
 

@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.commentsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.notificationsModel;
 import com.squareup.picasso.Picasso;
 
 
@@ -125,30 +126,35 @@ public class commentsAdapter extends RecyclerView.Adapter<commentsAdapter.commen
             }
         });
 
-        holder.full_comment.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        switch (which){
-                            case DialogInterface.BUTTON_POSITIVE:
-                                DatabaseReference deleteComment = database.getReference("user_photos/"+user+"/"+post_id+"/comments");
-                                deleteComment.child(comments.get(holder.getAbsoluteAdapterPosition()).getComment_id()).removeValue();
-                                break;
+        if(mAuth.getUid().equals(user)) {
+            holder.full_comment.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            switch (which) {
+                                case DialogInterface.BUTTON_POSITIVE:
+                                    DatabaseReference deleteComment = database.getReference("user_photos/" + user + "/" + post_id + "/comments");
+                                    deleteComment.child(comments.get(holder.getAbsoluteAdapterPosition()).getComment_id()).removeValue();
+                                    DatabaseReference myNotification = database.getReference();
+                                    myNotification.child("notification/" + user + "/" + post_id + "-comment-" + comments.get(holder.getAbsoluteAdapterPosition()).getComment_id()).removeValue();
 
-                            case DialogInterface.BUTTON_NEGATIVE:
-                                break;
+                                    break;
+
+                                case DialogInterface.BUTTON_NEGATIVE:
+                                    break;
+                            }
                         }
-                    }
-                };
+                    };
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage("Are you sure to delete this comment?").setPositiveButton("Yes", dialogClickListener)
-                        .setNegativeButton("No", dialogClickListener).show();
-                return false;
-            }
-        });
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage("Are you sure to delete this comment?").setPositiveButton("Yes", dialogClickListener)
+                            .setNegativeButton("No", dialogClickListener).show();
+                    return false;
+                }
+            });
+        }
     }
     @Override
     public int getItemCount() {

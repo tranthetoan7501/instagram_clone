@@ -27,6 +27,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.commentsModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.notificationsModel;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -53,7 +54,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
     FirebaseDatabase database;
     FirebaseAuth mAuth;
     List<commentsModel> comments = new ArrayList<>();
-//    Integer keyMax = -1;
+    ArrayList<String> myImages = new ArrayList<>();
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,6 +93,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
                 description.setText(snapshot.child("caption").getValue().toString());
                 date.setText(snapshot.child("date_created").getValue().toString());
                 comments.clear();
+                myImages = (ArrayList<String>) snapshot.child("image_paths").getValue();
                 for(DataSnapshot data : snapshot.child("comments").getChildren()){
                     commentsModel temp = data.getValue(commentsModel.class);
                     comments.add(temp);
@@ -111,7 +113,6 @@ public class commentFragment extends Fragment implements View.OnClickListener{
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Picasso.get().load(snapshot.child(bundle.getString("user_id")+"/profile_photo").getValue().toString()).into(avatar);
                 Picasso.get().load(snapshot.child(bundle.getString("user_id")+"/profile_photo").getValue().toString()).into(belowAvatar);
-
             }
 
             @Override
@@ -132,9 +133,13 @@ public class commentFragment extends Fragment implements View.OnClickListener{
                 if(comment.getText()!=null){
                     DatabaseReference pushComment = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"comments");
                     String timeStamp = new SimpleDateFormat("yyyy.MM.dd.HH.mm.ss").format(new Date());
-                        commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),UUID.randomUUID().toString() + "");
-                        pushComment.child(model.getComment_id()).setValue(model);
-                        comment.setText("");
+                    commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),UUID.randomUUID().toString() + "");
+                    pushComment.child(model.getComment_id()).setValue(model);
+                    comment.setText("");
+                    if(mAuth.getUid() != bundle.getString("user_id")) {
+                        DatabaseReference myNotification = database.getReference();
+                        myNotification.child("notification/"+bundle.getString("user_id")+"/"+bundle.getString("post_id")+"-"+"comment"+"-"+model.getComment_id()).setValue(new notificationsModel(model.getComment_id(), mAuth.getUid(), bundle.getString("post_id"), "commented on your post.", "22/3/2022", false,myImages));
+                    }
                 }
                 break;
         }

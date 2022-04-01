@@ -87,6 +87,7 @@
         <entry key="app/src/main/res/drawable/outline_live_tv_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_search_24.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/round_corner_picture.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/activity.xml" value="0.13583526611328126" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.1850982666015625" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.14056854248046874" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.1" />
