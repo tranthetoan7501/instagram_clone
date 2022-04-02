@@ -38,14 +38,16 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
         this.listName = listName;
         this.listImage = listImage;
         this.context = context;
-        this.listAvt=new Vector<>();
-        this.listAvt.add("ALO");
+
     }
 
     @NonNull
     @Override
     public storiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story,parent,false);
+        this.listAvt=new Vector<>();
+        for(int i=0;i<listImage.size();i++)
+            this.listAvt.add("ALO");
         return new storiesViewHolder(view);
     }
 

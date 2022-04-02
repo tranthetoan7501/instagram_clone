@@ -3,6 +3,7 @@ package com.hcmus.mobilappsocialnetworkingimage.activity;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.Vector;
 
-public class storiesActivity extends AppCompatActivity {
+public class storiesActivity extends Activity {
     Button back,forword;
     ProgressBar progressBar;
     ImageButton close;
@@ -76,6 +77,11 @@ public class storiesActivity extends AppCompatActivity {
 
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_stories);
@@ -89,6 +95,8 @@ public class storiesActivity extends AppCompatActivity {
         listImage=new Vector<>(getIntent().getStringArrayListExtra("Image"));
         listAvt=new Vector<>(getIntent().getStringArrayListExtra("Avatar"));
 
+        System.out.println("Image"+listImage);
+        System.out.println("Avt"+listAvt);
         Picasso.get().load(listImage.get(pos)).into(image);
         Picasso.get().load(listAvt.get(pos)).into(person);
 
@@ -122,10 +130,10 @@ public class storiesActivity extends AppCompatActivity {
                     status = false;
                     if (listName.size() == 1) {
                         finish();
-                    } else {
+                    }
+                    else {
                         goStories();
                     }
-
                 } else {
                     status = true;
                     createThread();
@@ -139,14 +147,18 @@ public class storiesActivity extends AppCompatActivity {
     }
 
     public void goStories(){
-        Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
-        listImage.remove(pos);
-        listName.remove(pos);
-        pos = 0;
-        intent.putExtra("position", String.valueOf(pos));
-        intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
-        intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
-        startActivity(intent);
-        finish();
+
+                Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
+                listImage.remove(pos);
+                listName.remove(pos);
+                listAvt.remove(pos);
+
+                pos = 0;
+                intent.putExtra("position", String.valueOf(pos));
+                intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
+                intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
+                intent.putStringArrayListExtra("Avatar", new ArrayList<String>(listAvt));
+                startActivity(intent);
+                finish();
     }
 }

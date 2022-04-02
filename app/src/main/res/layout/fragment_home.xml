@@ -3,8 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-    <include android:id="@+id/home_appbar" layout="@layout/appbar_home"/>
+
+    <include
+        android:id="@+id/home_appbar"
+        layout="@layout/appbar_home" />
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -27,22 +32,25 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         >
-                        <de.hdodenhof.circleimageview.CircleImageView
-                            android:layout_marginHorizontal="10dp"
-                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                            android:layout_width="70dp"
-                            android:layout_height="70dp"
-                            android:src="@drawable/bcd"
-                            app:civ_border_width="2dp"
-                            app:civ_border_color="#D34267"
-                            />
+                        <com.google.android.material.card.MaterialCardView
+                            app:strokeColor="#D34267"
 
-                        <TextView
-                            android:layout_gravity="center"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="Thanh Sơn"
-                            />
+                            android:id="@+id/cardView"
+                            app:cardCornerRadius="50dp"
+                            app:cardElevation="2dp"
+                            app:strokeWidth="2dp"
+                            android:layout_marginLeft="5dp"
+                             android:layout_height="wrap_content"
+                            android:layout_width="wrap_content">
+                            <ImageButton
+                                android:id="@+id/add_story"
+                                android:layout_width="70dp"
+                                android:layout_height="70dp"
+                                android:layout_below="@+id/progress_horizontal"
+                                android:background="@drawable/ic_baseline_add_24" />
+                        </com.google.android.material.card.MaterialCardView>
+
+
                     </LinearLayout>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/stories"

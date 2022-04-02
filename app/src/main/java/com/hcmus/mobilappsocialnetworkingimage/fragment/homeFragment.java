@@ -57,6 +57,7 @@ public class homeFragment extends Fragment {
     RecyclerView post_recyclerView;
     FirebaseAuth mAuth;
     FirebaseDatabase database;
+    ImageButton add_str;
 
     Context context;
     @Override
@@ -75,7 +76,11 @@ public class homeFragment extends Fragment {
         posts = view.findViewById(R.id.posts);
         upItemBtn = view.findViewById(R.id.add_button);
         post_recyclerView = view.findViewById(R.id.posts);
-//        getDataStories();
+        add_str=view.findViewById(R.id.add_story);
+        add_str.setOnClickListener(view1 -> {
+            openDialogStory();
+        });
+        getDataStories();
         getDataPosts();
         upItemBtn.setOnClickListener(v -> openDialog());
         context=this.getContext();
@@ -124,9 +129,7 @@ public class homeFragment extends Fragment {
     }
 
     void getDataStories(){
-
-
-        DatabaseReference databaseReference=database.getReference("user_stories");
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("user_stories");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
@@ -138,8 +141,10 @@ public class homeFragment extends Fragment {
                 stories.setAdapter(storiesAdapter);
 
                 for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
-                    name.add(snapshot.getKey());
-                    image.add(snapshot.child("story_photos").getValue().toString());
+                    for(DataSnapshot snapshot1: snapshot.getChildren()) {
+                        name.add(snapshot.getKey());
+                        image.add(snapshot1.getValue().toString());
+                    }
                 }
                 storiesAdapter.notifyDataSetChanged();
             }

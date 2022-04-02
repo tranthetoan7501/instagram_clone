@@ -27,6 +27,8 @@ import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class postStory extends Activity {
     public Bitmap imageProfile;
@@ -116,7 +118,9 @@ public class postStory extends Activity {
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
         byte[] data = stream.toByteArray();
         StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
-        StorageReference imageRef = imageStorage.child("story_photos/"+ FirebaseAuth.getInstance().getUid()+"/"+"imagePath");
+        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+        LocalDateTime myDateObj = LocalDateTime.now();
+        StorageReference imageRef = imageStorage.child("story_photos/"+ FirebaseAuth.getInstance().getUid()+"/"+myDateObj.format(myFormatObj));
         Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
             if (!task.isSuccessful()) {
                 throw task.getException();
@@ -126,7 +130,7 @@ public class postStory extends Activity {
             if (task.isSuccessful()) {
                 Uri downloadUri = task.getResult();
                 DatabaseReference myRef=database.getReference("user_stories").child(mAuth.getUid());
-                myRef.child("story_photos").setValue(downloadUri.toString());
+                myRef.child(myDateObj.format(myFormatObj)).setValue(downloadUri.toString());
 
             } else {
                 Toast.makeText(postStory.this,"Change profile photo failed",Toast.LENGTH_LONG).show();
