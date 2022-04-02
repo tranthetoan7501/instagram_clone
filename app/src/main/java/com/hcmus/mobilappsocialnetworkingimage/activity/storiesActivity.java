@@ -14,7 +14,7 @@ import android.widget.RelativeLayout;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
 
-public class stories extends AppCompatActivity {
+public class storiesActivity extends AppCompatActivity {
     Button back,forword;
     ProgressBar progressBar;
     ImageButton close;
@@ -49,7 +49,7 @@ public class stories extends AppCompatActivity {
                     System.out.println(progressStatus);
                 }
                 if(progressStatus==MAX){
-                    Intent intent=new Intent(getApplicationContext(), stories.class);
+                    Intent intent=new Intent(getApplicationContext(), storiesActivity.class);
                     startActivity(intent);
                 }
             }

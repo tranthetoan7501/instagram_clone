@@ -9,12 +9,15 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
     <queries>
+
         <!-- Camera -->
         <intent>
             <action android:name="android.media.action.IMAGE_CAPTURE" />
         </intent>
     </queries>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher_pgram"
@@ -54,7 +57,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity"
+            android:name=".photoEditor.EditImageActivity"
             android:exported="true"
             android:screenOrientation="portrait">
 
