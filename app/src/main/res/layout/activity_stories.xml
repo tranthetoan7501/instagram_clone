@@ -11,15 +11,13 @@
         <ImageView
             android:id="@+id/image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            />
+            android:layout_height="match_parent" />
 
         <ProgressBar
             android:id="@+id/progress_horizontal"
             style="@style/Widget.AppCompat.ProgressBar.Horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@null"/>
+            android:layout_height="wrap_content" />
 
         <androidx.cardview.widget.CardView
             android:layout_below="@+id/progress_horizontal"
@@ -34,7 +32,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/progress_horizontal"
-
                 android:background="@drawable/round_button" />
         </androidx.cardview.widget.CardView>
 

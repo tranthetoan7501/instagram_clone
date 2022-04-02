@@ -54,16 +54,13 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
         if(listName.isEmpty()) return;
         Picasso.get().load(listImage.get(position)).into(holder.circleImageView);
         FirebaseDatabase database= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference databaseReference=database.getReference("user_account_settings");
+            DatabaseReference databaseReference=database.getReference("user_account_settings").child(listName.get(position));
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot!=null) {
-                        listAvt.set(position,dataSnapshot.child(listName.get(position)).child("profile_photo").getValue().toString());
-                        listName.set(position, dataSnapshot.child(listName.get(position)).child("username").getValue().toString());
+                        listAvt.set(position,dataSnapshot.child("profile_photo").getValue().toString());
+                        listName.set(position, dataSnapshot.child("username").getValue().toString());
                         holder.textView.setText(listName.get(position));
-                        return;
-                    }
                 }
 
                 @Override
