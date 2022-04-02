@@ -55,8 +55,11 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    listName.set(position,dataSnapshot.child(listName.get(position)).child("username").getValue().toString());
-                    holder.textView.setText(listName.get(position));
+                    if(dataSnapshot!=null) {
+                        listName.set(position, dataSnapshot.child(listName.get(position)).child("username").getValue().toString());
+                        holder.textView.setText(listName.get(position));
+                        return;
+                    }
                 }
 
                 @Override

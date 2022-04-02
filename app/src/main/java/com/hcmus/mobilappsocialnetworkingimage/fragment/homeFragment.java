@@ -122,18 +122,19 @@ public class homeFragment extends Fragment {
     }
 
     void getDataStories(){
-        Vector<String> name = new Vector<>();
-        Vector<String> image = new Vector<>();
-        LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-        storiesAdapter = new storiesAdapter(image,name,getContext());
-        stories.setLayoutManager(linearLayout);
-        stories.setAdapter(storiesAdapter);
 
 
         DatabaseReference databaseReference=database.getReference("user_stories");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
+                Vector<String> name = new Vector<>();
+                Vector<String> image = new Vector<>();
+                LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+                storiesAdapter = new storiesAdapter(image,name,getContext());
+                stories.setLayoutManager(linearLayout);
+                stories.setAdapter(storiesAdapter);
+
                 for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
                     name.add(snapshot.getKey());
                     image.add(snapshot.child("story_photos").getValue().toString());
