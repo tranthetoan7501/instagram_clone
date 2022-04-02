@@ -3,6 +3,7 @@ package com.hcmus.mobilappsocialnetworkingimage.activity;
 import static android.content.ContentValues.TAG;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -21,6 +22,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.SyncStateContract;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
@@ -28,6 +30,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -41,6 +44,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
@@ -58,12 +62,12 @@ public class editProfileActivity extends AppCompatActivity {
     Bundle bundle;
     userAccountSettingsModel userAccountSettingsModel;
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    Bitmap imageProfile;
+    public Bitmap imageProfile;
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 0;
     public final String APP_TAG = "MyCustomApp";
     public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
-    public String photoFileName = "photo.jpg";
-    File photoFile;
+    public static String photoFileName = "photo.jpg";
+    static File photoFile;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,8 +82,6 @@ public class editProfileActivity extends AppCompatActivity {
 
         bundle=getIntent().getExtras();
         userAccountSettingsModel= (userAccountSettingsModel) getIntent().getSerializableExtra("userAccountSettings");
-
-
         Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
         username.setText(userAccountSettingsModel.getUsername());
         about.setText(userAccountSettingsModel.getDescription());
@@ -124,7 +126,6 @@ public class editProfileActivity extends AppCompatActivity {
         });
     }
 
-    
     @Override
     protected void onStart() {
         IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
@@ -164,7 +165,7 @@ public class editProfileActivity extends AppCompatActivity {
         return file;
     }
 
-    private void selectImage() {
+    public void selectImage() {
         final CharSequence[] options = { "Take Photo", "Choose from Gallery","Cancel" };
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Add Photo!");
@@ -180,8 +181,6 @@ public class editProfileActivity extends AppCompatActivity {
                         // Start the image capture intent to take photo
                         startActivityForResult(intent, CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                     }
-
-
                 }
                 else if (options[item].equals("Choose from Gallery"))
                 {

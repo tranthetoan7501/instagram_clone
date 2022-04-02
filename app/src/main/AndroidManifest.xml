@@ -30,6 +30,12 @@
             android:name=".activity.forgotPasswordActivity"
             android:exported="false" />
         <activity
+            android:name=".activity.storiesActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activity.postStory"
+            android:exported="false" />
+        <activity
             android:name=".activity.navigationActivity"
             android:exported="false" />
         <activity
