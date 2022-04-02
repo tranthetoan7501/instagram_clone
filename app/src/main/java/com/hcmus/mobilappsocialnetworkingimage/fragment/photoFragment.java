@@ -23,20 +23,21 @@ import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.mainActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
-import com.hcmus.mobilappsocialnetworkingimage.utils.filterImage;
+import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.permissions;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 public class photoFragment extends Fragment {
 
     private static final int PHOTO_FRAGMENT_NUM = 1;
     private static final int CAMERA_REQUEST_CODE = 5;
-    private filterImage filterImage;
+    private static final int NEXT_ACTIVITY_REQUEST_CODE = 2;
     public final String APP_TAG = "MyCustomApp";
-    public final static int CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE = 1034;
     public String photoFileName = "photo.jpg";
     File photoFile;
+    Bitmap bitmap;
 
     @Nullable
     @Override
@@ -54,10 +55,8 @@ public class photoFragment extends Fragment {
                         Uri fileProvider = FileProvider.getUriForFile(getContext(), "com.hcmus.mobilappsocialnetworkingimage.provider", photoFile);
                         cameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileProvider);
                         if (cameraIntent.resolveActivity(getContext().getPackageManager()) != null) {
-                            // Start the image capture intent to take photo
                             startActivityForResult(cameraIntent, editProfileActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE);
                         }
-
                     } else {
                         Intent intent = new Intent(getActivity(), mainActivity.class);
                         startActivity(intent);
@@ -78,20 +77,31 @@ public class photoFragment extends Fragment {
 
         return file;
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == editProfileActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE && resultCode == getActivity().RESULT_OK) {
-            Bitmap bitmap;
-            bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
-            filterImage = new filterImage(getContext(), bitmap);
-            filterImage.sendToEdit();
-            // switch to next Activity
-            Intent intent = new Intent(getActivity(), nextActivity.class);
-            bitmap = Bitmap.createScaledBitmap(filterImage.getmBitmap(),200,200,true);
-            // save bitmap to image and get image path
-            ((shareActivity) getActivity()).saveBitmapToImage(bitmap);
-            intent.putExtra("imageBitmap", bitmap);
-            startActivity(intent);
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == editProfileActivity.CAPTURE_IMAGE_ACTIVITY_REQUEST_CODE) {
+                bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
+                editPicture();
+            } else if (requestCode == NEXT_ACTIVITY_REQUEST_CODE) {
+                bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
+                bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+                Intent intent = new Intent(getActivity(), nextActivity.class);
+                intent.putExtra("imageBitmap", bitmap);
+                startActivity(intent);
+            }
         }
+    }
+
+    private void editPicture() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] bytesArrayBmp = baos.toByteArray();
+        Intent intent= new Intent(getActivity(),EditImageActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putByteArray("ImagePath",bytesArrayBmp);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, NEXT_ACTIVITY_REQUEST_CODE);
     }
 }

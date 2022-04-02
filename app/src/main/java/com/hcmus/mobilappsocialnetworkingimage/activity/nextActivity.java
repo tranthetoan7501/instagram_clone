@@ -25,11 +25,8 @@ public class nextActivity extends AppCompatActivity {
     private TextView shareButton;
     private firebaseMethods firebaseMethods;
     private Bitmap bitmap;
-
     private Intent intent;
     private ArrayList<String> imgUrls;
-
-//    FirebaseStorage storage = FirebaseStorage.getInstance();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -79,7 +76,6 @@ public class nextActivity extends AppCompatActivity {
         } else {
             bitmap = intent.getParcelableExtra("imageBitmap");
             imageShare.setImageBitmap(bitmap);
-
         }
     }
 }

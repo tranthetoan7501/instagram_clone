@@ -1,36 +1,24 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
-import static android.content.ContentValues.TAG;
-
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.provider.SyncStateContract;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
@@ -44,11 +32,11 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.fragment.homeFragment;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 import com.squareup.picasso.Picasso;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Vector;
@@ -85,12 +73,7 @@ public class editProfileActivity extends AppCompatActivity {
         Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
         username.setText(userAccountSettingsModel.getUsername());
         about.setText(userAccountSettingsModel.getDescription());
-        camera.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                selectImage();
-            }
-        });
+        camera.setOnClickListener(view -> selectImage());
 
         back.setOnClickListener(view -> editProfileActivity.this.finish());
 
@@ -98,8 +81,7 @@ public class editProfileActivity extends AppCompatActivity {
             if(username.getText().toString().equals(userAccountSettingsModel.getUsername())
                 && about.getText().toString().equals(userAccountSettingsModel.getDescription())&& imageProfile==null){
                 editProfileActivity.this.finish();
-            }
-            else {
+            } else {
                 DatabaseReference myRef = database.getReference("user");
                 myRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -121,7 +103,6 @@ public class editProfileActivity extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
     }
@@ -131,7 +112,6 @@ public class editProfileActivity extends AppCompatActivity {
         IntentFilter filter =new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         registerReceiver(networkChangeListener, filter);
         super.onStart();
-
     }
 
     @Override
@@ -151,7 +131,6 @@ public class editProfileActivity extends AppCompatActivity {
         if(imageProfile!=null){
             firebaseUploadBitmap(imageProfile);
         }
-
     }
 
     public File getPhotoFileUri(String fileName) {
@@ -216,7 +195,6 @@ public class editProfileActivity extends AppCompatActivity {
                 Toast.makeText(editProfileActivity.this,"Change profile photo failed",Toast.LENGTH_LONG).show();
             }
         });
-
     }
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -252,34 +230,14 @@ public class editProfileActivity extends AppCompatActivity {
             }
         }
     }
-//    private Bitmap getRoundedCroppedBitmap(Bitmap bitmap) {
-//        int widthLight = bitmap.getWidth();
-//        int heightLight = bitmap.getHeight();
-//
-//        Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(),
-//                Bitmap.Config.ARGB_8888);
-//
-//        Canvas canvas = new Canvas(output);
-//        Paint paintColor = new Paint();
-//        paintColor.setFlags(Paint.ANTI_ALIAS_FLAG);
-//
-//        RectF rectF = new RectF(new Rect(0, 0, widthLight, heightLight));
-//
-//        canvas.drawRoundRect(rectF, widthLight / 2, heightLight / 2, paintColor);
-//
-//        Paint paintImage = new Paint();
-//        paintImage.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_ATOP));
-//        canvas.drawBitmap(bitmap, 0, 0, paintImage);
-//
-//        return output;
-//    }
+
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] bytesArrayBmp = baos.toByteArray();
         Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
         Bundle bundle=new Bundle();
-        bundle.putByteArray("ImagePath",bytesArrayBmp);
+        bundle.putByteArray("ImagePath", bytesArrayBmp);
         intent.putExtras(bundle);
         startActivityForResult(intent,SECOND_ACTIVITY_REQUEST_CODE);
     }
