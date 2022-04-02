@@ -64,6 +64,7 @@ public class activitiesAdapter extends RecyclerView.Adapter<activitiesAdapter.ac
             }
         });
 
+        if(notification.get(position).getImage_paths() != null)
         Picasso.get().load(notification.get(position).getImage_paths().get(0)).into(holder.preview);
 
 

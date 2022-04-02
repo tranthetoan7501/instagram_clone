@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
+import com.hcmus.mobilappsocialnetworkingimage.model.likeModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.notificationsModel;
 import com.squareup.picasso.Picasso;
 
@@ -59,7 +60,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
     ImageButton liked;
     String post_id;
     Button setting;
-    ArrayList<String> likes = new ArrayList<>();
+    ArrayList<likeModel> likes = new ArrayList<likeModel>();
     private LinearLayout layoutSettingBottomSheet;
     private BottomSheetBehavior settingBottomSheetBehavior;
     LinearLayout modify;
@@ -132,8 +133,10 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 description.setText(dataSnapshot.child("caption").getValue().toString());
                 bundle2.putString("caption",description.getText().toString());
                 if(dataSnapshot.child("likes").getChildrenCount() != 0 ){
-                    likes = (ArrayList<String>) dataSnapshot.child("likes").getValue();
-                    if(likes.contains(mAuth.getUid())){
+                   for(DataSnapshot data : dataSnapshot.child("likes").getChildren()){
+                       likes.add(data.getValue(likeModel.class));
+                   }
+                    if(findUser(mAuth.getUid()) != null){
                         like.setVisibility(View.INVISIBLE);
                         liked.setVisibility(View.VISIBLE);
                     }
@@ -194,6 +197,15 @@ public class postFragment extends Fragment implements View.OnClickListener {
     }
 
 
+    String findUser(String s){
+        for(likeModel str : likes){
+            if(str.getUser_id().equals(mAuth.getUid())){
+                return str.getId();
+            }
+        }
+        return null;
+    }
+
     @Override
     public void onClick(View view) {
 
@@ -208,22 +220,10 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 break;
             case R.id.like:
-                Integer id = -1;
+                String id = UUID.randomUUID().toString();
+                likeModel likeModel = new likeModel(mAuth.getUid(), id);
                 DatabaseReference myLike = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
-                if(myLike != null){
-                    if(likes !=null) {
-                        id = likes.size();
-                        myLike.child(id + "").setValue(mAuth.getUid());
-                    }
-                    else{
-                        myLike.child("0").setValue(mAuth.getUid());
-                        id = 0;
-                    }
-                }
-                else{
-                    myLike.child("likes/0").setValue(mAuth.getUid());
-                    id = 0;
-                }
+                myLike.child(id + "").setValue(likeModel);
                 like.setVisibility(View.INVISIBLE);
                 liked.setVisibility(View.VISIBLE);
                 if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
@@ -233,12 +233,12 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.liked:
                 DatabaseReference myLike1 = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id")+"/"+"likes");
-                myLike1.child(likes.indexOf(mAuth.getUid())+"").removeValue();
+                myLike1.child(findUser(mAuth.getUid())).removeValue();
                 like.setVisibility(View.VISIBLE);
                 liked.setVisibility(View.INVISIBLE);
                 if(!mAuth.getUid().equals(bundle.getString("user_id"))) {
                     DatabaseReference myNotification = database.getReference();
-                    myNotification.child("notification").child(bundle.getString("user_id")).child(bundle.getString("post_id") + "-like-"+likes.indexOf(mAuth.getUid())+"").removeValue();
+                    myNotification.child("notification").child(bundle.getString("user_id")).child(bundle.getString("post_id") + "-like-"+ findUser(mAuth.getUid())).removeValue();
                 }
                 break;
             case R.id.previous:

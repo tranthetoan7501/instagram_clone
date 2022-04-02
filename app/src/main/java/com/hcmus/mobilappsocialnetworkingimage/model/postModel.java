@@ -1,11 +1,12 @@
 package com.hcmus.mobilappsocialnetworkingimage.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 public class postModel {
     String caption;
-    List<String> likes;
+    ArrayList<likeModel> likes;
     Map<String,Object> comments;
     String date_created;
     List<String> image_paths;
@@ -15,6 +16,15 @@ public class postModel {
 
     public postModel(){
 
+    }
+
+    public postModel(String caption, ArrayList<likeModel> likes, String date_created, List<String> image_paths, String user_id, String post_id) {
+        this.likes = likes;
+        this.caption = caption;
+        this.date_created = date_created;
+        this.image_paths = image_paths;
+        this.user_id = user_id;
+        this.post_id = post_id;
     }
 
     public postModel(String caption, String date_created, List<String> image_paths, String tags, String post_id, String user_id) {
@@ -34,11 +44,11 @@ public class postModel {
         this.caption = caption;
     }
 
-    public List<String> getLikes() {
+    public ArrayList<likeModel> getLikes() {
         return likes;
     }
 
-    public void setLikes(List<String> likes) {
+    public void setLikes(ArrayList<likeModel> likes) {
         this.likes = likes;
     }
 

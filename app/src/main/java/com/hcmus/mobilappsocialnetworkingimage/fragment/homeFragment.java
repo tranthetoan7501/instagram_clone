@@ -34,12 +34,14 @@ import com.hcmus.mobilappsocialnetworkingimage.activity.postStory;
 import com.hcmus.mobilappsocialnetworkingimage.activity.shareActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.storiesActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.postsAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.model.likeModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.*;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 
@@ -73,7 +75,7 @@ public class homeFragment extends Fragment {
         posts = view.findViewById(R.id.posts);
         upItemBtn = view.findViewById(R.id.add_button);
         post_recyclerView = view.findViewById(R.id.posts);
-        getDataStories();
+//        getDataStories();
         getDataPosts();
         upItemBtn.setOnClickListener(v -> openDialog());
         context=this.getContext();
@@ -188,7 +190,12 @@ public class homeFragment extends Fragment {
                                    for(DataSnapshot data : snapshot.getChildren()){
                                        if(key.contains(data.getKey())){
                                            for(DataSnapshot p : data.getChildren()){
-                                               post.add(p.getValue(postModel.class));
+                                               ArrayList<likeModel> likes = new ArrayList<>();
+                                               for(DataSnapshot j : p.child("likes").getChildren()){
+                                                   likes.add(j.getValue(likeModel.class));
+                                               }
+                                              postModel model = new postModel(p.child("caption").getValue().toString(), likes,p.child("date_created").getValue().toString(),(ArrayList<String>) p.child("image_paths").getValue(),p.child("user_id").getValue().toString(),p.child("post_id").getValue().toString());
+                                               post.add(model);
                                            }
                                        }
                                    }
