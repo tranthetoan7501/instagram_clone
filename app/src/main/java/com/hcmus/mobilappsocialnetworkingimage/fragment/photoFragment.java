@@ -90,7 +90,7 @@ public class photoFragment extends Fragment {
             bitmap = Bitmap.createScaledBitmap(filterImage.getmBitmap(),200,200,true);
             // save bitmap to image and get image path
             ((shareActivity) getActivity()).saveBitmapToImage(bitmap);
-            intent.putExtra(getString(R.string.selected_image), bitmap);
+            intent.putExtra("imageBitmap", bitmap);
             startActivity(intent);
         }
     }

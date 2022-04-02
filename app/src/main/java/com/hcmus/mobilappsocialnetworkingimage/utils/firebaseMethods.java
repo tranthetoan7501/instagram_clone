@@ -140,10 +140,12 @@ public class firebaseMethods {
             UploadTask uploadTask = storageReference.putBytes(data);
             uploadTask.addOnFailureListener(exception -> {
                 Toast.makeText(mContext, "Failed to upload photo", Toast.LENGTH_SHORT).show();
-
-            }).addOnSuccessListener(taskSnapshot -> {
-                //
-            });
+            }).addOnSuccessListener(taskSnapshot -> storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                imgUrlListFirebase.add(uri.toString());
+                String post_id = myRef.child("user_photos").child(user_id.get()).push().getKey();
+                postModel post = new postModel(caption, date_created, imgUrlListFirebase, tags, post_id, user_id.get());
+                myRef.child("user_photos").child(user_id.get()).child(post_id).setValue(post);
+            }));
         }
     }
 }

@@ -52,7 +52,7 @@ public class nextActivity extends AppCompatActivity {
                 firebaseMethods.uploadNewPhoto(imgUrls, null, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
 
             } else {
-                firebaseMethods.uploadNewPhoto(imgUrls, bitmap, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
+                firebaseMethods.uploadNewPhoto(null, bitmap, descriptionText.getText().toString(), myDateObj.format(myFormatObj), descriptionText.getText().toString());
             }
             finish();
             Intent intent = new Intent(nextActivity.this, mainActivity.class);
