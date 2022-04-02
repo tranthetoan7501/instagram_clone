@@ -16,15 +16,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Vector;
-
-import io.grpc.LoadBalancer;
 
 public class storiesActivity extends AppCompatActivity {
     Button back,forword;
@@ -32,6 +27,7 @@ public class storiesActivity extends AppCompatActivity {
     ImageButton close;
     Vector<String> listName=new Vector<>();
     Vector<String> listImage=new Vector<>();
+    Vector<String> listAvt=new Vector<>();
     int k=0;
     final int MAX = 300;
     private int progressStatus = 0;
@@ -65,17 +61,7 @@ public class storiesActivity extends AppCompatActivity {
                     if (listName.size() == 1) {
                         finish();
                     } else {
-                        Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
-                        listImage.remove(pos);
-                        listName.remove(pos);
-                        pos = 0;
-                        intent.putExtra("position", String.valueOf(pos));
-                        intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
-                        intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
-                        //intent.putExtra("Name",listName.toString());
-                        //  intent.putExtra("Image",listImage.toString());
-                        startActivity(intent);
-                        finish();
+                        goStories();
                     }
                 }
             }
@@ -101,8 +87,11 @@ public class storiesActivity extends AppCompatActivity {
 
         listName=new Vector<>(getIntent().getStringArrayListExtra("Name"));
         listImage=new Vector<>(getIntent().getStringArrayListExtra("Image"));
+        listAvt=new Vector<>(getIntent().getStringArrayListExtra("Avatar"));
 
         Picasso.get().load(listImage.get(pos)).into(image);
+        Picasso.get().load(listAvt.get(pos)).into(person);
+
         username.setText(listName.get(pos));
 
         relativeLayout=findViewById(R.id.item);
@@ -119,19 +108,45 @@ public class storiesActivity extends AppCompatActivity {
                 status=false;
             }
         });
+        relativeLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                status=false;
+                return false;
+            }
+        });
         relativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (status) {
                     status = false;
-                }
-                else{
-                    status=true;
+                    if (listName.size() == 1) {
+                        finish();
+                    } else {
+                        goStories();
+                    }
+
+                } else {
+                    status = true;
                     createThread();
                     thread.start();
-                }
-            }
-        });
 
+                }
+
+            }
+
+        });
+    }
+
+    public void goStories(){
+        Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
+        listImage.remove(pos);
+        listName.remove(pos);
+        pos = 0;
+        intent.putExtra("position", String.valueOf(pos));
+        intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
+        intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
+        startActivity(intent);
+        finish();
     }
 }

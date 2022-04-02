@@ -31,12 +31,15 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesViewHolder> {
     Vector<String> listImage;
     Vector<String> listName;
+    Vector<String> listAvt;
     Context context;
 
     public storiesAdapter(Vector<String> listImage, Vector<String> listName, Context context) {
         this.listName = listName;
         this.listImage = listImage;
         this.context = context;
+        this.listAvt=new Vector<>();
+        this.listAvt.add("ALO");
     }
 
     @NonNull
@@ -51,15 +54,13 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
         if(listName.isEmpty()) return;
         Picasso.get().load(listImage.get(position)).into(holder.circleImageView);
         FirebaseDatabase database= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference databaseReference=database.getReference("users");
+            DatabaseReference databaseReference=database.getReference("user_account_settings").child(listName.get(position));
             databaseReference.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if(dataSnapshot!=null) {
-                        listName.set(position, dataSnapshot.child(listName.get(position)).child("username").getValue().toString());
+                        listAvt.set(position,dataSnapshot.child("profile_photo").getValue().toString());
+                        listName.set(position, dataSnapshot.child("username").getValue().toString());
                         holder.textView.setText(listName.get(position));
-                        return;
-                    }
                 }
 
                 @Override
@@ -75,6 +76,7 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
                 intent.putExtra("position",String.valueOf(position));
                 intent.putStringArrayListExtra("Name",new ArrayList<String>(listName));
                 intent.putStringArrayListExtra("Image",new ArrayList<String>(listImage));
+                intent.putStringArrayListExtra("Avatar",new ArrayList<String>(listAvt));
                 context.startActivity(intent);
 
             }
