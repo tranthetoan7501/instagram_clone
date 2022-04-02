@@ -63,8 +63,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         holder.date.setText(post.get(position).getDate_created());
         holder.description.setText(post.get(position).getCaption());
-        if(post.get(position).getLikes() != null ){
-            if(post.get(position).getLikes().contains(mAuth.getUid())){
+        if(post.get(position).getLikes().size() > 0){
+            if(post.get(position).getLikes().get(findUser(position,mAuth.getUid())).getUser_id().equals(mAuth.getUid())){
                 holder.like.setVisibility(View.INVISIBLE);
                 holder.liked.setVisibility(View.VISIBLE);
             }
