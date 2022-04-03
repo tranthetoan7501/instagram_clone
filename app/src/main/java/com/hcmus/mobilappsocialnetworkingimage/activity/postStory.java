@@ -24,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
+import com.hcmus.mobilappsocialnetworkingimage.utils.firebaseMethods;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -63,6 +64,7 @@ public class postStory extends Activity {
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
+                    finish();
                 }
             }
         });
@@ -105,7 +107,7 @@ public class postStory extends Activity {
             }
             else if(requestCode==0){
                 imageProfile= EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
-                firebaseUploadBitmap(imageProfile);
+                firebaseMethods.firebaseUploadBitmap(imageProfile,"postStory");
                 finish();
 
             }
@@ -113,31 +115,7 @@ public class postStory extends Activity {
     }
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-    private void firebaseUploadBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] data = stream.toByteArray();
-        StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
-        DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
-        LocalDateTime myDateObj = LocalDateTime.now();
-        StorageReference imageRef = imageStorage.child("story_photos/"+ FirebaseAuth.getInstance().getUid()+"/"+myDateObj.format(myFormatObj));
-        Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                throw task.getException();
-            }
-            return imageRef.getDownloadUrl();
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Uri downloadUri = task.getResult();
-                DatabaseReference myRef=database.getReference("user_stories").child(mAuth.getUid());
-                myRef.child(myDateObj.format(myFormatObj)).setValue(downloadUri.toString());
 
-            } else {
-                Toast.makeText(postStory.this,"Change profile photo failed",Toast.LENGTH_LONG).show();
-            }
-        });
-
-    }
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);

@@ -17,6 +17,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.adapter.storiesAdapter;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -95,8 +96,6 @@ public class storiesActivity extends Activity {
         listImage=new Vector<>(getIntent().getStringArrayListExtra("Image"));
         listAvt=new Vector<>(getIntent().getStringArrayListExtra("Avatar"));
 
-        System.out.println("Image"+listImage);
-        System.out.println("Avt"+listAvt);
         Picasso.get().load(listImage.get(pos)).into(image);
         Picasso.get().load(listAvt.get(pos)).into(person);
 
@@ -138,27 +137,24 @@ public class storiesActivity extends Activity {
                     status = true;
                     createThread();
                     thread.start();
-
                 }
 
             }
 
         });
     }
-
     public void goStories(){
-
-                Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
-                listImage.remove(pos);
-                listName.remove(pos);
-                listAvt.remove(pos);
-
-                pos = 0;
-                intent.putExtra("position", String.valueOf(pos));
-                intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
-                intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
-                intent.putStringArrayListExtra("Avatar", new ArrayList<String>(listAvt));
-                startActivity(intent);
-                finish();
+        Intent intent = new Intent(getApplicationContext(), storiesActivity.class);
+        listImage.remove(pos);
+        listName.remove(pos);
+        listAvt.remove(pos);
+        if(pos<listName.size()){
+            intent.putExtra("position", String.valueOf(pos));
+            intent.putStringArrayListExtra("Name", new ArrayList<String>(listName));
+            intent.putStringArrayListExtra("Image", new ArrayList<String>(listImage));
+            intent.putStringArrayListExtra("Avatar", new ArrayList<String>(listAvt));
+            startActivity(intent);
+        }
+        finish();
     }
 }

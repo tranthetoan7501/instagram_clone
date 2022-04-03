@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,20 +36,17 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
     Vector<String> listAvt;
     Context context;
 
-    public storiesAdapter(Vector<String> listImage, Vector<String> listName, Context context) {
+    public storiesAdapter(Vector<String> listImage, Vector<String> listName,Vector<String> listAvt, Context context) {
         this.listName = listName;
         this.listImage = listImage;
         this.context = context;
-
+        this.listAvt=listAvt;
     }
 
     @NonNull
     @Override
     public storiesViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.story,parent,false);
-        this.listAvt=new Vector<>();
-        for(int i=0;i<listImage.size();i++)
-            this.listAvt.add("ALO");
         return new storiesViewHolder(view);
     }
 
@@ -55,21 +54,8 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
     public void onBindViewHolder(@NonNull storiesViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if(listName.isEmpty()) return;
         Picasso.get().load(listImage.get(position)).into(holder.circleImageView);
-        FirebaseDatabase database= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference databaseReference=database.getReference("user_account_settings").child(listName.get(position));
-            databaseReference.addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        listAvt.set(position,dataSnapshot.child("profile_photo").getValue().toString());
-                        listName.set(position, dataSnapshot.child("username").getValue().toString());
-                        holder.textView.setText(listName.get(position));
-                }
+        holder.textView.setText(listName.get(position));
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
         holder.circleImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,7 +74,7 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
 
     @Override
     public int getItemCount() {
-        return listImage.size();
+        return listName.size();
     }
 
 //    @Override
@@ -100,7 +86,7 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
 //        }
 //    }
 
-    class storiesViewHolder extends RecyclerView.ViewHolder{
+    static class storiesViewHolder extends RecyclerView.ViewHolder{
         CircleImageView circleImageView;
         TextView textView;
 

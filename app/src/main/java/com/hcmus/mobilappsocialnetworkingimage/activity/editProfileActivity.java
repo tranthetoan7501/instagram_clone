@@ -34,6 +34,7 @@ import com.google.firebase.storage.StorageReference;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
+import com.hcmus.mobilappsocialnetworkingimage.utils.firebaseMethods;
 import com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener;
 import com.squareup.picasso.Picasso;
 
@@ -129,7 +130,7 @@ public class editProfileActivity extends AppCompatActivity {
         myRef=database.getReference("users").child(mAuth.getUid());
         myRef.child("username").setValue(username.getText().toString());
         if(imageProfile!=null){
-            firebaseUploadBitmap(imageProfile);
+            firebaseMethods.firebaseUploadBitmap(imageProfile,"editProfile");
         }
     }
 
@@ -175,27 +176,7 @@ public class editProfileActivity extends AppCompatActivity {
         builder.show();
     }
 
-    private void firebaseUploadBitmap(Bitmap bitmap) {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        byte[] data = stream.toByteArray();
-        StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
-        StorageReference imageRef = imageStorage.child("profile_photos/"+FirebaseAuth.getInstance().getUid()+"/"+"imagePath");
-        Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
-            if (!task.isSuccessful()) {
-                throw task.getException();
-            }
-            return imageRef.getDownloadUrl();
-        }).addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                Uri downloadUri = task.getResult();
-                DatabaseReference myRef=database.getReference("user_account_settings").child(mAuth.getUid());
-                myRef.child("profile_photo").setValue(downloadUri.toString());
-            } else {
-                Toast.makeText(editProfileActivity.this,"Change profile photo failed",Toast.LENGTH_LONG).show();
-            }
-        });
-    }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

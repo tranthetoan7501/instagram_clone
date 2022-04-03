@@ -4,8 +4,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
@@ -14,12 +16,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
 import com.hcmus.mobilappsocialnetworkingimage.activity.loginActivity;
+import com.hcmus.mobilappsocialnetworkingimage.activity.postStory;
 import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
 
 import java.io.ByteArrayOutputStream;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -99,6 +105,51 @@ public class firebaseMethods {
         myRef.child(mContext.getString(R.string.dbname_user_account_settings)).child(userID).setValue(settingsModel);
     }
 
+    public static void firebaseUploadBitmap(Bitmap bitmap, String key) {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        byte[] data = stream.toByteArray();
+        StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
+
+        if(key.equals("editProfile")) {
+            StorageReference imageRef = imageStorage.child("profile_photos/" + FirebaseAuth.getInstance().getUid() + "/" + "imagePath");
+            Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imageRef.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    DatabaseReference myRef = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app")
+                            .getReference("user_account_settings")
+                            .child(FirebaseAuth.getInstance().getUid());
+                    myRef.child("profile_photo").setValue(downloadUri.toString());
+                }
+            });
+        }
+        else if(key.equals("postStory")){
+
+            DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
+            LocalDateTime myDateObj = LocalDateTime.now();
+            StorageReference imageRef = imageStorage.child("story_photos/"+ FirebaseAuth.getInstance().getUid()+"/"+myDateObj.format(myFormatObj));
+            Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+                return imageRef.getDownloadUrl();
+            }).addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                    DatabaseReference myRef=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app")
+                            .getReference("user_stories")
+                            .child(FirebaseAuth.getInstance().getUid());
+                    myRef.child(myDateObj.format(myFormatObj)).setValue(downloadUri.toString());
+
+                }
+            });
+        }
+    }
     public void uploadNewPhoto(ArrayList<String> imgUrls, Bitmap bm, String caption, String date_created, String tags) {
         List<String> imgUrlListFirebase = new ArrayList<>();
         String timestamp;

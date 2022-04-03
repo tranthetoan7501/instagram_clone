@@ -129,24 +129,44 @@ public class homeFragment extends Fragment {
     }
 
     void getDataStories(){
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/").getReference("user_stories");
+        DatabaseReference databaseReference=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/")
+                .getReference("user_stories");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
-                Vector<String> name = new Vector<>();
-                Vector<String> image = new Vector<>();
-                LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-                storiesAdapter = new storiesAdapter(image,name,getContext());
-                stories.setLayoutManager(linearLayout);
-                stories.setAdapter(storiesAdapter);
 
-                for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
-                    for(DataSnapshot snapshot1: snapshot.getChildren()) {
-                        name.add(snapshot.getKey());
-                        image.add(snapshot1.getValue().toString());
+                FirebaseDatabase database1= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                DatabaseReference databaseReference1=database1.getReference("user_account_settings");
+                databaseReference1.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Vector<String> image = new Vector<>();
+                        Vector<String > temp=new Vector<>();
+                        Vector<String> name = new Vector<>();
+                        Vector<String>  avt=new Vector<>();
+                        LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+                        storiesAdapter = new storiesAdapter(image,name,avt,getContext());
+                        stories.setAdapter(storiesAdapter);
+                        stories.setLayoutManager(linearLayout);
+                        for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
+                            for(DataSnapshot snapshot1: snapshot.getChildren()) {
+                                name.add(snapshot.getKey());
+                                image.add(snapshot1.getValue().toString());
+                            }
+                        }
+                        for (int i=0;i<name.size();i++){
+                            avt.add(dataSnapshot.child(name.get(i)).child("profile_photo").getValue().toString());
+                            name.set(i,dataSnapshot.child(name.get(i)).child("username").getValue().toString());
+                        }
+                        storiesAdapter.notifyDataSetChanged();
                     }
-                }
-                storiesAdapter.notifyDataSetChanged();
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
             }
 
             @Override

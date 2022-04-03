@@ -54,6 +54,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     @Override
     public postsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post,parent,false);
+        System.out.println(post.size());
         return new postsViewHolder(view);
     }
 
@@ -93,7 +94,6 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 Picasso.get().load(dataSnapshot.child("profile_photo").getValue().toString()).into(holder.avatar);
                 holder.up_name.setText(dataSnapshot.child("username").getValue().toString());
                 holder.below_name.setText(dataSnapshot.child("username").getValue().toString());
-
             }
 
             @Override

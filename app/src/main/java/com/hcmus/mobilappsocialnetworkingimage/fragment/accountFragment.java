@@ -200,6 +200,11 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 getData(1);
                 break;
             case R.id.video:
+//                Intent intent2 = new Intent();
+//                intent2.setType("image/*");
+//                intent2.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+//                intent2.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivityForResult(Intent.createChooser(intent2,"Select Picture"), 1);
                 getData(2);
                 break;
 //            case R.id.add_button_account:
