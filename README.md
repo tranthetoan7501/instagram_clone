@@ -1,8 +1,8 @@
 # PGram
-![alt text](https://ibb.co/xjDhx0J)
-![alt text](https://ibb.co/XVMdj4m)
-![alt text](https://ibb.co/nzCpgsN)
-![alt text](https://ibb.co/X4tKsmR)
+![alt text](https://i.ibb.co/d2rB8qG/Capture.png)
+![alt text](https://i.ibb.co/M9QjZhq/Capture1.png)
+![alt text](https://i.ibb.co/5BFZMWg/Capture2.png)
+![alt text](https://i.ibb.co/vBkTP2n/Capture3.png)
 
 # Member:
 - Trần Thế Toàn - 19127295
