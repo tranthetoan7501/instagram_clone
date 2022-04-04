@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_profile"
+        android:icon="@drawable/ic_baseline_co_profile"
+        android:title="Share this image"/>
+    <item
+        android:id="@+id/nav_hide"
+        android:icon="@drawable/ic_baseline_remove_red_eye_24"
+        android:title="Hide"/>
+    <item
+        android:id="@+id/nav_delete"
+        android:icon="@drawable/ic_baseline_grid_on_24"
+        android:title="Delete">
+    </item>
+
+
+
+</menu>

@@ -2,20 +2,27 @@ package com.hcmus.mobilappsocialnetworkingimage.adapter;
 
 import static android.content.ContentValues.TAG;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.view.menu.MenuBuilder;
+import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
@@ -163,16 +170,42 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         });
 
         holder.setting.setOnClickListener(new View.OnClickListener() {
+            @SuppressLint("RestrictedApi")
             @Override
             public void onClick(View view) {
-                if(mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())){
-                    BottomSheetBehavior settingBottomSheetBehavior = BottomSheetBehavior.from(layoutSettingBottomSheet);
-                    if (settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_COLLAPSED || settingBottomSheetBehavior.getState() == BottomSheetBehavior.STATE_SETTLING){
-                        settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                    }else{
-                        settingBottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
+//                PopupMenu popupMenu = new PopupMenu(view.getContext(), holder.setting);
+//                popupMenu.getMenuInflater().inflate(R.menu.popup_menu_item, popupMenu.getMenu());
+//                popupMenu.show();
+
+                MenuBuilder menuBuilder =new MenuBuilder(view.getContext());
+                MenuInflater inflater = new MenuInflater(view.getContext());
+                inflater.inflate(R.menu.popup_menu_item, menuBuilder);
+                MenuPopupHelper optionsMenu = new MenuPopupHelper(view.getContext(), menuBuilder, view);
+                optionsMenu.setForceShowIcon(true);
+
+// Set Item Click Listener
+                menuBuilder.setCallback(new MenuBuilder.Callback() {
+                    @Override
+                    public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
+                        switch (item.getItemId()) {
+                            case R.id.nav_profile: // Handle option1 Click
+                                holder.num_likes.setText("sâfdaf");
+                                return true;
+                            case R.id.nav_hide: // Handle option2 Click
+                                return true;
+                            case R.id.nav_delete: // Handle option2 Click
+                                return true;
+
+                            default:
+                                return false;
+                        }
                     }
-                }
+
+                    @Override
+                    public void onMenuModeChange(MenuBuilder menu) {}
+                });
+
+                optionsMenu.show();
             }
         });
     }
