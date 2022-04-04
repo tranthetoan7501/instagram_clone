@@ -1,5 +1,9 @@
 # PGram
-![alt text](https://cdn.pixabay.com/photo/2014/12/22/00/07/tree-576847__480.png)
+![alt text](https://ibb.co/xjDhx0J)
+![alt text](https://ibb.co/XVMdj4m)
+![alt text](https://ibb.co/nzCpgsN)
+![alt text](https://ibb.co/X4tKsmR)
+
 # Member:
 - Trần Thế Toàn - 19127295
 - Nguyễn Xuân Phát - 19127504
