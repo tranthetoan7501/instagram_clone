@@ -268,6 +268,25 @@ public class postFragment extends Fragment implements View.OnClickListener {
                             case DialogInterface.BUTTON_POSITIVE:
                                 DatabaseReference deletePost = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
                                 deletePost.removeValue();
+
+                                ArrayList<String> idNoti = new ArrayList<String>();
+                                DatabaseReference datas = database.getReference().child("notification/"+mAuth.getUid());
+                                datas.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                                            if(dataSnapshot.child("post_id").getValue().toString().equals(bundle.get("post_id"))){
+                                                datas.child(dataSnapshot.getKey()).removeValue();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+
                                 getActivity().getSupportFragmentManager().popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
                                 break;
 

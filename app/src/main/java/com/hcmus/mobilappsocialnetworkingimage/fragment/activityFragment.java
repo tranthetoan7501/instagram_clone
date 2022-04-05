@@ -69,6 +69,7 @@ public class activityFragment extends Fragment {
                     notification.clear();
                     for(DataSnapshot data : snapshot.getChildren()){
                         notification.add(data.getValue(notificationsModel.class));
+
                     }
                     activitiesAdapter.notifyDataSetChanged();
                 }
