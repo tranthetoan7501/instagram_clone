@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -50,6 +51,9 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHolder> {
     List<postModel> post;
     Context context;
+    String userID;
+    FirebaseAuth mAuth;
+    Menu menu;
     LinearLayout layoutSettingBottomSheet;
 
     public postsAdapter(List<postModel> post, Context context) {
@@ -62,6 +66,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     public postsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post,parent,false);
         System.out.println(post.size());
+
+        mAuth = FirebaseAuth.getInstance();
         return new postsViewHolder(view);
     }
 
@@ -71,6 +77,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         holder.date.setText(post.get(position).getDate_created());
         holder.description.setText(post.get(position).getCaption());
+
         if(post.get(position).getLikes().size() > 0){
             if(post.get(position).getLikes().get(findUser(position,mAuth.getUid())).getUser_id().equals(mAuth.getUid())){
                 holder.like.setVisibility(View.INVISIBLE);
@@ -92,15 +99,18 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         for(String s : post.get(position).getImage_paths()){
             image_paths.add(new SlideModel(s));
         }
+
         holder.image.setImageList(image_paths,false);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myPosts = database.getReference("user_account_settings/"+post.get(position).getUser_id());
+
         myPosts.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Picasso.get().load(dataSnapshot.child("profile_photo").getValue().toString()).into(holder.avatar);
                 holder.up_name.setText(dataSnapshot.child("username").getValue().toString());
                 holder.below_name.setText(dataSnapshot.child("username").getValue().toString());
+                holder.id=dataSnapshot.getKey().toString();
             }
 
             @Override
@@ -155,12 +165,13 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                 context.startActivity(intent);
             }
         });
-
+        holder.postId = post.get(holder.getAbsoluteAdapterPosition()).getPost_id();
         holder.comment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
                 bundle.putSerializable("type","comment");
+
                 bundle.putSerializable("post_id",post.get(holder.getAbsoluteAdapterPosition()).getPost_id());
                 bundle.putSerializable("user_id",post.get(holder.getAbsoluteAdapterPosition()).getUser_id());
                 Intent intent = new Intent(context, navigationActivity.class);
@@ -179,7 +190,16 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
 
                 MenuBuilder menuBuilder =new MenuBuilder(view.getContext());
                 MenuInflater inflater = new MenuInflater(view.getContext());
-                inflater.inflate(R.menu.popup_menu_item, menuBuilder);
+                if(holder.id.equals(mAuth.getUid())){
+                    inflater.inflate(R.menu.popup_menu_this_user, menuBuilder);
+                    holder.description.setText(userID);
+                    holder.num_likes.setText(holder.postId);
+                }else{
+                    holder.description.setText(userID);
+                    holder.num_likes.setText(holder.postId);
+                    inflater.inflate(R.menu.popup_menu_item, menuBuilder);
+                }
+
                 MenuPopupHelper optionsMenu = new MenuPopupHelper(view.getContext(), menuBuilder, view);
                 optionsMenu.setForceShowIcon(true);
 
@@ -188,14 +208,37 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                     @Override
                     public boolean onMenuItemSelected(MenuBuilder menu, MenuItem item) {
                         switch (item.getItemId()) {
-                            case R.id.nav_profile: // Handle option1 Click
-                                holder.num_likes.setText("sâfdaf");
+                            case R.id.nav_delete:
+                                DatabaseReference deletePost = database.getReference("user_photos/"+mAuth.getUid()+"/"+holder.postId);
+                                deletePost.removeValue();
+
+                                ArrayList<String> idNoti = new ArrayList<String>();
+                                DatabaseReference datas = database.getReference().child("notification/"+mAuth.getUid());
+                                datas.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                        for(DataSnapshot dataSnapshot:snapshot.getChildren()){
+                                            if(dataSnapshot.child("post_id").getValue().toString().equals(holder.postId)){
+                                                datas.child(dataSnapshot.getKey()).removeValue();
+                                            }
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError error) {
+
+                                    }
+                                });
+                                return true;
+                            case R.id.nav_update: // Handle option2 Click
+
                                 return true;
                             case R.id.nav_hide: // Handle option2 Click
-                                return true;
-                            case R.id.nav_delete: // Handle option2 Click
-                                return true;
 
+                                return true;
+                            case R.id.nav_favorite: // Handle option2 Click
+
+                                return true;
                             default:
                                 return false;
                         }
@@ -237,6 +280,12 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         TextView below_name;
         TextView description;
         TextView date;
+        String id;
+        String postId;
+
+
+
+
 
         public postsViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -252,6 +301,10 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             below_name = itemView.findViewById(R.id.below_name);
             description = itemView.findViewById(R.id.description);
             date = itemView.findViewById(R.id.date);
+            id="0";
+            postId="";
+
+
         }
     }
 }

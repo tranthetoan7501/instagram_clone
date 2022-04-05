@@ -2,15 +2,13 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_hide"
+        android:id="@+id/nav_delete"
         android:icon="@drawable/ic_baseline_remove_red_eye_24"
-        android:title="Hide"/>
+        android:title="Delete"/>
     <item
-        android:id="@+id/nav_favorite"
+        android:id="@+id/nav_update"
         android:icon="@drawable/ic_baseline_grid_on_24"
-        android:title="Add Favorite">
+        android:title="Update">
     </item>
-
-
 
 </menu>
