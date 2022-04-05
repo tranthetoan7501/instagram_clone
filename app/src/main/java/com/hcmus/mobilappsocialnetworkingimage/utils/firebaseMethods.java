@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
 
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -22,6 +27,7 @@ import com.hcmus.mobilappsocialnetworkingimage.activity.postStory;
 import com.hcmus.mobilappsocialnetworkingimage.model.postModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userModel;
+import com.squareup.picasso.Picasso;
 
 import java.io.ByteArrayOutputStream;
 import java.time.LocalDateTime;
@@ -51,17 +57,6 @@ public class firebaseMethods {
         if (mAuthListener != null) {
             userID = mAuth.getCurrentUser().getUid();
         }
-    }
-
-    public boolean checkIfUserExists(String username, DataSnapshot dataSnapshot) {
-        userModel user = new userModel();
-        for (DataSnapshot ds : dataSnapshot.child(userID).getChildren()) {
-            user.setUsername(ds.getValue(userModel.class).getUsername());
-            if (user.getUsername().replace(".", " ").equals(username)) {
-                return true;
-            }
-        }
-        return false;
     }
 
     public void registerWithEmail(String email, String password, String username) {
@@ -198,5 +193,19 @@ public class firebaseMethods {
                 myRef.child("user_photos").child(user_id.get()).child(post_id).setValue(post);
             }));
         }
+        DatabaseReference userRef = mFirebaseDatabase.getReference("user_account_settings");
+        userRef.child(user_id.get()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                userAccountSettingsModel userAccountSettingsModel = dataSnapshot.getValue(userAccountSettingsModel.class);
+                userAccountSettingsModel.setPosts(userAccountSettingsModel.getPosts() + 1);
+                userRef.child(user_id.get()).setValue(userAccountSettingsModel);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 }

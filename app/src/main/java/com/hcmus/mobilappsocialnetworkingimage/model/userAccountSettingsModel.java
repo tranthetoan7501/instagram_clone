@@ -90,4 +90,9 @@ public class userAccountSettingsModel implements Serializable {
     public void setWebsite(String website) {
         this.website = website;
     }
+
+    @Override
+    public String toString() {
+        return "userAccountSettingsModel{" + "description=" + description + ", display_name=" + display_name + ", followers=" + followers + ", followings=" + followings + ", posts=" + posts + ", profile_photo=" + profile_photo + ", username=" + username + ", website=" + website + '}';
+    }
 }
