@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout android:layout_height="40dp" android:layout_width="match_parent"
     xmlns:android="http://schemas.android.com/apk/res/android">
+
     <TextView
         android:id="@+id/logo"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
+        android:layout_marginTop="2dp"
         android:paddingLeft="10dp"
         android:paddingTop="5dp"
         android:paddingBottom="5dp"
-        android:text="Instagram"
-        android:textStyle="bold"
+        android:text="PGram"
         android:textColor="@color/black"
-        android:textSize="20dp" />
+        android:textSize="20dp"
+        android:textStyle="bold" />
 
     <ImageButton
         android:id="@+id/add_button"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="5dp"
-        android:paddingBottom="5dp"
+        android:layout_marginRight="0dp"
         android:layout_toLeftOf="@+id/message"
         android:background="@android:color/transparent"
         android:foreground="?attr/selectableItemBackgroundBorderless"
+        android:minWidth="48dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="5dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="5dp"
         android:src="@drawable/ic_add"
-        android:textSize="25dp"/>
+        android:textSize="25dp" />
 
     <ImageButton
         android:id="@+id/message"
         android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_height="34dp"
         android:layout_alignParentRight="true"
-        android:paddingLeft="10dp"
-        android:paddingRight="5dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="5dp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginRight="1dp"
+        android:layout_marginBottom="5dp"
         android:background="@android:color/transparent"
+        android:paddingLeft="10dp"
+        android:paddingTop="10dp"
+        android:paddingRight="5dp"
+        android:paddingBottom="5dp"
         android:src="@drawable/ic_message"
-        android:textSize="25dp"/>
+        android:textSize="25dp"
+        android:visibility="visible" />
 
 </RelativeLayout>
