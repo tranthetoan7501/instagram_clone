@@ -28,6 +28,7 @@ import com.hcmus.mobilappsocialnetworkingimage.utils.permissions;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.util.ArrayList;
 
 public class photoFragment extends Fragment {
 
@@ -85,10 +86,17 @@ public class photoFragment extends Fragment {
                 bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 editPicture();
             } else if (requestCode == NEXT_ACTIVITY_REQUEST_CODE) {
-                bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
-                bitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true);
+//                bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
+//                Intent intent = new Intent(getActivity(), nextActivity.class);
+//                intent.putExtra("imageBitmap", bitmap);
+//                startActivity(intent);
+
+                String path = data.getStringExtra("imagePath");
+                Log.d("path", path);
+                ArrayList<String> imagePaths = new ArrayList<>();
+                imagePaths.add(path);
                 Intent intent = new Intent(getActivity(), nextActivity.class);
-                intent.putExtra("imageBitmap", bitmap);
+                intent.putExtra(getString(R.string.selected_image), imagePaths);
                 startActivity(intent);
             }
         }

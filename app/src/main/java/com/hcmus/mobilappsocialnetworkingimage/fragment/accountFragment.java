@@ -2,7 +2,6 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,25 +119,27 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 
         DatabaseReference userRef = database.getReference("user_account_settings");
 
-        userRef.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                userAccountSettingsModel = dataSnapshot.getValue(userAccountSettingsModel.class);
-                Log.d("userAccountSettingsModel", userAccountSettingsModel.toString());
-                usernameInAppbar.setText(userAccountSettingsModel.getUsername());
-                about.setText(userAccountSettingsModel.getDescription());
-                follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
-                following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
-                post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
-                Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
-            }
+        if (userRef != null && mAuth.getCurrentUser() != null) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+            userRef.child(mAuth.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    userAccountSettingsModel = dataSnapshot.getValue(userAccountSettingsModel.class);
+                    usernameInAppbar.setText(userAccountSettingsModel.getUsername());
+                    about.setText(userAccountSettingsModel.getDescription());
+                    follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+                    post_numbers.setText(String.valueOf(userAccountSettingsModel.getPosts()));
+                    Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-        });
+                }
+
+            });
+        }
 
         if(i==1){
             DatabaseReference myPosts = database.getReference("user_photos/"+mAuth.getUid());

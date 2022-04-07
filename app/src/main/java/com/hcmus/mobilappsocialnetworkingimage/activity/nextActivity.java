@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class nextActivity extends AppCompatActivity {
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 2;
     private ImageView imageShare;
     private EditText descriptionText;
     private ImageView backButton;
@@ -26,7 +28,7 @@ public class nextActivity extends AppCompatActivity {
     private firebaseMethods firebaseMethods;
     private Bitmap bitmap;
     private Intent intent;
-    private ArrayList<String> imgUrls;
+    private ArrayList<String> imgUrls = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -71,9 +73,11 @@ public class nextActivity extends AppCompatActivity {
 
         if (intent.hasExtra(getString(R.string.selected_image))){
             imgUrls = intent.getStringArrayListExtra(getString(R.string.selected_image));
+            Log.d("nextActivity", "setImage: " + imgUrls.get(0));
             Uri uri = Uri.parse(imgUrls.get(0));
             imageShare.setImageURI(uri);
-        } else {
+        }
+        else {
             bitmap = intent.getParcelableExtra("imageBitmap");
             imageShare.setImageBitmap(bitmap);
         }

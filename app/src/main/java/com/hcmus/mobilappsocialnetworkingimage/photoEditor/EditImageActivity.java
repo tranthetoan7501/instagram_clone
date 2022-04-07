@@ -1,8 +1,10 @@
 package com.hcmus.mobilappsocialnetworkingimage.photoEditor;
 
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
+import static com.hcmus.mobilappsocialnetworkingimage.photoEditor.FileSaveHelper.isSdkHigherThan28;
+
 import android.Manifest;
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -10,13 +12,10 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
-import android.util.Base64;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -37,24 +36,27 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.transition.ChangeBounds;
 import androidx.transition.TransitionManager;
 
+import com.example.photoeditor.OnPhotoEditorListener;
+import com.example.photoeditor.OnSaveBitmap;
+import com.example.photoeditor.PhotoEditor;
+import com.example.photoeditor.PhotoEditorView;
+import com.example.photoeditor.PhotoFilter;
+import com.example.photoeditor.SaveSettings;
+import com.example.photoeditor.TextStyleBuilder;
+import com.example.photoeditor.ViewType;
 import com.example.photoeditor.shape.ShapeBuilder;
 import com.example.photoeditor.shape.ShapeType;
-import com.hcmus.mobilappsocialnetworkingimage.activity.editProfileActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.base.BaseActivity;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.filters.FilterListener;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.filters.FilterViewAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.tools.EditingToolsAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.tools.ToolType;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.example.photoeditor.*;
-
-import static android.content.pm.PackageManager.PERMISSION_GRANTED;
-import static com.hcmus.mobilappsocialnetworkingimage.photoEditor.FileSaveHelper.isSdkHigherThan28;
 
 
 public class EditImageActivity extends BaseActivity implements OnPhotoEditorListener,
@@ -88,7 +90,6 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
     private boolean mIsFilterVisible;
     Bundle bundle=new Bundle();
     Bitmap bitmap;
-
     @Nullable
     @VisibleForTesting
     Uri mSaveImageUri;
@@ -166,6 +167,8 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
         mPhotoEditorView.getSource().setImageBitmap(bitmap);
         mSaveFileHelper = new FileSaveHelper(this);
     }
+
+
     public static Bitmap byteToBitmap(byte[] b) {
         return (b == null || b.length == 0) ? null : BitmapFactory
                 .decodeByteArray(b, 0, b.length);
@@ -309,13 +312,33 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
                 mPhotoEditor.saveAsBitmap(new OnSaveBitmap() {
                     @Override
                     public void onBitmapReady(Bitmap saveBitmap) {
-                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                        saveBitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
-                        byte[] bytesArrayBmp = baos.toByteArray();
-                        intent.putExtra("imagePath",bytesArrayBmp);
+                        // Save the bitmap to a file and return the path
+                        String savedImagePath = saveBitmap(saveBitmap);
+                        intent.putExtra("imagePath", savedImagePath);
                         setResult(RESULT_OK, intent);
                         finish();
                         onBackPressed();
+//                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//                        saveBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+//                        byte[] bytesArrayBmp = baos.toByteArray();
+//                        intent.putExtra("imagePath", bytesArrayBmp);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+//                        onBackPressed();
+                    }
+
+                    private String saveBitmap(Bitmap saveBitmap) {
+                        File imagePath = new File(Environment.getExternalStorageDirectory() + "/" + "Pictures");
+                        File newFile = new File(imagePath, "image_" + System.currentTimeMillis() + ".jpg");
+                        try {
+                            FileOutputStream fileOutputStream = new FileOutputStream(newFile);
+                            saveBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+                            fileOutputStream.flush();
+                            fileOutputStream.close();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                        return newFile.getAbsolutePath();
                     }
 
                     @Override

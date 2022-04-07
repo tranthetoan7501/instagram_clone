@@ -6,8 +6,7 @@
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
-        android:layout_marginVertical="10dp"
-        >
+        android:layout_marginVertical="10dp">
 
         <include android:id="@+id/appbar_post" layout="@layout/appbar_post" android:visibility="gone"/>
 
@@ -49,16 +48,14 @@
         </RelativeLayout>
         <com.denzcoskun.imageslider.ImageSlider
             android:id="@+id/image_slider"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
         <VideoView
             android:id="@+id/video"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:visibility="gone"
-            />
+            android:visibility="gone" />
         <RelativeLayout
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"

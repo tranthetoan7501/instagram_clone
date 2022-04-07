@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+<LinearLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    android:layout_marginVertical="10dp"
-    >
+    android:layout_marginVertical="10dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -41,18 +42,21 @@
             android:textColor="@color/black"
             android:textSize="30dp" />
     </RelativeLayout>
+
+
     <com.denzcoskun.imageslider.ImageSlider
         android:id="@+id/image_slider"
+        app:iss_auto_cycle="true"
+        app:iss_period="3000"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        />
+        android:layout_height="400dp"/>
 
     <VideoView
         android:id="@+id/video"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:visibility="gone"
-        />
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
     <RelativeLayout
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
@@ -90,17 +94,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_share"
-            android:background="@android:color/transparent"
-            />
+            android:background="@android:color/transparent" />
     </RelativeLayout>
+
     <TextView
         android:id="@+id/num_likes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:text="7 likes"
-        android:textColor="@color/black"
-        />
+        android:textColor="@color/black" />
 
     <TextView
         android:id="@+id/below_name"
@@ -111,8 +114,7 @@
         android:paddingLeft="1dp"
         android:background="@android:color/transparent"
         android:textColor="@color/black"
-        android:textStyle="bold"
-        />
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/description"
@@ -122,8 +124,7 @@
         android:textAllCaps="false"
         android:paddingLeft="1dp"
         android:background="@android:color/transparent"
-        android:textColor="@color/black"
-        />
+        android:textColor="@color/black" />
     <TextView
         android:id="@+id/date"
         android:layout_width="wrap_content"
@@ -131,6 +132,6 @@
         android:layout_marginHorizontal="10dp"
         android:textAllCaps="false"
         android:paddingLeft="1dp"
-        android:background="@android:color/transparent"
-        />
+        android:background="@android:color/transparent" />
+
 </LinearLayout>

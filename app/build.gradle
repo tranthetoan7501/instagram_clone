@@ -35,8 +35,6 @@ android {
 
 dependencies {
 
-    //Rounded image view
-    implementation 'com.github.denzcoskun:ImageSlideshow:0.0.6'
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -59,4 +57,5 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.9.0'
     implementation 'com.github.nostra13:Android-Universal-Image-Loader:f6a9615868482672c3630cb7db6dcf43391e80de'
     implementation 'com.google.android.material:material:1.0.0'
+    implementation 'com.github.denzcoskun:ImageSlideshow:0.1.0'
 }

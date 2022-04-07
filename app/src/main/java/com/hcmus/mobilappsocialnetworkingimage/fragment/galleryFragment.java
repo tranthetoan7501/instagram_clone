@@ -1,8 +1,12 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
+import static android.app.Activity.RESULT_OK;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,15 +17,14 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
-import com.hcmus.mobilappsocialnetworkingimage.activity.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.filePaths;
 import com.hcmus.mobilappsocialnetworkingimage.utils.fileSearch;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -29,11 +32,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 
 public class galleryFragment extends Fragment {
 
     private static final int NUM_GRID_COL = 4;
+    private static final int SECOND_ACTIVITY_REQUEST_CODE = 2;
 
     private GridView gridView;
     private ImageView galleryImage;
@@ -42,6 +48,7 @@ public class galleryFragment extends Fragment {
 
     private ArrayList<String> directories;
     private ArrayList<String> mSelectedImage = new ArrayList<>();
+    private ArrayList<String> mSelectedImageAfterEdit = new ArrayList<>();
 
     @Nullable
     @Override
@@ -64,8 +71,10 @@ public class galleryFragment extends Fragment {
         TextView nextScreen = view.findViewById(R.id.tvNext);
 
         nextScreen.setOnClickListener(view12 -> {
-            Intent intent = new Intent(getActivity(), nextActivity.class);
-            intent.putExtra(getString(R.string.selected_image), mSelectedImage);
+            Intent intent=new Intent(getActivity() , EditImageActivity.class);
+            Bundle bundle=new Bundle();
+            bundle.putStringArrayList("selectedImage",mSelectedImage);
+            intent.putExtras(bundle);
             startActivity(intent);
         });
 
@@ -123,12 +132,12 @@ public class galleryFragment extends Fragment {
                 adapter.selectedPositions.remove(selectedIndex);
                 mSelectedImage.remove(imgURLs.get(position));
                 if (mSelectedImage.size() == 0) {
-                    Toast.makeText(getActivity(), "Click", Toast.LENGTH_SHORT).show();
                     // remove gallery view
                     galleryImage.setVisibility(View.GONE);
                 } else {
                     setImage(mSelectedImage.get(mSelectedImage.size() - 1), galleryImage);
                 }
+
             } else {
                 galleryImage.setVisibility(View.VISIBLE);
                 v.setAlpha(0.5f);
@@ -164,5 +173,35 @@ public class galleryFragment extends Fragment {
                 mProgressBar.setVisibility(View.INVISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == SECOND_ACTIVITY_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+
+                Bitmap bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
+                String filePath = saveImage(bitmap);
+                mSelectedImageAfterEdit.add(filePath);
+                Log.d("filePath", filePath);
+
+
+            }
+        }
+    }
+
+    private String saveImage(Bitmap bitmap) {
+        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Image_" + System.currentTimeMillis() + ".jpg";
+        File file = new File(filePath);
+        try {
+            FileOutputStream fOut = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
+            fOut.flush();
+            fOut.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return filePath;
     }
 }

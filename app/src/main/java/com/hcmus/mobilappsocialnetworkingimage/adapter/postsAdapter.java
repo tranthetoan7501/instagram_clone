@@ -17,9 +17,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
-import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.view.menu.MenuBuilder;
@@ -27,8 +25,8 @@ import androidx.appcompat.view.menu.MenuPopupHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -97,10 +95,10 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
 
         ArrayList<SlideModel> image_paths = new ArrayList<>();
         for(String s : post.get(position).getImage_paths()){
-            image_paths.add(new SlideModel(s));
+            image_paths.add(new SlideModel(s, ScaleTypes.FIT));
         }
 
-        holder.image.setImageList(image_paths,false);
+        holder.image.setImageList(image_paths);
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myPosts = database.getReference("user_account_settings/"+post.get(position).getUser_id());
 
@@ -283,10 +281,6 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         String id;
         String postId;
 
-
-
-
-
         public postsViewHolder(@NonNull View itemView) {
             super(itemView);
             avatar = itemView.findViewById(R.id.avatar);
@@ -303,8 +297,6 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             date = itemView.findViewById(R.id.date);
             id="0";
             postId="";
-
-
         }
     }
 }

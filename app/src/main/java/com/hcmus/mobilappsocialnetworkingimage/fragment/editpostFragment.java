@@ -1,6 +1,5 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +10,10 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -58,9 +56,9 @@ public class editpostFragment extends Fragment implements View.OnClickListener {
         ArrayList<String> myImages = (ArrayList<String>) bundle.get("image_paths");
         List<SlideModel> imageList = new ArrayList<SlideModel>();
         for(String s: myImages){
-            imageList.add(new SlideModel(s));
+            imageList.add(new SlideModel(s, ScaleTypes.FIT));
         }
-        imageSlider.setImageList(imageList,false);
+        imageSlider.setImageList(imageList);
         edit_caption.setText(bundle.getString("caption"));
     }
 
@@ -73,8 +71,6 @@ public class editpostFragment extends Fragment implements View.OnClickListener {
             case R.id.done:
                 FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference editPost = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
-                System.out.println(edit_caption.getText());
-                System.out.println(editPost.child("caption"));
                 editPost.child("caption").setValue(edit_caption.getText().toString());
                 getActivity().getSupportFragmentManager().popBackStack();
                 break;

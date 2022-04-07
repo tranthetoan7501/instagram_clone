@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.denzcoskun.imageslider.ImageSlider;
+import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,7 +41,6 @@ import java.util.List;
 import java.util.UUID;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
 
 public class postFragment extends Fragment implements View.OnClickListener {
     Bundle bundle = new Bundle();
@@ -117,10 +117,10 @@ public class postFragment extends Fragment implements View.OnClickListener {
         myImages = (ArrayList<String>) bundle.get("image_paths");
         List<SlideModel> imageList = new ArrayList<SlideModel>();
         for(String s: myImages){
-            imageList.add(new SlideModel(s));
+            imageList.add(new SlideModel(s, ScaleTypes.FIT));
         }
         bundle2.putStringArrayList("image_paths", myImages);
-        imageSlider.setImageList(imageList,false);
+        imageSlider.setImageList(imageList);
         post_id = bundle.getString("post_id");
         DatabaseReference postDetails = database.getReference("user_photos/"+bundle.get("user_id")+"/"+bundle.get("post_id"));
         postDetails.addValueEventListener(new ValueEventListener() {
