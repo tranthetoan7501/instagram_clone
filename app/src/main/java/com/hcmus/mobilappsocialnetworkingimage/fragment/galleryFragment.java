@@ -1,11 +1,9 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
-import static android.app.Activity.RESULT_OK;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +21,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.hcmus.mobilappsocialnetworkingimage.R;
+import com.hcmus.mobilappsocialnetworkingimage.activity.nextActivity;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.gridImageAdapter;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 import com.hcmus.mobilappsocialnetworkingimage.utils.filePaths;
@@ -32,14 +31,14 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
-import java.io.File;
-import java.io.FileOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 
 public class galleryFragment extends Fragment {
 
     private static final int NUM_GRID_COL = 4;
     private static final int SECOND_ACTIVITY_REQUEST_CODE = 2;
+    private static final int NEXT_ACTIVITY_REQUEST_CODE = 3;
 
     private GridView gridView;
     private ImageView galleryImage;
@@ -49,6 +48,8 @@ public class galleryFragment extends Fragment {
     private ArrayList<String> directories;
     private ArrayList<String> mSelectedImage = new ArrayList<>();
     private ArrayList<String> mSelectedImageAfterEdit = new ArrayList<>();
+    ArrayList<String> imagePaths = new ArrayList<>();
+    int count = 0;
 
     @Nullable
     @Override
@@ -71,11 +72,8 @@ public class galleryFragment extends Fragment {
         TextView nextScreen = view.findViewById(R.id.tvNext);
 
         nextScreen.setOnClickListener(view12 -> {
-            Intent intent=new Intent(getActivity() , EditImageActivity.class);
-            Bundle bundle=new Bundle();
-            bundle.putStringArrayList("selectedImage",mSelectedImage);
-            intent.putExtras(bundle);
-            startActivity(intent);
+                // run edit pictute function and after all picture is edited, go to next screen
+                editPicture();
         });
 
         init();
@@ -178,30 +176,33 @@ public class galleryFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == SECOND_ACTIVITY_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-
-                Bitmap bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
-                String filePath = saveImage(bitmap);
-                mSelectedImageAfterEdit.add(filePath);
-                Log.d("filePath", filePath);
-
-
+        if (resultCode == getActivity().RESULT_OK) {
+            if (requestCode == NEXT_ACTIVITY_REQUEST_CODE) {
+                String path = data.getStringExtra("imagePath");
+                Log.d("filePath", path);
+                imagePaths.add(path);
+                if (count == mSelectedImage.size()) {
+                    Intent intent = new Intent(getActivity(), nextActivity.class);
+                    intent.putExtra(getString(R.string.selected_image), imagePaths);
+                    startActivity(intent);
+                }
             }
         }
     }
 
-    private String saveImage(Bitmap bitmap) {
-        String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/" + "Image_" + System.currentTimeMillis() + ".jpg";
-        File file = new File(filePath);
-        try {
-            FileOutputStream fOut = new FileOutputStream(file);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fOut);
-            fOut.flush();
-            fOut.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void editPicture() {
+        for (int i = 0; i < mSelectedImage.size(); i++) {
+            Log.d("mSelectedImage", mSelectedImage.get(i));
+            count++;
+            Bitmap bitmap = BitmapFactory.decodeFile(mSelectedImage.get(i));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            byte[] bytesArrayBmp = baos.toByteArray();
+            Intent intent = new Intent(getActivity(), EditImageActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putByteArray("ImagePath", bytesArrayBmp);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, NEXT_ACTIVITY_REQUEST_CODE);
         }
-        return filePath;
     }
 }

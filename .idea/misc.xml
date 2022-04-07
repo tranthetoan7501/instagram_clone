@@ -34,6 +34,7 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable/round_corner_picture.xml" value="0.193" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable/up_item_background.xml" value="0.175" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable/white_grey_border_bottom.xml" value="0.2385" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/font/roboto_medium.xml" value="0.21197916666666666" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity.xml" value="0.25" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit.xml" value="0.1875" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_edit_image.xml" value="0.1875" />
@@ -60,7 +61,7 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/custom_view.xml" value="0.22916666666666666" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/edit_post.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/floating_dialog.xml" value="0.14895833333333333" />
-        <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.23229166666666667" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.33" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_change_password.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_comment.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_favorite.xml" value="0.23229166666666667" />

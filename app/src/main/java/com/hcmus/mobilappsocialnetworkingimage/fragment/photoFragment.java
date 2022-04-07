@@ -86,11 +86,6 @@ public class photoFragment extends Fragment {
                 bitmap = BitmapFactory.decodeFile(photoFile.getAbsolutePath());
                 editPicture();
             } else if (requestCode == NEXT_ACTIVITY_REQUEST_CODE) {
-//                bitmap = EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
-//                Intent intent = new Intent(getActivity(), nextActivity.class);
-//                intent.putExtra("imageBitmap", bitmap);
-//                startActivity(intent);
-
                 String path = data.getStringExtra("imagePath");
                 Log.d("path", path);
                 ArrayList<String> imagePaths = new ArrayList<>();

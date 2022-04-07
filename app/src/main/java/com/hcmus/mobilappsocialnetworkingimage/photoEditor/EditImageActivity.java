@@ -161,11 +161,12 @@ public class EditImageActivity extends BaseActivity implements OnPhotoEditorList
 
 //        System.out.println(bitmap.getWidth()+"::::"+bitmap.getHeight());
         //mPhotoEditorView.getSource().setImageResource(R.drawable.paris_tower);
+       // get bundle array list
 
         bitmap=byteToBitmap(bundle.getByteArray("ImagePath"));
         //bitmap=BITMAP_RESIZER(bitmap,width,height-100);
         mPhotoEditorView.getSource().setImageBitmap(bitmap);
-        mSaveFileHelper = new FileSaveHelper(this);
+      //  mSaveFileHelper = new FileSaveHelper(this);
     }
 
 
