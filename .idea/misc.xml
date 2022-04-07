@@ -67,6 +67,7 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_favorite.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_home.xml" value="0.5" />
+        <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_like.xml" value="0.20572916666666666" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_photo.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_post.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_profile.xml" value="0.23229166666666667" />
@@ -85,20 +86,6 @@
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/thumbnail.xml" value="0.23229166666666667" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/layout/up_item_fragment.xml" value="0.1" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/menu/bottom_navigation.xml" value="0.23229166666666667" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.2866666666666667" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_more_horiz_24.xml" value="0.2866666666666667" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/drawable/round_button.xml" value="0.2866666666666667" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/activity_stories.xml" value="0.24547101449275363" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/custom_progressbar.xml" value="0.11510416666666666" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.1337386018237082" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_home.xml" value="0.4" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/story.xml" value="0.2391304347826087" />
-        <entry key="..\:/Source code/MobileDev/Practice/MobilAppSocialNetworkingImage/app/src/main/res/layout/up_item_fragment.xml" value="0.1337386018237082" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.171" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.164" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_grid_on_24.xml" value="0.171" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_bottom_properties_dialog.xml" value="0.17300724637681159" />
-        <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_comment.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/trant/Documents/GitHub/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_like.xml" value="0.12158054711246201" />
         <entry key="app/src/main/res/drawable/custom_edit_text.xml" value="0.1" />
         <entry key="app/src/main/res/drawable/outline_account_circle_24.xml" value="0.1" />
