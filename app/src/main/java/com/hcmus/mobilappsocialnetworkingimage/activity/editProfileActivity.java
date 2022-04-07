@@ -212,7 +212,7 @@ public class editProfileActivity extends Activity {
 
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 99, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] bytesArrayBmp = baos.toByteArray();
         Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
         Bundle bundle=new Bundle();
