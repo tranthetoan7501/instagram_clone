@@ -2,8 +2,6 @@ package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,14 +14,17 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.adapter.userAdapter;
+import com.hcmus.mobilappsocialnetworkingimage.model.likeModel;
+import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 
 import java.util.ArrayList;
@@ -31,11 +32,11 @@ import java.util.List;
 
 public class likeFragment extends Fragment {
     RecyclerView recyclerView;
-    com.hcmus.mobilappsocialnetworkingimage.adapter.userAdapter userAdapter;
+    userAdapter userAdapter;
     List<userCardModel> list = new ArrayList<userCardModel>();
     ImageButton previous;
-
-
+    FirebaseDatabase mFirebaseDatabase = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app");
+    DatabaseReference myRef = mFirebaseDatabase.getReference();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -68,28 +69,42 @@ public class likeFragment extends Fragment {
     }
 
     void getData(){
+        String id_post = getArguments().getString("post_id");
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 
-        Query queryAllAccount = database.getReference("user_account_settings");
+        Query queryAllAccount = database.getReference("user_photos").child(FirebaseAuth.getInstance().getUid()).child(id_post).child("likes");
 
-
-        userAdapter = new userAdapter(list,getContext());
-
-
+        userAdapter = new userAdapter(list, getContext());
 
         queryAllAccount.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 list.clear();
-                for (DataSnapshot dataSnapshot:snapshot.getChildren()){
-                    userCardModel user = new userCardModel(dataSnapshot.getKey(),
-                            dataSnapshot.child("username").getValue().toString(),
-                            dataSnapshot.child("profile_photo").getValue().toString());
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    likeModel likeModel = dataSnapshot.getValue(com.hcmus.mobilappsocialnetworkingimage.model.likeModel.class);
 
+                    Query query = database.getReference("user_account_settings");
+                    query.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                                if (dataSnapshot.getKey().equals(likeModel.getUser_id())) {
+                                    userAccountSettingsModel userAccountSettings = dataSnapshot.getValue(userAccountSettingsModel.class);
+                                    userCardModel userCardModel = new userCardModel(likeModel.getUser_id(), userAccountSettings.getUsername(), userAccountSettings.getProfile_photo());
+                                    list.add(userCardModel);
+                                    userAdapter.notifyDataSetChanged();
+                                    break;
+                                }
+                            }
+                        }
 
-                    list.add(user);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                 }
-                userAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -99,9 +114,51 @@ public class likeFragment extends Fragment {
         });
 
 
+//        userAdapter = new userAdapter(list, getContext());
+//
+
+//
+//        myRef.child("user_photos").child(FirebaseAuth.getInstance().getUid()).child(id_post).child("likes").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//               // list.clear();
+//                for (DataSnapshot ds : dataSnapshot.getChildren()) {
+//                    likeModel likeModel = ds.getValue(likeModel.class);
+//                    myRef.child("user_account_settings").child(likeModel.getUser_id()).get();
+//
+//                    myRef.child("user_account_settings").child(likeModel.getUser_id()).addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                            userCardModel userCard = new userCardModel();
+//                            userAccountSettingsModel userAccountSettingsModel = dataSnapshot.getValue(userAccountSettingsModel.class);
+//                            userCard.setUsername(userAccountSettingsModel.getUsername());
+//                            userCard.setAvatar(userAccountSettingsModel.getProfile_photo());
+//                            userCard.setUser_id(likeModel.getUser_id());
+//                            list.add(userCard);
+//                            System.out.println(list.size());
+//                        }
+//
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                        }
+//                    });
+//                }
+//                //userAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//        for (int i = 0; i < list.size(); i++)
+//            System.out.println(list.get(i).getUsername());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(userAdapter);
-        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL);
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(itemDecoration);
     }
 

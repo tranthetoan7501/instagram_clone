@@ -39,5 +39,12 @@ public class userCardModel {
         return avatar;
     }
 
-
+    @Override
+    public String toString() {
+        return "userCardModel{" +
+                "user_id='" + user_id + '\'' +
+                ", username='" + username + '\'' +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }
