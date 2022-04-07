@@ -16,21 +16,17 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.model.userAccountSettingsModel;
 import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
@@ -62,10 +58,10 @@ public class editProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_profile);
-        back=(ImageButton) findViewById(R.id.edit_back);
-        ok=(ImageButton) findViewById(R.id.edit_ok);
-        camera=(ImageButton) findViewById(R.id.camera);
-        avatar=(ImageView) findViewById(R.id.avatar);
+        back = findViewById(R.id.edit_back);
+        ok = findViewById(R.id.edit_ok);
+        camera = findViewById(R.id.camera);
+        avatar = findViewById(R.id.avatar);
         username=findViewById(R.id.edit_username);
         about=findViewById(R.id.edit_about);
 
@@ -80,7 +76,7 @@ public class editProfileActivity extends AppCompatActivity {
 
         ok.setOnClickListener(view -> {
             if(username.getText().toString().equals(userAccountSettingsModel.getUsername())
-                && about.getText().toString().equals(userAccountSettingsModel.getDescription())&& imageProfile==null){
+                && about.getText().toString().equals(userAccountSettingsModel.getDescription())&& imageProfile == null){
                 editProfileActivity.this.finish();
             } else {
                 DatabaseReference myRef = database.getReference("user");
@@ -204,9 +200,9 @@ public class editProfileActivity extends AppCompatActivity {
                 sendToEdit(imageProfile);
 
             }
-            else if(requestCode==0){
-                imageProfile=EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
-                imageProfile=Bitmap.createScaledBitmap(imageProfile,200,200,true);
+            else if(requestCode == SECOND_ACTIVITY_REQUEST_CODE){
+                String path = data.getStringExtra("imagePath");
+                imageProfile = BitmapFactory.decodeFile(path);
                 avatar.setImageBitmap(imageProfile);
             }
         }
@@ -220,6 +216,6 @@ public class editProfileActivity extends AppCompatActivity {
         Bundle bundle=new Bundle();
         bundle.putByteArray("ImagePath", bytesArrayBmp);
         intent.putExtras(bundle);
-        startActivityForResult(intent,SECOND_ACTIVITY_REQUEST_CODE);
+        startActivityForResult(intent, SECOND_ACTIVITY_REQUEST_CODE);
     }
 }
