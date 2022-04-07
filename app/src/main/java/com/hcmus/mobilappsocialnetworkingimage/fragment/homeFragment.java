@@ -43,6 +43,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 
 import okhttp3.internal.cache.DiskLruCache;
@@ -140,8 +141,7 @@ public class homeFragment extends Fragment {
                 databaseReference1.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        Vector<String> image = new Vector<>();
-                        Vector<String > temp=new Vector<>();
+                        List<List<String>> image = new Vector<>();
                         Vector<String> name = new Vector<>();
                         Vector<String>  avt=new Vector<>();
                         LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
@@ -150,8 +150,14 @@ public class homeFragment extends Fragment {
                         stories.setLayoutManager(linearLayout);
                         for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
                             for(DataSnapshot snapshot1: snapshot.getChildren()) {
-                                name.add(snapshot.getKey());
-                                image.add(snapshot1.getValue().toString());
+                                if (!name.contains(snapshot.getKey())) {
+                                    name.add(snapshot.getKey());
+                                    Vector<String> temp = new Vector<>();
+                                    temp.add(snapshot1.getValue().toString());
+                                    image.add(temp);
+                                } else {
+                                    image.get(name.indexOf(snapshot.getKey())).add(snapshot1.getValue().toString());
+                                }
                             }
                         }
                         for (int i=0;i<name.size();i++){
