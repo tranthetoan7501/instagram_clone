@@ -41,6 +41,8 @@ import com.hcmus.mobilappsocialnetworkingimage.photoEditor.EditImageActivity;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -128,14 +130,12 @@ public class homeFragment extends Fragment {
         startActivity(intent);
 
     }
-
     void getDataStories(){
         DatabaseReference databaseReference=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/")
                 .getReference("user_stories");
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
-
                 FirebaseDatabase database1= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference databaseReference1=database1.getReference("user_account_settings");
                 databaseReference1.addValueEventListener(new ValueEventListener() {
@@ -144,8 +144,9 @@ public class homeFragment extends Fragment {
                         List<List<String>> image = new Vector<>();
                         Vector<String> name = new Vector<>();
                         Vector<String>  avt=new Vector<>();
+                        List<String> currentUser=new Vector<>();
                         LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-                        storiesAdapter = new storiesAdapter(image,name,avt,getContext());
+                        storiesAdapter = new storiesAdapter(currentUser,image,name,avt,getContext());
                         stories.setAdapter(storiesAdapter);
                         stories.setLayoutManager(linearLayout);
                         for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
@@ -160,9 +161,17 @@ public class homeFragment extends Fragment {
                                 }
                             }
                         }
+                        int temp=name.indexOf(mAuth.getUid());
+
                         for (int i=0;i<name.size();i++){
                             avt.add(dataSnapshot.child(name.get(i)).child("profile_photo").getValue().toString());
                             name.set(i,dataSnapshot.child(name.get(i)).child("username").getValue().toString());
+                        }
+                        if(temp>-1){
+                            Collections.swap(name,temp,0);
+                            Collections.swap(avt,temp,0);
+                            Collections.swap(image,temp,0);
+                            currentUser.add(name.get(0));
                         }
                         storiesAdapter.notifyDataSetChanged();
                     }

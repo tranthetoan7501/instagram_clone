@@ -1,5 +1,6 @@
 package com.hcmus.mobilappsocialnetworkingimage.activity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -38,7 +39,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.Vector;
 
-public class editProfileActivity extends AppCompatActivity {
+public class editProfileActivity extends Activity {
     FirebaseAuth mAuth;
     public static ImageView avatar;
     ImageButton back, ok, camera;
@@ -203,6 +204,7 @@ public class editProfileActivity extends AppCompatActivity {
             else if(requestCode == SECOND_ACTIVITY_REQUEST_CODE){
                 String path = data.getStringExtra("imagePath");
                 imageProfile = BitmapFactory.decodeFile(path);
+                imageProfile=Bitmap.createScaledBitmap(imageProfile,200,200,false);
                 avatar.setImageBitmap(imageProfile);
             }
         }
@@ -210,7 +212,7 @@ public class editProfileActivity extends AppCompatActivity {
 
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 99, baos);
         byte[] bytesArrayBmp = baos.toByteArray();
         Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
         Bundle bundle=new Bundle();

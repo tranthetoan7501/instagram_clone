@@ -107,6 +107,7 @@ public class firebaseMethods {
         StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
 
         if(key.equals("editProfile")) {
+
             StorageReference imageRef = imageStorage.child("profile_photos/" + FirebaseAuth.getInstance().getUid() + "/" + "imagePath");
             Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
                 if (!task.isSuccessful()) {
