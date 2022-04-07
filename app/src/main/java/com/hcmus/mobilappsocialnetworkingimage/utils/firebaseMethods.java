@@ -98,10 +98,9 @@ public class firebaseMethods {
 
     public static void firebaseUploadBitmap(Bitmap bitmap, String key) {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, stream);
         byte[] data = stream.toByteArray();
         StorageReference imageStorage = FirebaseStorage.getInstance("gs://social-media-f92fc.appspot.com").getReference();
-
         if(key.equals("editProfile")) {
             StorageReference imageRef = imageStorage.child("profile_photos/" + FirebaseAuth.getInstance().getUid() + "/" + "imagePath");
             Task<Uri> urlTask = imageRef.putBytes(data).continueWithTask(task -> {
@@ -120,7 +119,6 @@ public class firebaseMethods {
             });
         }
         else if(key.equals("postStory")){
-
             DateTimeFormatter myFormatObj = DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm:ss");
             LocalDateTime myDateObj = LocalDateTime.now();
             StorageReference imageRef = imageStorage.child("story_photos/"+ FirebaseAuth.getInstance().getUid()+"/"+myDateObj.format(myFormatObj));

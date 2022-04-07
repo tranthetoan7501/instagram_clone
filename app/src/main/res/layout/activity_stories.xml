@@ -75,7 +75,7 @@
             android:id="@+id/close"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/progress_horizontal"
+            android:layout_below="@+id/list_progress"
             android:layout_alignParentRight="true"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
@@ -83,9 +83,10 @@
             android:src="@drawable/ic_baseline_close_24" />
 
         <ImageButton
+            android:id="@+id/more"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/progress_horizontal"
+            android:layout_below="@+id/list_progress"
             android:layout_marginTop="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@+id/close"

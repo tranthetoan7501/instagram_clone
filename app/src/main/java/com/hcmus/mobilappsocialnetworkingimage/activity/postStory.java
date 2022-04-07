@@ -64,7 +64,6 @@ public class postStory extends Activity {
                 }
                 else if (options[item].equals("Cancel")) {
                     dialog.dismiss();
-                    finish();
                 }
             }
         });
@@ -80,6 +79,7 @@ public class postStory extends Activity {
 
         return file;
     }
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
@@ -89,6 +89,7 @@ public class postStory extends Activity {
                 // RESIZE BITMAP, see section below
                 imageProfile=takenImage;
                 sendToEdit(imageProfile);
+
             }
             else if (requestCode == 2) {
                 Uri selectedImage = data.getData();
@@ -102,17 +103,18 @@ public class postStory extends Activity {
                 Bitmap thumbnail = (BitmapFactory.decodeFile(picturePath));
                 Log.w("path of image from gallery......******************.........", picturePath + "");
                 imageProfile=thumbnail;
-                 sendToEdit(imageProfile);
+                sendToEdit(imageProfile);
 
             }
-            else if(requestCode==0){
-                imageProfile= EditImageActivity.byteToBitmap(data.getByteArrayExtra("imagePath"));
+            else if(requestCode == SECOND_ACTIVITY_REQUEST_CODE){
+                String path = data.getStringExtra("imagePath");
+                imageProfile = BitmapFactory.decodeFile(path);
                 firebaseMethods.firebaseUploadBitmap(imageProfile,"postStory");
                 finish();
-
             }
         }
     }
+
     FirebaseAuth mAuth=FirebaseAuth.getInstance();
     FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
 

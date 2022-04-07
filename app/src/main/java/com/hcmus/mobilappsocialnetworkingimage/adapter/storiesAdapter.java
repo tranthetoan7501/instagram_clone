@@ -37,12 +37,14 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
     Vector<String> listName;
     Vector<String> listAvt;
     Context context;
+    List<String> currentUser;
 
-    public storiesAdapter(List<List<String>> listImage, Vector<String> listName, Vector<String> listAvt, Context context) {
+    public storiesAdapter(List<String> currentUser,List<List<String>> listImage, Vector<String> listName, Vector<String> listAvt, Context context) {
         this.listName = listName;
         this.listImage = listImage;
         this.context = context;
         this.listAvt=listAvt;
+        this.currentUser=currentUser;
     }
 
     @NonNull
@@ -66,11 +68,11 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
                 Intent intent=new Intent(context, storiesActivity.class);
                 intent.putExtra("position",String.valueOf(position));
                 intent.putExtra("Image", (Serializable) listImage);
+                intent.putExtra("currentUser",currentUser.get(0));
                 intent.putStringArrayListExtra("Name",new ArrayList<String>(listName));
                 //intent.putStringArrayListExtra("Image",new ArrayList<String>(listImage));
                 intent.putStringArrayListExtra("Avatar",new ArrayList<String>(listAvt));
                 context.startActivity(intent);
-
             }
         });
 
@@ -81,14 +83,6 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
         return listName.size();
     }
 
-//    @Override
-//    public void onClick(View view) {
-//        switch (view.getId()){
-//            case R.id.avatar:
-//                Toast.makeText(view.getContext(),"abc",Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
 
     static class storiesViewHolder extends RecyclerView.ViewHolder{
         CircleImageView circleImageView;
