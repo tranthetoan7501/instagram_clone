@@ -19,7 +19,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -119,7 +118,6 @@ public class editProfileActivity extends Activity {
     }
 
     private void setdata(){
-        System.out.println(about.getText().toString());
         mAuth=FirebaseAuth.getInstance();
         DatabaseReference myRef=database.getReference("user_account_settings").child(mAuth.getUid());
         myRef.child("username").setValue(username.getText().toString());

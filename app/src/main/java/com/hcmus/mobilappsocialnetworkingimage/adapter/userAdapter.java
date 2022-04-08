@@ -8,16 +8,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
+
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.navigationActivity;
 import com.hcmus.mobilappsocialnetworkingimage.model.userCardModel;
 import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class userAdapter extends RecyclerView.Adapter<userAdapter.UserVIewHolder> implements Filterable {
@@ -105,7 +109,7 @@ public class userAdapter extends RecyclerView.Adapter<userAdapter.UserVIewHolder
 
         private CircleImageView avatar;
         private TextView username;
-        private RelativeLayout layoutItem;
+        private CardView layoutItem;
 
         public UserVIewHolder(@NonNull View itemView) {
             super(itemView);

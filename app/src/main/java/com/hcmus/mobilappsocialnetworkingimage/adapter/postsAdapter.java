@@ -62,8 +62,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     @NonNull
     @Override
     public postsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post,parent,false);
-        System.out.println(post.size());
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post, parent,false);
 
         mAuth = FirebaseAuth.getInstance();
         return new postsViewHolder(view);

@@ -3,26 +3,16 @@ package com.hcmus.mobilappsocialnetworkingimage.adapter;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-
-import com.denzcoskun.imageslider.models.SlideModel;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.hcmus.mobilappsocialnetworkingimage.R;
 import com.hcmus.mobilappsocialnetworkingimage.activity.storiesActivity;
-import com.nostra13.universalimageloader.utils.L;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
@@ -57,7 +47,6 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
     @Override
     public void onBindViewHolder(@NonNull storiesViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if(listName.isEmpty()) return;
-        System.out.println(listImage.get(position).get(0));
         Picasso.get().load(listImage.get(position).get(0)).into(holder.circleImageView);
         holder.textView.setText(listName.get(position));
 
