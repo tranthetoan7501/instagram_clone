@@ -53,6 +53,15 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     FirebaseAuth mAuth;
     Menu menu;
     LinearLayout layoutSettingBottomSheet;
+    public class hide{
+        public String id;
+        public hide(){
+
+        }
+        public  hide(String Id){
+            this.id = Id;
+        }
+    }
 
     public postsAdapter(List<postModel> post, Context context) {
         this.post = post;
@@ -231,7 +240,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
 
                                 return true;
                             case R.id.nav_hide: // Handle option2 Click
-
+                                DatabaseReference hide = database.getReference().child("hide_post/"+mAuth.getUid());
+                                hide.child(holder.postId+"/post_id").setValue(holder.postId);
                                 return true;
                             case R.id.nav_favorite: // Handle option2 Click
 

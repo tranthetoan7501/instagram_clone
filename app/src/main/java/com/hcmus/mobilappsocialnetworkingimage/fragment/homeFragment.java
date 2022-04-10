@@ -234,7 +234,8 @@ public class homeFragment extends Fragment {
                                                for(DataSnapshot j : p.child("likes").getChildren()){
                                                    likes.add(j.getValue(likeModel.class));
                                                }
-                                              postModel model = new postModel(p.child("caption").getValue().toString(), likes,p.child("date_created").getValue().toString(),(ArrayList<String>) p.child("image_paths").getValue(),p.child("user_id").getValue().toString(),p.child("post_id").getValue().toString());
+                                               postModel model = new postModel(p.child("caption").getValue().toString(), likes,p.child("date_created").getValue().toString(),(ArrayList<String>) p.child("image_paths").getValue(),p.child("user_id").getValue().toString(),p.child("post_id").getValue().toString());
+                                               //System.out.println(p.child("post_id").getValue().toString()+"----");
                                                post.add(model);
                                            }
                                        }
@@ -247,6 +248,28 @@ public class homeFragment extends Fragment {
 
                                }
                            });
+                        DatabaseReference hide = database.getReference().child("hide_post/"+mAuth.getUid());
+                        hide.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                List<postModel> remove = new ArrayList<postModel>();
+                                for(DataSnapshot data : snapshot.getChildren()){
+
+                                        for(postModel p : post){
+                                            if(p.getPost_id().equals(data.getKey())){
+                                                remove.add(p);
+                                            }
+                                        }
+                                }
+                                post.removeAll(remove);
+                                postsAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
                         }
 
                     @Override
