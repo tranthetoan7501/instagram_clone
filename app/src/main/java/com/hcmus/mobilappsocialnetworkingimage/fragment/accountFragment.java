@@ -71,7 +71,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         following_numbers = view.findViewById(R.id.following_numbers);
         post_numbers = view.findViewById(R.id.post_numbers);
         upItemBtn1 = view.findViewById(R.id.add_button_account);
-        settingBtn = view.findViewById(R.id.setting_button_account);
+        settingBtn = view.findViewById(R.id.setting_logout);
         upItemBtn1.setOnClickListener(this);
         settingBtn.setOnClickListener(this);
         edit_pf.setOnClickListener(view1 -> {
@@ -204,7 +204,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 intent1.putExtras(bundle);
                 startActivity(intent1);
                 break;
-            case R.id.logout:
+            case R.id.setting_logout:
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(getContext(), loginActivity.class);
                 startActivity(intent);

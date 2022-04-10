@@ -22,18 +22,19 @@
             android:id="@+id/add_button_account"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_toLeftOf="@+id/setting_button_account"
+            android:layout_toLeftOf="@+id/setting_logout"
             android:background="@android:color/transparent"
             android:foreground="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_add" />
 
         <ImageButton
-            android:id="@+id/setting_button_account"
+            android:id="@+id/setting_logout"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_alignParentRight="true"
+
             android:background="@android:color/transparent"
             android:foreground="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_setting" />
+            android:src="@drawable/ic_baseline_exit" />
     </RelativeLayout>
 </LinearLayout>

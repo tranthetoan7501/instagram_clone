@@ -53,15 +53,6 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     FirebaseAuth mAuth;
     Menu menu;
     LinearLayout layoutSettingBottomSheet;
-    public class hide{
-        public String id;
-        public hide(){
-
-        }
-        public  hide(String Id){
-            this.id = Id;
-        }
-    }
 
     public postsAdapter(List<postModel> post, Context context) {
         this.post = post;
