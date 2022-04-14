@@ -214,7 +214,7 @@ public class postFragment extends Fragment implements View.OnClickListener {
                 Bundle bundle1 = new Bundle();
                 bundle1.putSerializable("type","comment");
                 bundle1.putSerializable("post_id",bundle.getString("post_id"));
-                bundle1.putSerializable("user_id",bundle.getString("user_id"));
+                bundle1.putString("user_id",bundle.getString("user_id"));
                 Intent intent = new Intent(getContext(), navigationActivity.class);
                 intent.putExtras(bundle1);
                 startActivity(intent);

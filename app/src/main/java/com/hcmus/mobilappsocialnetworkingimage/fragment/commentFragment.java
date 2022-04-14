@@ -136,7 +136,7 @@ public class commentFragment extends Fragment implements View.OnClickListener{
                     commentsModel model = new commentsModel(comment.getText().toString(),null,timeStamp,mAuth.getUid(),UUID.randomUUID().toString() + "");
                     pushComment.child(model.getComment_id()).setValue(model);
                     comment.setText("");
-                    if(mAuth.getUid() != bundle.getString("user_id")) {
+                    if(!mAuth.getCurrentUser().getUid().equals(bundle.getString("user_id"))) {
                         DatabaseReference myNotification = database.getReference();
                         myNotification.child("notification/"+bundle.getString("user_id")+"/"+bundle.getString("post_id")+"-"+"comment"+"-"+model.getComment_id()).setValue(new notificationsModel(model.getComment_id(), mAuth.getUid(), bundle.getString("post_id"), "commented on your post.", "22/3/2022", false,myImages));
                     }

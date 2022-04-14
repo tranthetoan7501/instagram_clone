@@ -76,7 +76,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         holder.description.setText(post.get(position).getCaption());
 
         if(post.get(position).getLikes().size() > 0){
-            if(post.get(position).getLikes().get(findUser(position,mAuth.getUid())).getUser_id().equals(mAuth.getUid())){
+            Integer pos = findUser(holder.getAbsoluteAdapterPosition(),mAuth.getUid());
+            if(pos != -1) {
                 holder.like.setVisibility(View.INVISIBLE);
                 holder.liked.setVisibility(View.VISIBLE);
             }
@@ -252,12 +253,12 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     }
 
     Integer findUser(Integer pos,String s){
-        for(int i = 0 ; i < post.size();i++){
-            if(post.get(i).getUser_id().equals(s)){
+        for(int i = 0 ; i < post.get(pos).getLikes().size();i++){
+            if(post.get(pos).getLikes().get(i).getUser_id().equals(s)){
                 return i;
             }
         }
-        return 0;
+        return -1;
     }
 
     @Override
