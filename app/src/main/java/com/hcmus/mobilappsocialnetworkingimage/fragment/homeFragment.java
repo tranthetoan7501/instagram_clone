@@ -131,63 +131,83 @@ public class homeFragment extends Fragment {
 
     }
     void getDataStories(){
-        DatabaseReference databaseReference=FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/")
-                .getReference("user_stories");
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+        DatabaseReference myFollowing = database.getReference("following/"+mAuth.getUid());
+        myFollowing.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
-                FirebaseDatabase database1= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-                DatabaseReference databaseReference1=database1.getReference("user_account_settings");
-                databaseReference1.addValueEventListener(new ValueEventListener() {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> key = new ArrayList<>();
+                key.add(mAuth.getUid());
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    key.add(snapshot.getKey());
+                }
+                DatabaseReference databaseReference=database.getReference("user_stories");
+                databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        List<List<String>> image = new Vector<>();
-                        Vector<String> name = new Vector<>();
-                        Vector<String>  avt=new Vector<>();
-                        List<String> currentUser=new Vector<>();
-                        LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
-                        storiesAdapter = new storiesAdapter(currentUser,image,name,avt,getContext());
-                        stories.setAdapter(storiesAdapter);
-                        stories.setLayoutManager(linearLayout);
-                        for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
-                            for(DataSnapshot snapshot1: snapshot.getChildren()) {
-                                if (!name.contains(snapshot.getKey())) {
-                                    name.add(snapshot.getKey());
-                                    Vector<String> temp = new Vector<>();
-                                    temp.add(snapshot1.getValue().toString());
-                                    image.add(temp);
-                                } else {
-                                    image.get(name.indexOf(snapshot.getKey())).add(snapshot1.getValue().toString());
-                                }
-                            }
-                        }
-                        int temp=name.indexOf(mAuth.getUid());
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshotsnapshot) {
+                        FirebaseDatabase database1= FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
+                        DatabaseReference databaseReference1=database1.getReference("user_account_settings");
+                        databaseReference1.addValueEventListener(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                List<List<String>> image = new Vector<>();
+                                Vector<String> name = new Vector<>();
+                                Vector<String>  avt=new Vector<>();
+                                List<String> currentUser=new Vector<>();
+                                LinearLayoutManager linearLayout = new LinearLayoutManager(getContext(),RecyclerView.HORIZONTAL,false);
+                                storiesAdapter = new storiesAdapter(currentUser,image,name,avt,getContext());
+                                stories.setAdapter(storiesAdapter);
+                                stories.setLayoutManager(linearLayout);
+                                for (DataSnapshot snapshot : dataSnapshotsnapshot.getChildren()) {
+                                    for(DataSnapshot snapshot1: snapshot.getChildren()) {
+                                        if(key.contains(snapshot.getKey())){
+                                        if (!name.contains(snapshot.getKey())) {
+                                            name.add(snapshot.getKey());
+                                            Vector<String> temp = new Vector<>();
+                                            temp.add(snapshot1.getValue().toString());
+                                            image.add(temp);
+                                        } else {
+                                            image.get(name.indexOf(snapshot.getKey())).add(snapshot1.getValue().toString());
+                                        }
+                                    }
+                                    }
 
-                        for (int i=0;i<name.size();i++){
-                            avt.add(dataSnapshot.child(name.get(i)).child("profile_photo").getValue().toString());
-                            name.set(i,dataSnapshot.child(name.get(i)).child("username").getValue().toString());
-                        }
-                        if(temp>-1){
-                            Collections.swap(name,temp,0);
-                            Collections.swap(avt,temp,0);
-                            Collections.swap(image,temp,0);
-                            currentUser.add(name.get(0));
-                        }
-                        storiesAdapter.notifyDataSetChanged();
+                                }
+                                int temp=name.indexOf(mAuth.getUid());
+
+                                for (int i=0;i<name.size();i++){
+                                    avt.add(dataSnapshot.child(name.get(i)).child("profile_photo").getValue().toString());
+                                    name.set(i,dataSnapshot.child(name.get(i)).child("username").getValue().toString());
+                                }
+                                if(temp>-1){
+                                    Collections.swap(name,temp,0);
+                                    Collections.swap(avt,temp,0);
+                                    Collections.swap(image,temp,0);
+                                    currentUser.add(name.get(0));
+                                }
+                                storiesAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+
+                            }
+                        });
+
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
-
                     }
                 });
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
 
 //
 //        name.add("Sơn Thanh");
@@ -210,7 +230,6 @@ public class homeFragment extends Fragment {
         postsAdapter = new postsAdapter(post,getContext());
         post_recyclerView.setLayoutManager(new LinearLayoutManager(getContext(),RecyclerView.VERTICAL,false));
         post_recyclerView.setAdapter(postsAdapter);
-        mAuth = FirebaseAuth.getInstance();
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
                 DatabaseReference myFollowing = database.getReference("following/"+mAuth.getUid());
                 myFollowing.addValueEventListener(new ValueEventListener() {
