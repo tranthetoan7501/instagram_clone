@@ -57,7 +57,11 @@ public class storiesAdapter extends RecyclerView.Adapter<storiesAdapter.storiesV
                 Intent intent=new Intent(context, storiesActivity.class);
                 intent.putExtra("position",String.valueOf(position));
                 intent.putExtra("Image", (Serializable) listImage);
-                intent.putExtra("currentUser",currentUser.get(0));
+                if(currentUser.size()==0){
+
+                }
+                else{
+                intent.putExtra("currentUser",currentUser.get(0));}
                 intent.putStringArrayListExtra("Name",new ArrayList<String>(listName));
                 //intent.putStringArrayListExtra("Image",new ArrayList<String>(listImage));
                 intent.putStringArrayListExtra("Avatar",new ArrayList<String>(listAvt));

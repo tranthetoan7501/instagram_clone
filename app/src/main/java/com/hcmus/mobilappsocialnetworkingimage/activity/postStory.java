@@ -63,10 +63,12 @@ public class postStory extends Activity {
 
                 }
                 else if (options[item].equals("Cancel")) {
+                    finish();
                     dialog.dismiss();
                 }
             }
         });
+        builder.setCancelable(false);
         builder.show();
     }
     public File getPhotoFileUri(String fileName) {

@@ -43,6 +43,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.Vector;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -53,6 +54,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     FirebaseAuth mAuth;
     Menu menu;
     LinearLayout layoutSettingBottomSheet;
+    Integer index;
 
     public postsAdapter(List<postModel> post, Context context) {
         this.post = post;
@@ -69,15 +71,14 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     }
 
     @Override
-    public void onBindViewHolder(@NonNull postsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull postsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (post.isEmpty()) return;
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         holder.date.setText(post.get(position).getDate_created());
         holder.description.setText(post.get(position).getCaption());
-
+        index=findCurrentUser(position,post.get(position).getLikes());
         if(post.get(position).getLikes().size() > 0){
-            Integer pos = findUser(holder.getAbsoluteAdapterPosition(),mAuth.getUid());
-            if(pos != -1) {
+            if(index!=-1){
                 holder.like.setVisibility(View.INVISIBLE);
                 holder.liked.setVisibility(View.VISIBLE);
             }
@@ -127,26 +128,29 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                     likeModel likeModel = new likeModel(mAuth.getUid(), id);
                     myLike.child(id + "").setValue(likeModel);
                 }
-                holder.like.setVisibility(View.INVISIBLE);
-                holder.liked.setVisibility(View.VISIBLE);
+
                 if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
                     DatabaseReference myNotification = database.getReference();
                     myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+ id).setValue(new notificationsModel(post.get(holder.getAbsoluteAdapterPosition()).getPost_id() + "-like-"+ holder.getAbsoluteAdapterPosition(),mAuth.getUid(),post.get(holder.getAbsoluteAdapterPosition()).getPost_id(),"liked your post.","22/3/2022",false, (ArrayList<String>) post.get(holder.getAbsoluteAdapterPosition()).getImage_paths()));
                 }
+                holder.like.setVisibility(View.INVISIBLE);
+                holder.liked.setVisibility(View.VISIBLE);
             }
         });
 
         holder.liked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DatabaseReference myLike1 = database.getReference("user_photos/"+post.get(holder.getAbsoluteAdapterPosition()).getUser_id()+"/"+post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+"/"+"likes");
-                myLike1.child(post.get(holder.getAbsoluteAdapterPosition()).getLikes().get(findUser(holder.getAbsoluteAdapterPosition(),mAuth.getUid())).getId()+"").removeValue();
-                holder.like.setVisibility(View.VISIBLE);
-                holder.liked.setVisibility(View.INVISIBLE);
+                index=findCurrentUser(position,post.get(position).getLikes());
+                DatabaseReference myLike1 = database.getReference("user_photos/"+post.get(position).getUser_id()+"/"+post.get(position).getPost_id()+"/"+"likes");
+                myLike1.child(post.get(position).getLikes().get(index).getId()+"").removeValue();
+
                 if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
                     DatabaseReference myNotification = database.getReference();
-                    myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+post.get(holder.getAbsoluteAdapterPosition()).getLikes().get(findUser(holder.getAbsoluteAdapterPosition(),mAuth.getUid())).getId()+"").removeValue();
+                    myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+post.get(holder.getAbsoluteAdapterPosition()).getLikes().get(0).getId()+"").removeValue();
                 }
+                holder.like.setVisibility(View.VISIBLE);
+                holder.liked.setVisibility(View.INVISIBLE);
 
             }
         });
@@ -252,12 +256,10 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         });
     }
 
-    Integer findUser(Integer pos,String s){
-        for(int i = 0 ; i < post.get(pos).getLikes().size();i++){
-            if(post.get(pos).getLikes().get(i).getUser_id().equals(s)){
-                return i;
-            }
-        }
+    Integer findCurrentUser(Integer pos,ArrayList<likeModel> s){
+        Vector<String> temp=new Vector<>();
+        for(int i=0;i<s.size();i++) temp.add(s.get(i).getUser_id());
+        if(temp.contains(mAuth.getUid())) return temp.indexOf(mAuth.getUid());
         return -1;
     }
 
