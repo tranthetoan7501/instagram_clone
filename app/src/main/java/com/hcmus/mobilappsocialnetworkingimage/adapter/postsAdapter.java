@@ -27,6 +27,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.denzcoskun.imageslider.ImageSlider;
 import com.denzcoskun.imageslider.constants.ScaleTypes;
 import com.denzcoskun.imageslider.models.SlideModel;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -51,8 +53,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     List<postModel> post;
     Context context;
     String userID;
-    FirebaseAuth mAuth;
     Menu menu;
+    FirebaseAuth mAuth = FirebaseAuth.getInstance();
     LinearLayout layoutSettingBottomSheet;
     Integer index;
 
@@ -66,22 +68,32 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
     public postsViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.post, parent,false);
 
-        mAuth = FirebaseAuth.getInstance();
         return new postsViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull postsViewHolder holder, @SuppressLint("RecyclerView") int position) {
         if (post.isEmpty()) return;
-        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         holder.date.setText(post.get(position).getDate_created());
         holder.description.setText(post.get(position).getCaption());
-        index=findCurrentUser(position,post.get(position).getLikes());
-        if(post.get(position).getLikes().size() > 0){
-            if(index!=-1){
-                holder.like.setVisibility(View.INVISIBLE);
-                holder.liked.setVisibility(View.VISIBLE);
+        index=findCurrentUser(post.get(position).getLikes());
+        DatabaseReference myLikes = database.getReference("user_photos/"+post.get(position).getUser_id()+"/"+post.get(position).getPost_id()+"/"+"likes");
+        myLikes.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                for(DataSnapshot data : task.getResult().getChildren()){
+                    if(data.child("user_id").getValue().toString().equals(mAuth.getUid())){
+                        holder.like.setVisibility(View.INVISIBLE);
+                        holder.liked.setVisibility(View.VISIBLE);
+                        return;
+                    }
+                }
+                holder.like.setVisibility(View.VISIBLE);
+                holder.liked.setVisibility(View.GONE);
             }
+        });
+        if(post.get(position).getLikes().size() > 0){
             holder.num_likes.setVisibility(View.VISIBLE);
             if(post.get(position).getLikes().size() > 1 ){
                 holder.num_likes.setText(Html.fromHtml("<b>" +post.get(position).getLikes().size() + " likes</b>" ));
@@ -91,6 +103,8 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             }
         }
         else{
+            holder.like.setVisibility(View.VISIBLE);
+            holder.liked.setVisibility(View.GONE);
             holder.num_likes.setVisibility(View.GONE);
         }
 
@@ -100,7 +114,6 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         }
 
         holder.image.setImageList(image_paths);
-        FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
         DatabaseReference myPosts = database.getReference("user_account_settings/"+post.get(position).getUser_id());
 
         myPosts.addValueEventListener(new ValueEventListener() {
@@ -123,27 +136,38 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
             @Override
             public void onClick(View view) {
                 String id = UUID.randomUUID().toString();
-                DatabaseReference myLike = database.getReference("user_photos/"+post.get(holder.getAdapterPosition()).getUser_id()+"/"+post.get(holder.getAdapterPosition()).getPost_id()+"/"+"likes");
+                DatabaseReference myLike = database.getReference("user_photos/"+post.get(holder.getAbsoluteAdapterPosition()).getUser_id()+"/"+post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+"/"+"likes");
                 if(myLike != null){
                     likeModel likeModel = new likeModel(mAuth.getUid(), id);
                     myLike.child(id + "").setValue(likeModel);
+                    holder.like.setVisibility(View.INVISIBLE);
+                    holder.liked.setVisibility(View.VISIBLE);
                 }
 
                 if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
                     DatabaseReference myNotification = database.getReference();
                     myNotification.child("notification").child(post.get(holder.getAbsoluteAdapterPosition()).getUser_id()).child(post.get(holder.getAbsoluteAdapterPosition()).getPost_id()+ "-like-"+ id).setValue(new notificationsModel(post.get(holder.getAbsoluteAdapterPosition()).getPost_id() + "-like-"+ holder.getAbsoluteAdapterPosition(),mAuth.getUid(),post.get(holder.getAbsoluteAdapterPosition()).getPost_id(),"liked your post.","22/3/2022",false, (ArrayList<String>) post.get(holder.getAbsoluteAdapterPosition()).getImage_paths()));
                 }
-                holder.like.setVisibility(View.INVISIBLE);
-                holder.liked.setVisibility(View.VISIBLE);
+
             }
         });
 
         holder.liked.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                index=findCurrentUser(position,post.get(position).getLikes());
+//                index=findCurrentUser(post.get(position).getLikes());
                 DatabaseReference myLike1 = database.getReference("user_photos/"+post.get(position).getUser_id()+"/"+post.get(position).getPost_id()+"/"+"likes");
-                myLike1.child(post.get(position).getLikes().get(index).getId()+"").removeValue();
+                myLike1.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DataSnapshot> task) {
+                        for(DataSnapshot data : task.getResult().getChildren()){
+                            if(data.child("user_id").getValue().toString().equals(mAuth.getUid())) {
+                                myLike1.child(data.getKey()).removeValue();
+                                break;
+                            }
+                        }
+                    }
+                });
 
                 if(!mAuth.getUid().equals(post.get(holder.getAbsoluteAdapterPosition()).getUser_id())) {
                     DatabaseReference myNotification = database.getReference();
@@ -256,7 +280,7 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
         });
     }
 
-    Integer findCurrentUser(Integer pos,ArrayList<likeModel> s){
+    Integer findCurrentUser(ArrayList<likeModel> s){
         Vector<String> temp=new Vector<>();
         for(int i=0;i<s.size();i++) temp.add(s.get(i).getUser_id());
         if(temp.contains(mAuth.getUid())) return temp.indexOf(mAuth.getUid());
