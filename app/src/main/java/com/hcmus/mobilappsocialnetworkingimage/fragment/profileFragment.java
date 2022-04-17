@@ -115,51 +115,52 @@ public class profileFragment extends Fragment implements View.OnClickListener{
         thumbnailsAdapter = new thumbnailsAdapter(thumbails,getContext());
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         recyclerView.setAdapter(thumbnailsAdapter);
+
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-            DatabaseReference myRef = database.getReference("user_account_settings").child(bundle.get("id").toString());
-            myRef.addValueEventListener(new ValueEventListener() {
+        DatabaseReference myRef = database.getReference("user_account_settings").child(bundle.get("id").toString());
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                userAccountSettingsModel = new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
+                        , dataSnapshot.child("display_name").getValue().toString()
+                        , Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
+                        , Integer.parseInt(dataSnapshot.child("following").getValue().toString())
+                        , Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
+                        , dataSnapshot.child("profile_photo").getValue().toString()
+                        , dataSnapshot.child("username").getValue().toString()
+                        , dataSnapshot.child("website").getValue().toString());
+                about.setText(userAccountSettingsModel.getDescription());
+                post_numbers.setText(dataSnapshot.child("posts").getValue().toString());
+                follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+                following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+                Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError error) {
+                // Failed to read value
+                Log.w(TAG, "Failed to read value.", error.toException());
+            }
+        });
+        if(i==1){
+            DatabaseReference myPosts = database.getReference("user_photos/"+bundle.getString("id"));
+            myPosts.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
-                    userAccountSettingsModel = new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
-                            , dataSnapshot.child("display_name").getValue().toString()
-                            , Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
-                            , Integer.parseInt(dataSnapshot.child("following").getValue().toString())
-                            , Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
-                            , dataSnapshot.child("profile_photo").getValue().toString()
-                            , dataSnapshot.child("username").getValue().toString()
-                            , dataSnapshot.child("website").getValue().toString());
-                    about.setText(userAccountSettingsModel.getDescription());
-                    post_numbers.setText(dataSnapshot.child("posts").getValue().toString());
-                    follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
-                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
-                    Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+                    thumbails.clear();
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                        thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("post_id").getValue().toString()));
+                    }
+                    post_numbers.setText(thumbails.size() + "");
+                    thumbnailsAdapter.notifyDataSetChanged();
                 }
 
                 @Override
-                public void onCancelled(DatabaseError error) {
-                    // Failed to read value
-                    Log.w(TAG, "Failed to read value.", error.toException());
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
             });
-            if(i==1){
-                DatabaseReference myPosts = database.getReference("user_photos/"+bundle.getString("id"));
-                myPosts.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        thumbails.clear();
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            thumbails.add(new thumbnailsModel((ArrayList<String>) snapshot.child("image_paths").getValue(),snapshot.child("user_id").getValue().toString(),snapshot.child("post_id").getValue().toString()));
-                        }
-                        post_numbers.setText(thumbails.size() + "");
-                        thumbnailsAdapter.notifyDataSetChanged();
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-
-                    }
-                });
-            }
+        }
         }
 
     @Override
@@ -202,7 +203,7 @@ public class profileFragment extends Fragment implements View.OnClickListener{
 
                             }
                         });
-                    }else if(follow.getText().toString().equals("Unfollow")){
+                    } else if (follow.getText().toString().equals("Unfollow")){
                         String authId = mAuth.getUid();
                         DatabaseReference myRef = database.getReference("following").child(authId+"/"+id);
                         myRef.removeValue();

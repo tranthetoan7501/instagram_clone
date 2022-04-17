@@ -73,7 +73,7 @@ public class galleryFragment extends Fragment {
 
         nextScreen.setOnClickListener(view12 -> {
                 // run edit pictute function and after all picture is edited, go to next screen
-                editPicture();
+            editPicture();
         });
 
         init();
@@ -196,7 +196,7 @@ public class galleryFragment extends Fragment {
             count++;
             Bitmap bitmap = BitmapFactory.decodeFile(mSelectedImage.get(i));
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
             byte[] bytesArrayBmp = baos.toByteArray();
             Intent intent = new Intent(getActivity(), EditImageActivity.class);
             Bundle bundle = new Bundle();

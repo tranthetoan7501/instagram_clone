@@ -99,11 +99,11 @@ public class photoFragment extends Fragment {
 
     private void editPicture() {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] bytesArrayBmp = baos.toByteArray();
         Intent intent= new Intent(getActivity(),EditImageActivity.class);
         Bundle bundle=new Bundle();
-        bundle.putByteArray("ImagePath",bytesArrayBmp);
+        bundle.putByteArray("ImagePath", bytesArrayBmp);
         intent.putExtras(bundle);
         startActivityForResult(intent, NEXT_ACTIVITY_REQUEST_CODE);
     }
