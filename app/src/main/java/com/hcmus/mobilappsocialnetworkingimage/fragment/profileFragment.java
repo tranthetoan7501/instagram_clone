@@ -1,10 +1,7 @@
 package com.hcmus.mobilappsocialnetworkingimage.fragment;
 
-import static android.content.ContentValues.TAG;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +9,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -117,31 +115,51 @@ public class profileFragment extends Fragment implements View.OnClickListener{
         recyclerView.setAdapter(thumbnailsAdapter);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance("https://social-media-f92fc-default-rtdb.asia-southeast1.firebasedatabase.app/");
-        DatabaseReference myRef = database.getReference("user_account_settings").child(bundle.get("id").toString());
-        myRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                userAccountSettingsModel = new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
-                        , dataSnapshot.child("display_name").getValue().toString()
-                        , Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
-                        , Integer.parseInt(dataSnapshot.child("following").getValue().toString())
-                        , Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
-                        , dataSnapshot.child("profile_photo").getValue().toString()
-                        , dataSnapshot.child("username").getValue().toString()
-                        , dataSnapshot.child("website").getValue().toString());
-                about.setText(userAccountSettingsModel.getDescription());
-                post_numbers.setText(dataSnapshot.child("posts").getValue().toString());
-                follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
-                following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
-                Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
-            }
+        DatabaseReference myRef = database.getReference("user_account_settings");
 
-            @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
-            }
-        });
+        if (myRef != null && mAuth.getCurrentUser() != null) {
+
+            myRef.child(bundle.get("id").toString()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    userAccountSettingsModel = dataSnapshot.getValue(userAccountSettingsModel.class);
+                    about.setText(userAccountSettingsModel.getDescription());
+                    follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+
+                    Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+
+//            myRef.addValueEventListener(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(DataSnapshot dataSnapshot) {
+//                    userAccountSettingsModel = new userAccountSettingsModel(dataSnapshot.child("description").getValue().toString()
+//                            , dataSnapshot.child("display_name").getValue().toString()
+//                            , Integer.parseInt(dataSnapshot.child("followers").getValue().toString())
+//                            , Integer.parseInt(dataSnapshot.child("following").getValue().toString())
+//                            , Integer.parseInt(dataSnapshot.child("posts").getValue().toString())
+//                            , dataSnapshot.child("profile_photo").getValue().toString()
+//                            , dataSnapshot.child("username").getValue().toString()
+//                            , dataSnapshot.child("website").getValue().toString());
+//                    about.setText(userAccountSettingsModel.getDescription());
+//                    post_numbers.setText(dataSnapshot.child("posts").getValue().toString());
+//                    follower_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowers()));
+//                    following_numbers.setText(String.valueOf(userAccountSettingsModel.getFollowing()));
+//                    Picasso.get().load(userAccountSettingsModel.getProfile_photo()).into(avatar);
+//                }
+//
+//                @Override
+//                public void onCancelled(DatabaseError error) {
+//                    // Failed to read value
+//                    Log.w(TAG, "Failed to read value.", error.toException());
+//                }
+            });
+        }
         if(i==1){
             DatabaseReference myPosts = database.getReference("user_photos/"+bundle.getString("id"));
             myPosts.addValueEventListener(new ValueEventListener() {
