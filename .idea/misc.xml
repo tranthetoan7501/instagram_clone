@@ -5,8 +5,12 @@
       <map>
         <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/drawable/ic_baseline_exit.xml" value="0.115" />
         <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/appbar_search.xml" value="0.10364583333333334" />
+        <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/card_search.xml" value="0.18854166666666666" />
+        <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_account.xml" value="0.18854166666666666" />
         <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_gallery.xml" value="0.20104166666666667" />
         <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_post.xml" value="0.22" />
+        <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/fragment_profile.xml" value="0.25" />
+        <entry key="..\:/Code/Project/MobilAppSocialNetworkingImage/app/src/main/res/layout/item_user.xml" value="0.18854166666666666" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable-anydpi/ic_add.xml" value="0.193" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable-anydpi/ic_arrow_back.xml" value="0.193" />
         <entry key="..\:/MobilAppSocialNetworkingImage/MobilAppSocialNetworkingImage/app/src/main/res/drawable-anydpi/ic_back_arrow_ios.xml" value="0.2385" />
