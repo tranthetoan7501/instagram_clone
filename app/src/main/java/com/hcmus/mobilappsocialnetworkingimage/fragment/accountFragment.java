@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +54,7 @@ public class accountFragment extends Fragment implements View.OnClickListener {
     ImageButton settingBtn;
     LinearLayout logout;
     LinearLayout change_password;
+    View appbar;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,16 +97,16 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         video = view.findViewById(R.id.video);
         tag = view.findViewById(R.id.tag);
         recyclerView = view.findViewById(R.id.grid);
+
+
         video.setOnClickListener(this);
         all_pictures.setOnClickListener(this);
-
         logout.setOnClickListener(this);
         change_password.setOnClickListener(this);
         getData(1);
         setBottomSheet();
         return view;
     }
-
     void setBottomSheet(){
 
     }

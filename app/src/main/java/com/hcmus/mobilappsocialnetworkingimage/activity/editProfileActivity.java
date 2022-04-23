@@ -14,6 +14,8 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -41,6 +43,7 @@ import java.util.Vector;
 public class editProfileActivity extends Activity {
     FirebaseAuth mAuth;
     public static ImageView avatar;
+    Button changePassword;
     ImageButton back, ok, camera;
     com.hcmus.mobilappsocialnetworkingimage.utils.networkChangeListener networkChangeListener=new networkChangeListener();
     EditText username,about;
@@ -64,6 +67,18 @@ public class editProfileActivity extends Activity {
         avatar = findViewById(R.id.avatar);
         username=findViewById(R.id.edit_username);
         about=findViewById(R.id.edit_about);
+        changePassword=findViewById(R.id.change_password);
+        changePassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("type","change password");
+//                bundle.putString("email", mAuth.getCurrentUser().getEmail());
+                Intent intent1 = new Intent(getApplication(), navigationActivity.class);
+                intent1.putExtras(bundle);
+                startActivity(intent1);
+            }
+        });
 
         bundle=getIntent().getExtras();
         userAccountSettingsModel= (userAccountSettingsModel) getIntent().getSerializableExtra("userAccountSettings");
@@ -210,7 +225,7 @@ public class editProfileActivity extends Activity {
 
     public void sendToEdit(Bitmap bitmap){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 50, baos);
         byte[] bytesArrayBmp = baos.toByteArray();
         Intent intent=new Intent(getApplicationContext(), EditImageActivity.class);
         Bundle bundle=new Bundle();
