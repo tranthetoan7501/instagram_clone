@@ -256,16 +256,12 @@ public class postsAdapter extends RecyclerView.Adapter<postsAdapter.postsViewHol
                                     }
                                 });
                                 return true;
-                            case R.id.nav_update: // Handle option2 Click
 
-                                return true;
                             case R.id.nav_hide: // Handle option2 Click
                                 DatabaseReference hide = database.getReference().child("hide_post/"+mAuth.getUid());
                                 hide.child(holder.postId+"/post_id").setValue(holder.postId);
                                 return true;
-                            case R.id.nav_favorite: // Handle option2 Click
 
-                                return true;
                             default:
                                 return false;
                         }
