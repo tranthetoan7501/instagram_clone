@@ -241,12 +241,12 @@ public class homeFragment extends Fragment {
                             key.add(snapshot.getKey());
                         }
 
-                            DatabaseReference myPosts = database.getReference("user_photos");
+                            DatabaseReference myPosts = database.getReference();
                            myPosts.addValueEventListener(new ValueEventListener() {
                                @Override
                                public void onDataChange(@NonNull DataSnapshot snapshot) {
                                    post.clear();
-                                   for(DataSnapshot data : snapshot.getChildren()){
+                                   for(DataSnapshot data : snapshot.child("user_photos").getChildren()){
                                        if(key.contains(data.getKey())){
                                            for(DataSnapshot p : data.getChildren()){
                                                ArrayList<likeModel> likes = new ArrayList<>();
@@ -259,6 +259,16 @@ public class homeFragment extends Fragment {
                                            }
                                        }
                                    }
+                                   List<postModel> remove = new ArrayList<postModel>();
+                                   for(DataSnapshot data : snapshot.child("hide_post/"+mAuth.getUid()).getChildren()){
+
+                                       for(postModel p : post){
+                                           if(p.getPost_id().equals(data.getKey())){
+                                               remove.add(p);
+                                           }
+                                       }
+                                   }
+                                   post.removeAll(remove);
                                    postsAdapter.notifyDataSetChanged();
                                }
 
@@ -267,8 +277,8 @@ public class homeFragment extends Fragment {
 
                                }
                            });
-                        DatabaseReference hide = database.getReference().child("hide_post/"+mAuth.getUid());
-                        hide.addValueEventListener(new ValueEventListener() {
+                        //DatabaseReference hide = database.getReference().child("hide_post/"+mAuth.getUid());
+                       /* hide.addValueEventListener(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 List<postModel> remove = new ArrayList<postModel>();
@@ -288,7 +298,7 @@ public class homeFragment extends Fragment {
                             public void onCancelled(@NonNull DatabaseError error) {
 
                             }
-                        });
+                        });*/
                         }
 
                     @Override
