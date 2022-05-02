@@ -70,7 +70,9 @@ public class accountFragment extends Fragment implements View.OnClickListener {
         about = view.findViewById(R.id.description);
         edit_pf =view.findViewById(R.id.edit_pf);
         follower_numbers = view.findViewById(R.id.follower_numbers);
+        follower_numbers.setOnClickListener(this);
         following_numbers = view.findViewById(R.id.following_numbers);
+        following_numbers.setOnClickListener(this);
         post_numbers = view.findViewById(R.id.post_numbers);
         upItemBtn1 = view.findViewById(R.id.add_button_account);
         settingBtn = view.findViewById(R.id.setting_logout);
@@ -168,17 +170,12 @@ public class accountFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
+        followerFollowingFragment followerFollowingFragment = new followerFollowingFragment();
+        Bundle b = new Bundle();
+        followerFollowingFragment.setArguments(b);
         switch (view.getId()){
             case R.id.all_pictures:
                 getData(1);
-                break;
-            case R.id.video:
-//                Intent intent2 = new Intent();
-//                intent2.setType("image/*");
-//                intent2.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-//                intent2.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent2,"Select Picture"), 1);
-                getData(2);
                 break;
 //            case R.id.add_button_account:
 //                if (bottomSheetBehavior.getState()!= BottomSheetBehavior.STATE_EXPANDED){
@@ -213,7 +210,16 @@ public class accountFragment extends Fragment implements View.OnClickListener {
                 startActivity(intent);
                 getActivity().finish();
                 break;
-
+            case R.id.follower_numbers:
+                b.putString("key","followers");
+                followerFollowingFragment.setArguments(b);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,followerFollowingFragment).addToBackStack("followeFollowing").commit();
+                break;
+            case R.id.following_numbers:
+                b.putString("key","following");
+                followerFollowingFragment.setArguments(b);
+                getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_layout,followerFollowingFragment).addToBackStack("followeFollowing").commit();
+                break;
         }
     }
 }

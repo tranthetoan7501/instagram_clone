@@ -93,8 +93,9 @@ public class mainActivity extends FragmentActivity  {
             switch (item.getItemId()) {
                 case R.id.homeFragment:
                     if(fragmentManager != null) {
-                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                        fragmentManager.popBackStack("editpostFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentManager.popBackStack();
+//                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+//                        fragmentManager.popBackStack("editpostFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                     fragmentManager.beginTransaction().hide(activeFragment).show(homeFragment).commit();
                     activeFragment = homeFragment;
@@ -102,20 +103,23 @@ public class mainActivity extends FragmentActivity  {
 
                 case R.id.searchFragment:
                     if(fragmentManager != null) {
-                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentManager.popBackStack();
                     }
                     fragmentManager.beginTransaction().hide(activeFragment).show(_searchFragment).commit();
                     activeFragment = _searchFragment;
                     return true;
 
                 case R.id.accountFragment:
+                    if(fragmentManager != null) {
+                        fragmentManager.popBackStack();
+                    }
                     fragmentManager.beginTransaction().hide(activeFragment).show(_accountFragment).commit();
                     activeFragment = _accountFragment;
 
                     return true;
                 case R.id.favoriteFragment:
                     if(fragmentManager != null) {
-                        fragmentManager.popBackStack("postFragment",FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        fragmentManager.popBackStack();
                     }
                     fragmentManager.beginTransaction().hide(activeFragment).show(activityFragment).commit();
                     activeFragment = activityFragment;
